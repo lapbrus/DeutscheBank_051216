@@ -258,32 +258,32 @@ namespace deutscheBank.logic
         /// Liefert alle Schulabschlüsse zurück
         /// </summary>
         /// <returns>alle Schulabschlüsse oder null bei einem Fehler</returns>
-        public static List<Schulabschluss> BildungsAngabenLaden()
-        {
-            Debug.WriteLine("KonsumKreditVerwaltung - BildungsAngabenLaden");
-            Debug.Indent();
+        //public static List<Schulabschluss> BildungsAngabenLaden()
+        //{
+        //    Debug.WriteLine("KonsumKreditVerwaltung - BildungsAngabenLaden");
+        //    Debug.Indent();
 
-            List<Schulabschluss> alleAbschlussArten = null;
+        //    List<Schulabschluss> alleAbschlussArten = null;
 
-            try
-            {
-                using (var context = new dbKreditEntities())
-                {
-                    alleAbschlussArten = context.AlleSchulabschlussArten.ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Fehler in BildungsAngabenLaden");
-                Debug.Indent();
-                Debug.WriteLine(ex.Message);
-                Debug.Unindent();
-                Debugger.Break();
-            }
+        //    try
+        //    {
+        //        using (var context = new dbKreditEntities())
+        //        {
+        //            alleAbschlussArten = context.AlleSchulabschlussArten.ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Debug.WriteLine("Fehler in BildungsAngabenLaden");
+        //        Debug.Indent();
+        //        Debug.WriteLine(ex.Message);
+        //        Debug.Unindent();
+        //        Debugger.Break();
+        //    }
 
-            Debug.Unindent();
-            return alleAbschlussArten;
-        }
+        //    Debug.Unindent();
+        //    return alleAbschlussArten;
+        //}
 
         /// <summary>
         /// Liefert alle FamilienStand zurück

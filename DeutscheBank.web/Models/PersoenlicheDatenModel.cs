@@ -50,9 +50,9 @@ namespace DeutscheBank.web.Models
         [Display(Name = "aktuelle Wohnsituation")]
         public int ID_Wohnart { get; set; }
 
-        [Required]
-        [Display(Name = "aktuelle Bildung")]
-        public int ID_Bildung { get; set; }
+        //[Required]
+        //[Display(Name = "aktuelle Bildung")]
+        //public int ID_Bildung { get; set; }
 
         [Required]
         [Display(Name = "Identifikationstyp")]
