@@ -1,0 +1,183 @@
+﻿<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Deutsche Bank</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--[if lte IE 8]><script src="~/scripts/js/ie/html5shiv.js"></script><![endif]-->
+    <link rel="stylesheet" href="~/Content/css/main.css" />
+    <!--[if lte IE 8]><link rel="stylesheet" href="~/Content/css/ie8.css" /><![endif]-->
+    <!--[if lte IE 9]><link rel="stylesheet" href="~/Content/css/ie9.css" /><![endif]-->
+    
+</head>
+<body class="homepage">
+    <div id="page-wrapper">
+
+        <!-- Header -->
+        <div id="header-wrapper">
+            <div class="container">
+
+                <!-- Header -->
+                <header id="header">
+                    <div class="inner">
+
+                        <!-- Logo -->
+                        <h1><a href="@Url.Action("Index", "Home")" id="logo">Deutsche Bank AG</a></h1>
+
+                        <!-- Nav -->
+                        <nav id="nav">
+                            <ul>
+                                <li class="current_page_item">
+                                    <a href="@Url.Action("Index", "Home")">Startseite</a>
+                                    <ul>
+                                        <li><a href="#">Video Beratung</a></li>
+                                        <li><a href="#">Hotline</a></li>
+                                        <li>
+                                            <a href="#">Beratung vor Ort</a>
+                                            <ul>
+                                                <li><a href="#">Standortsuche</a></li>
+                                              </ul>
+                                        </li>
+                              
+                                    </ul>
+
+
+                                </li>
+                                <li>
+                                    <a href="#">Privatkunden</a>
+                                    <ul>
+                                        
+                                        <li>
+                                            <a href="#">Versicherungen</a>
+                                            <ul>
+                                                <li><a href="#">Lebensversicherung</a></li>
+                                                <li><a href="#">Unfallversicherung</a></li>
+                                                <li><a href="#">Hausratversicherung</a></li>
+                                                <li><a href="#">Kreditschuldenversicherung</a></li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="#">Best sparen</a>
+
+                                            <ul>
+                                                <li><a href="#">BestFix</a></li>
+                                                <li><a href="#">BestFlex</a></li>
+                                                
+                                            </ul>
+
+
+
+                                        </li>
+
+
+                                    </ul>
+                                </li>
+                                <li><a href="#">Geschäftskunden</a></li>
+                                <li><a href="#">Wertpapiere</a></li>
+                                <li>
+                                    @Html.ActionLink("Kredite", "KreditRahmen", "Konsumkredit")
+                                </li>
+                            </ul>
+                        </nav>
+
+                    </div>
+                </header>
+            </div>
+        </div>
+        <div id="main-wrapper">
+            <div class="wrapper style1">
+                <div class="inner">
+                    <section class="container box">
+                        <div class="row">
+                            <div class="12u 12u(mobile)">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <!-- Footer Wrapper -->
+        <div id="footer-wrapper">
+            <footer id="footer" class="container">
+                <div class="row">
+                    <div class="3u 12u(mobile)">
+
+                        <!-- Links -->
+                        <section>
+                            <h2>Filler Links</h2>
+                            <ul class="divided">
+                                <li><a href="#">Quam turpis feugiat dolor</a></li>
+                                <li><a href="#">Amet ornare in hendrerit </a></li>
+                                <li><a href="#">Semper mod quisturpis nisi</a></li>
+                                <li><a href="#">Consequat etiam phasellus</a></li>
+                                <li><a href="#">Amet turpis, feugiat et</a></li>
+                            </ul>
+                        </section>
+
+                    </div>
+                    <div class="3u 12u(mobile)">
+
+                        <!-- Links -->
+                        <section>
+                            <h2>More Filler</h2>
+                            <ul class="divided">
+                                <li><a href="#">Quam turpis feugiat dolor</a></li>
+                                <li><a href="#">Amet ornare in in lectus</a></li>
+                                <li><a href="#">Semper mod sed tempus nisi</a></li>
+                                <li><a href="#">Consequat etiam phasellus</a></li>
+                            </ul>
+                        </section>
+
+
+                    </div>
+                    <div class="6u 12u(mobile)">
+
+                        <!-- About -->
+                        <section>
+                            <h2><strong>ZeroFour</strong> by HTML5 UP</h2>
+                            <p>
+                                Hi! This is <strong>ZeroFour</strong>, a free, fully responsive HTML5 site
+                                template by <a href="http://twitter.com/ajlkn">AJ</a> for <a href="http://html5up.net/">HTML5 UP</a>.
+                                It's <a href="http://html5up.net/license/">Creative Commons Attribution</a>
+                                licensed so use it for any personal or commercial project (just credit us
+                                for the design!).
+                            </p>
+                            <a href="#" class="button alt icon fa-arrow-circle-right">Learn More</a>
+                        </section>
+
+
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="12u">
+                        <div id="copyright">
+                            <ul class="menu">
+                                <li>&copy; Untitled. All rights reserved</li>
+                                <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+
+    </div>
+
+    @Scripts.Render("~/jquery")
+
+
+    <!-- Scripts -->
+
+    <script src="~/Scripts/js/jquery.min.js"></script>
+    <script src="~/scripts/js/jquery.dropotron.min.js"></script>
+    <script src="~/scripts/js/skel.min.js"></script>
+    <script src="~/scripts/js/skel-viewport.min.js"></script>
+    <script src="~/scripts/js/util.js"></script>
+    <!--[if lte IE 8]><script src="~/scripts/js/ie/respond.min.js"></script><![endif]-->
+    <script src="~/scripts/js/main.js"></script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

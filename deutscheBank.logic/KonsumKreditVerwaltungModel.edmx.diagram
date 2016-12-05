@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7b1a53d32c924704aae623183243b0b4" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="dbKreditModel.Arbeitgeber" Width="1.5" PointX="9.25" PointY="13.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Beschaeftigungsart" Width="1.5" PointX="8.125" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Branche" Width="1.5" PointX="9.75" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Einstellungen" Width="1.5" PointX="5.375" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Familienstand" Width="1.5" PointX="3" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.FinanzielleSituation" Width="1.5" PointX="0.5" PointY="15.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.IdentifikationsArt" Width="1.5" PointX="4.875" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.KontaktDaten" Width="1.5" PointX="3" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.KontoDaten" Width="1.5" PointX="0.625" PointY="12.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Kredit" Width="1.5" PointX="6.875" PointY="15.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Kunde" Width="1.5" PointX="3" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Land" Width="1.5" PointX="0.625" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.login" Width="1.5" PointX="9.25" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Ort" Width="1.5" PointX="0.625" PointY="6.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Schulabschluss" Width="1.5" PointX="5.25" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Titel" Width="1.5" PointX="7.125" PointY="12.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Wohnart" Width="1.5" PointX="5.25" PointY="11.375" IsExpanded="true" />
+        <AssociationConnector Association="dbKreditModel.FK__tblArbeit__FKBes__49C3F6B7" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblArbeit__FKBra__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblArbeit__IDArb__48CFD27E" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKunde__FKFami__398D8EEE" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblFinanz__IDFin__5535A963" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKunde__FKIden__3D5E1FD2" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKontak__FKOrt__412EB0B6" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKontak__IDKon__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKontoD__IDKon__4D94879B" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKredit__FKKun__02FC7413" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKunde__FKSchu__3C69FB99" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKunde__FKStaa__3A81B327" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKunde__FKTite__38996AB5" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblKunde__FKWohn__3B75D760" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tbllogin__IDLogi__70DDC3D8" ManuallyRouted="false" />
+        <AssociationConnector Association="dbKreditModel.FK__tblOrt__FKLand__25869641" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
