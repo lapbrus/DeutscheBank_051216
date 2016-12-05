@@ -504,6 +504,8 @@ namespace deutscheBank.logic
                 Debug.WriteLine(ex.Message);
                 Debug.Unindent();
                 Debugger.Break();
+
+                Debug.Unindent();
             }
 
             Debug.Unindent();
