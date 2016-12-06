@@ -91,7 +91,7 @@ namespace DeutscheBank.web.Controllers
         {
             Debug.WriteLine("GET - KonsumKredit - PersönlicheDaten");
 
-            List<FamilienStandModel> alleFamilienStandAngaben = new List<FamilienStandModel>();
+            List<FamilienStandModel> alleFamilienStandArten = new List<FamilienStandModel>();
             List<IdentifikationsModel> alleIdentifikationsAngaben = new List<IdentifikationsModel>();
             List<StaatsbuergerschaftsModel> alleStaatsbuergerschaftsAngaben = new List<StaatsbuergerschaftsModel>();
             List<TitelModel> alleTitelAngaben = new List<TitelModel>();
@@ -100,9 +100,9 @@ namespace DeutscheBank.web.Controllers
             /// Lade Daten aus Logic
         
 
-            foreach (var familienStand in KonsumKreditVerwaltung.FamilienStandAngabenLaden())
+            foreach (var familienStand in KonsumKreditVerwaltung.FamilienStandArtenLaden())
             {
-                alleFamilienStandAngaben.Add(new FamilienStandModel()
+                alleFamilienStandArten.Add(new FamilienStandModel()
                 {
                     ID = familienStand.ID.ToString(),
                     Bezeichnung = familienStand.Bezeichnung
@@ -141,12 +141,9 @@ namespace DeutscheBank.web.Controllers
                 });
             }
 
-
-
             PersoenlicheDatenModel model = new PersoenlicheDatenModel()
             {
-
-                AlleFamilienStandAngaben = alleFamilienStandAngaben,
+                AlleFamilienStandArten = alleFamilienStandArten,
                 AlleIdentifikationsAngaben = alleIdentifikationsAngaben,
                 AlleStaatsbuergerschaftsAngaben = alleStaatsbuergerschaftsAngaben,
                 AlleTitelAngaben = alleTitelAngaben,
@@ -172,7 +169,7 @@ namespace DeutscheBank.web.Controllers
                                              model.GeburtsDatum,
                                              model.Vorname,
                                              model.Nachname,
-                                             model.ID_Familienstand,
+                                             model.ID_FamilienStand,
                                              model.ID_Identifikationsart,
                                              model.IdentifikationsNummer,
                                              model.ID_Staatsbuergerschaft,

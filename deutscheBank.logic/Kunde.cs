@@ -33,7 +33,6 @@ namespace deutscheBank.logic
         public Nullable<int> FKIdentifikationsArt { get; set; }
     
         public virtual Arbeitgeber Arbeitgeber { get; set; }
-        public virtual Familienstand Familienstand { get; set; }
         public virtual FinanzielleSituation FinanzielleSituation { get; set; }
         public virtual IdentifikationsArt IdentifikationsArt { get; set; }
         public virtual KontaktDaten KontaktDaten { get; set; }
@@ -44,5 +43,6 @@ namespace deutscheBank.logic
         public virtual Titel Titel { get; set; }
         public virtual Wohnart Wohnart { get; set; }
         public virtual login login { get; set; }
+        public virtual FamilienStand FamilienStand { get; set; }
     }
 }

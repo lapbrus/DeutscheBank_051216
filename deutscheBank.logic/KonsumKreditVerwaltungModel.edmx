@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="dbKreditModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="dbKreditModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="tblArbeitgeber">
           <Key>
             <PropertyRef Name="IDArbeitgeber" />
@@ -430,8 +430,7 @@
             <End Role="tblOrt" EntitySet="tblOrt" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="dbKreditModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -471,14 +470,6 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="NormalZins" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
           <Property Name="EffektiverZins" Type="Decimal" Precision="4" Scale="2" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Familienstand">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Bezeichnung" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Kunde" Relationship="Self.FK__tblKunde__FKFami__398D8EEE" FromRole="tblFamilienstand" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="FinanzielleSituation">
           <Key>
@@ -552,7 +543,6 @@
           <Property Name="IdentifikationsNummer" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="FKIdentifikationsArt" Type="Int32" />
           <NavigationProperty Name="Arbeitgeber" Relationship="Self.FK__tblArbeit__IDArb__48CFD27E" FromRole="tblKunde" ToRole="tblArbeitgeber" />
-          <NavigationProperty Name="Familienstand" Relationship="Self.FK__tblKunde__FKFami__398D8EEE" FromRole="tblKunde" ToRole="tblFamilienstand" />
           <NavigationProperty Name="FinanzielleSituation" Relationship="Self.FK__tblFinanz__IDFin__5535A963" FromRole="tblKunde" ToRole="tblFinanzielleSituation" />
           <NavigationProperty Name="IdentifikationsArt" Relationship="Self.FK__tblKunde__FKIden__3D5E1FD2" FromRole="tblKunde" ToRole="tblIdentifikationsArt" />
           <NavigationProperty Name="KontaktDaten" Relationship="Self.FK__tblKontak__IDKon__403A8C7D" FromRole="tblKunde" ToRole="tblKontaktDaten" />
@@ -563,6 +553,7 @@
           <NavigationProperty Name="Titel" Relationship="Self.FK__tblKunde__FKTite__38996AB5" FromRole="tblKunde" ToRole="tblTitel" />
           <NavigationProperty Name="Wohnart" Relationship="Self.FK__tblKunde__FKWohn__3B75D760" FromRole="tblKunde" ToRole="tblWohnart" />
           <NavigationProperty Name="login" Relationship="Self.FK__tbllogin__IDLogi__70DDC3D8" FromRole="tblKunde" ToRole="tbllogin" />
+          <NavigationProperty Name="FamilienStand" Relationship="dbKreditModel.FK__tblKunde__FKFami__398D8EEE" FromRole="Kunde" ToRole="tblFamilienstand" />
         </EntityType>
         <EntityType Name="Land">
           <Key>
@@ -650,18 +641,6 @@
             </Principal>
             <Dependent Role="tblArbeitgeber">
               <PropertyRef Name="ID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tblKunde__FKFami__398D8EEE">
-          <End Role="tblFamilienstand" Type="dbKreditModel.Familienstand" Multiplicity="0..1" />
-          <End Role="tblKunde" Type="dbKreditModel.Kunde" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="tblFamilienstand">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="tblKunde">
-              <PropertyRef Name="FKFamilienstand" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -814,7 +793,6 @@
           <EntitySet Name="AlleBeschaeftigungsarten" EntityType="dbKreditModel.Beschaeftigungsart" />
           <EntitySet Name="AlleBranchen" EntityType="dbKreditModel.Branche" />
           <EntitySet Name="tblEinstellungen" EntityType="dbKreditModel.Einstellungen" />
-          <EntitySet Name="AlleFamilienstandArten" EntityType="dbKreditModel.Familienstand" />
           <EntitySet Name="AlleFinanzielleSituationsArten" EntityType="dbKreditModel.FinanzielleSituation" />
           <EntitySet Name="AlleIdentifikationsArten" EntityType="dbKreditModel.IdentifikationsArt" />
           <EntitySet Name="AlleKontaktDaten" EntityType="dbKreditModel.KontaktDaten" />
@@ -838,10 +816,6 @@
           <AssociationSet Name="FK__tblArbeit__IDArb__48CFD27E" Association="Self.FK__tblArbeit__IDArb__48CFD27E">
             <End Role="tblKunde" EntitySet="AlleKunden" />
             <End Role="tblArbeitgeber" EntitySet="tblArbeitgeber" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tblKunde__FKFami__398D8EEE" Association="Self.FK__tblKunde__FKFami__398D8EEE">
-            <End Role="tblFamilienstand" EntitySet="AlleFamilienstandArten" />
-            <End Role="tblKunde" EntitySet="AlleKunden" />
           </AssociationSet>
           <AssociationSet Name="FK__tblFinanz__IDFin__5535A963" Association="Self.FK__tblFinanz__IDFin__5535A963">
             <End Role="tblKunde" EntitySet="AlleKunden" />
@@ -891,7 +865,32 @@
             <End Role="tblLand" EntitySet="AlleLaender" />
             <End Role="tblOrt" EntitySet="AlleOrte" />
           </AssociationSet>
+          <EntitySet Name="AlleFamilienStandArten" EntityType="dbKreditModel.FamilienStand" />
+          <AssociationSet Name="FK__tblKunde__FKFami__398D8EEE" Association="dbKreditModel.FK__tblKunde__FKFami__398D8EEE">
+            <End Role="tblFamilienstand" EntitySet="AlleFamilienStandArten" />
+            <End Role="Kunde" EntitySet="AlleKunden" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="FamilienStand">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Bezeichnung" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblKunde__FKFami__398D8EEE" FromRole="tblFamilienstand" ToRole="Kunde" />
+        </EntityType>
+        <Association Name="FK__tblKunde__FKFami__398D8EEE">
+          <End Type="dbKreditModel.FamilienStand" Role="tblFamilienstand" Multiplicity="0..1" />
+          <End Type="dbKreditModel.Kunde" Role="Kunde" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblFamilienstand">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Kunde">
+              <PropertyRef Name="FKFamilienstand" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -931,14 +930,6 @@
                 <ScalarProperty Name="ID" ColumnName="IDEinstellungen" />
                 <ScalarProperty Name="NormalZins" ColumnName="NormalZins" />
                 <ScalarProperty Name="EffektiverZins" ColumnName="EffektiverZins" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AlleFamilienstandArten">
-            <EntityTypeMapping TypeName="dbKreditModel.Familienstand">
-              <MappingFragment StoreEntitySet="tblFamilienstand">
-                <ScalarProperty Name="ID" ColumnName="IDFamilienstand" />
-                <ScalarProperty Name="Bezeichnung" ColumnName="Familienstand" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1062,6 +1053,14 @@
               <MappingFragment StoreEntitySet="tblWohnart">
                 <ScalarProperty Name="ID" ColumnName="IDWohnart" />
                 <ScalarProperty Name="Bezeichnung" ColumnName="Wohnart" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleFamilienStandArten">
+            <EntityTypeMapping TypeName="dbKreditModel.FamilienStand">
+              <MappingFragment StoreEntitySet="tblFamilienstand">
+                <ScalarProperty Name="Bezeichnung" ColumnName="Familienstand" />
+                <ScalarProperty Name="ID" ColumnName="IDFamilienstand" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

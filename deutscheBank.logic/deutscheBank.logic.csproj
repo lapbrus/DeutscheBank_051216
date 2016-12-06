@@ -60,7 +60,7 @@
     <Compile Include="Einstellungen.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Familienstand.cs">
+    <Compile Include="FamilienStand.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>
     <Compile Include="FinanzielleSituation.cs">

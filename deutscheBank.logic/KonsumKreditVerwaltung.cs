@@ -289,23 +289,23 @@ namespace deutscheBank.logic
         /// Liefert alle FamilienStand zurück
         /// </summary>
         /// <returns>alle FamilienStand oder null bei einem Fehler</returns>
-        public static List<Familienstand> FamilienStandAngabenLaden()
+        public static List<FamilienStand> FamilienStandArtenLaden()
         {
-            Debug.WriteLine("KonsumKreditVerwaltung - FamilienStandAngabenLaden");
+            Debug.WriteLine("KonsumKreditVerwaltung - FamilienStandArtenLaden");
             Debug.Indent();
 
-            List<Familienstand> alleFamilienStandsAngaben = null;
+            List<FamilienStand> alleFamilienStandArten = null;
 
             try
             {
                 using (var context = new dbKreditEntities())
                 {
-                    alleFamilienStandsAngaben = context.AlleFamilienstandArten.ToList();
+                    alleFamilienStandArten = context.AlleFamilienStandArten.ToList();
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Fehler in FamilienStandAngabenLaden");
+                Debug.WriteLine("Fehler in FamilienStandArtenLaden");
                 Debug.Indent();
                 Debug.WriteLine(ex.Message);
                 Debug.Unindent();
@@ -313,7 +313,7 @@ namespace deutscheBank.logic
             }
 
             Debug.Unindent();
-            return alleFamilienStandsAngaben;
+            return alleFamilienStandArten;
         }
 
         /// <summary>

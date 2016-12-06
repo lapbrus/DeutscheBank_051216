@@ -29,7 +29,6 @@ namespace deutscheBank.logic
         public DbSet<Beschaeftigungsart> AlleBeschaeftigungsarten { get; set; }
         public DbSet<Branche> AlleBranchen { get; set; }
         public DbSet<Einstellungen> tblEinstellungen { get; set; }
-        public DbSet<Familienstand> AlleFamilienstandArten { get; set; }
         public DbSet<FinanzielleSituation> AlleFinanzielleSituationsArten { get; set; }
         public DbSet<IdentifikationsArt> AlleIdentifikationsArten { get; set; }
         public DbSet<KontaktDaten> AlleKontaktDaten { get; set; }
@@ -42,5 +41,6 @@ namespace deutscheBank.logic
         public DbSet<Schulabschluss> AlleSchulabschlussArten { get; set; }
         public DbSet<Titel> AlleTitel { get; set; }
         public DbSet<Wohnart> AlleWohnarten { get; set; }
+        public DbSet<FamilienStand> AlleFamilienStandArten { get; set; }
     }
 }

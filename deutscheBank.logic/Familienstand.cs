@@ -12,9 +12,9 @@ namespace deutscheBank.logic
     using System;
     using System.Collections.Generic;
     
-    public partial class Familienstand
+    public partial class FamilienStand
     {
-        public Familienstand()
+        public FamilienStand()
         {
             this.Kunde = new HashSet<Kunde>();
         }

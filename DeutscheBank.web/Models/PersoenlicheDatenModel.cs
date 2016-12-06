@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace DeutscheBank.web.Models
@@ -44,7 +42,7 @@ namespace DeutscheBank.web.Models
 
         [Required]
         [Display(Name = "aktueller Familienstand")]
-        public int ID_Familienstand { get; set; }
+        public int ID_FamilienStand { get; set; }
 
         [Required]
         [Display(Name = "aktuelle Wohnsituation")]
@@ -66,7 +64,7 @@ namespace DeutscheBank.web.Models
         [Required]
         public int ID_Kunde { get; set; }
 
-        public List<FamilienStandModel> AlleFamilienStandAngaben { get; set; }
+        public List<FamilienStandModel> AlleFamilienStandArten { get; set; }
         public List<StaatsbuergerschaftsModel> AlleStaatsbuergerschaftsAngaben { get; set; }
         public List<WohnartModel> AlleWohnartAngaben { get; set; }
         public List<BildungsModel> AlleBildungAngaben { get; set; }
