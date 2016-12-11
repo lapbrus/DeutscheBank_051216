@@ -126,9 +126,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\ArbeitgeberModel.cs" />
-    <Compile Include="Models\BeschaeftigunsArtModel.cs" />
     <Compile Include="Models\BildungsModel.cs" />
     <Compile Include="Models\BrancheModel.cs" />
+    <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\FamilienStandModel.cs" />
     <Compile Include="Models\FinanzielleSituationModel.cs" />
     <Compile Include="Models\IdentifikationsModel.cs" />
@@ -317,6 +317,7 @@
     <Content Include="Views\KonsumKredit\FinanzielleSituation.cshtml" />
     <Content Include="Views\KonsumKredit\KreditRahmen.cshtml" />
     <Content Include="Views\KonsumKredit\PersönlicheDaten.cshtml" />
+    <Content Include="Views\KonsumKredit\BeschaeftigungsArtModel.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

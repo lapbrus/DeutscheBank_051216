@@ -26,7 +26,7 @@ namespace deutscheBank.logic
         }
     
         public DbSet<Arbeitgeber> tblArbeitgeber { get; set; }
-        public DbSet<Beschaeftigungsart> AlleBeschaeftigungsarten { get; set; }
+        public DbSet<Beschaeftigungsart> AlleBeschaeftigungsArten { get; set; }
         public DbSet<Branche> AlleBranchen { get; set; }
         public DbSet<Einstellungen> tblEinstellungen { get; set; }
         public DbSet<FinanzielleSituation> AlleFinanzielleSituationsArten { get; set; }

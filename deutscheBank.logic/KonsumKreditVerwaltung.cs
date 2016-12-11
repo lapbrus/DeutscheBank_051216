@@ -222,7 +222,7 @@ namespace deutscheBank.logic
         ///Liefert alle Beschäftigungsarten zurück
         ///</summary>
         ///<returns>alle Beschäftigungsarten oder null bei einem Fehler</returns>
-        public static List<Beschaeftigungsart> alleBeschaeftigungArtenLaden()
+        public static List<Beschaeftigungsart> alleBeschaeftigungsArtenLaden()
         {
 
             Debug.WriteLine("Konsumkreditverwaltung - Beschäftigungsarten");
@@ -235,7 +235,7 @@ namespace deutscheBank.logic
             {
                 using (var context = new dbKreditEntities())
                 {
-                    alleBeschaeftigungsArten = context.AlleBeschaeftigungsarten.ToList();
+                    alleBeschaeftigungsArten = context.AlleBeschaeftigungsArten.ToList();
                 }
             }
             catch (Exception Ex)
@@ -464,6 +464,41 @@ namespace deutscheBank.logic
         /// <param name="idWohnart">die Wohnart des Kunden</param>
         /// <param name="idKunde">die ID des Kunden</param>
         /// <returns>true wenn das Anpassen der Werte erfolgreich war, ansonsten false</returns>
+
+        /// <summary>
+        /// Lädt den Kunden für die übergebene ID
+        /// </summary>
+        /// <param name="id">die id des zu ladenden Kunden</param>
+        /// <returns>der Kunde für die übergebene ID</returns>
+        public static Kunde PersoenlicheDatenLaden(int id)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - PersönlicheDatenLaden");
+            Debug.Indent();
+
+            Kunde persönlicheDaten = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities() )
+                {
+                    persönlicheDaten = context.AlleKunden.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("PersönlicheDatenLaden geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in PersönlicheDatenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return persönlicheDaten;
+        }
+        
+
         public static bool PersönlicheDatenSpeichern(int? idTitel, string geschlecht, DateTime geburtsDatum, string vorname, string nachname,  int idFamilienstand, int idIdentifikationsart, string identifikationsNummer, string idStaatsbuergerschaft, int idWohnart, int idKunde)
         {
             Debug.WriteLine("KonsumKreditVerwaltung - PersönlicheDatenSpeichern");

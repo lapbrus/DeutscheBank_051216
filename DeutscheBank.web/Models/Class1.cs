@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DeutscheBank.web.Models
 {
-    public class BeschaeftigunsArtModel : NachschlagefeldModel
+    public class BeschaeftigungsArtModel : NachschlagefeldModel
     {
     }
 }

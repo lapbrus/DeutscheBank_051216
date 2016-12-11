@@ -150,6 +150,24 @@ namespace DeutscheBank.web.Controllers
                 AlleWohnartAngaben = alleWohnartAngaben,
                 ID_Kunde = int.Parse(Request.Cookies["idKunde"].Value)
             };
+
+            Kunde kunde = KonsumKreditVerwaltung.PersoenlicheDatenLaden(model.ID_Kunde);
+            if (kunde != null)
+            {
+                model.Geschlecht = !string.IsNullOrEmpty(kunde.Geschlecht) && kunde.Geschlecht == "m" ? dbKreditEntities.web.Models.Geschlecht.Männlich : dbKreditEntities.web.Models.Geschlecht.Weiblich;
+                model.Vorname = kunde.Vorname;
+                model.Nachname = kunde.Nachname;
+                model.ID_Titel = kunde.FKTitel.HasValue ? kunde.FKTitel.Value : 0;
+                //model.ID_TitelNachstehend = kunde.FKTitelNachstehend.HasValue ? kunde.FKTitelNachstehend.Value : 0;
+                //model.GeburtsDatum = DateTime.Now;
+                model.ID_Staatsbuergerschaft = kunde.FKStaatsangehoerigkeit;
+                model.ID_FamilienStand = kunde.FKFamilienstand.HasValue ? kunde.FKFamilienstand.Value : 0;
+                model.ID_Wohnart = kunde.FKWohnart.HasValue ? kunde.FKWohnart.Value : 0;
+                //model.ID_Bildung = kunde.FKSchulabschluss.HasValue ? kunde.FKSchulabschluss.Value : 0;
+                model.ID_Identifikationsart = kunde.FKIdentifikationsArt.HasValue ? kunde.FKIdentifikationsArt.Value : 0;
+                model.IdentifikationsNummer = kunde.IdentifikationsNummer;
+            }
+
             return View(model);
         }
 
@@ -185,6 +203,73 @@ namespace DeutscheBank.web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Arbeitgeber()
+        {
+            Debug.WriteLine("GET - KonsumKredit - Arbeitgeber");
+
+            List<BeschaeftigungsArtModel> alleBeschaeftigungen = new List<BeschaeftigungsArtModel>();
+            List<BrancheModel> alleBranchen = new List<BrancheModel>();
+
+            foreach (var branche in KonsumKreditVerwaltung.BranchenLaden())
+            {
+                alleBranchen.Add(new BrancheModel()
+                {
+                    ID = branche.ID.ToString(),
+                    Bezeichnung = branche.Bezeichnung
+                });
+            }
+
+            foreach (var beschaeftigungsArt in KonsumKreditVerwaltung.alleBeschaeftigungsArtenLaden())
+            {
+                alleBeschaeftigungen.Add(new BeschaeftigunsArtModel()
+                {
+                    ID = beschaeftigungsArt.ID.ToString(),
+                    Bezeichnung = beschaeftigungsArt.Bezeichnung
+                });
+            }
+
+            ArbeitgeberModel model = new ArbeitgeberModel()
+            {
+                AlleBeschaeftigungen = alleBeschaeftigungen,
+                AlleBranchen = alleBranchen,
+                ID_Kunde = int.Parse(Request.Cookies["idKunde"].Value)
+            };
+
+            Arbeitgeber arbeitgeberDaten = KonsumKreditVerwaltung.ArbeitgeberAngabenLaden(model.ID_Kunde);
+            if (arbeitgeberDaten != null)
+            {
+                model.BeschäftigtSeit = arbeitgeberDaten.BeschaeftigtSeit.Value.ToString("MM.yyyy");
+                model.FirmenName = arbeitgeberDaten.Firma;
+                model.ID_BeschäftigungsArt = arbeitgeberDaten.FKBeschaeftigungsArt.Value; ;
+                model.ID_Branche = arbeitgeberDaten.FKBranche.Value;
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Arbeitgeber(ArbeitgeberModel model)
+        {
+            Debug.WriteLine("POST - KonsumKredit - Arbeitgeber");
+
+            if (ModelState.IsValid)
+            {
+                /// speichere Daten über BusinessLogic
+                if (KonsumKreditVerwaltung.ArbeitgeberAngabenSpeichern(
+                                                model.FirmenName,
+                                                model.ID_BeschäftigungsArt,
+                                                model.ID_Branche,
+                                                model.BeschäftigtSeit,
+                                                model.ID_Kunde))
+                {
+                    return RedirectToAction("KontoInformationen");
+                }
+            }
+            return View();
+        }
+        
     }
 
 }
