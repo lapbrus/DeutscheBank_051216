@@ -154,7 +154,7 @@ namespace DeutscheBank.web.Controllers
             Kunde kunde = KonsumKreditVerwaltung.PersoenlicheDatenLaden(model.ID_Kunde);
             if (kunde != null)
             {
-                model.Geschlecht = !string.IsNullOrEmpty(kunde.Geschlecht) && kunde.Geschlecht == "m" ? dbKreditEntities.web.Models.Geschlecht.Männlich : dbKreditEntities.web.Models.Geschlecht.Weiblich;
+                model.Geschlecht = !string.IsNullOrEmpty(kunde.Geschlecht) && kunde.Geschlecht == "m" ? DeutscheBank.web.Models.Geschlecht.Männlich : DeutscheBank.web.Models.Geschlecht.Weiblich;
                 model.Vorname = kunde.Vorname;
                 model.Nachname = kunde.Nachname;
                 model.ID_Titel = kunde.FKTitel.HasValue ? kunde.FKTitel.Value : 0;
@@ -208,7 +208,7 @@ namespace DeutscheBank.web.Controllers
         {
             Debug.WriteLine("GET - KonsumKredit - Arbeitgeber");
 
-            List<BeschaeftigungsArtModel> alleBeschaeftigungen = new List<BeschaeftigungsArtModel>();
+            List<BeschaeftigungsArtModel> alleBeschaeftigungsArten = new List<BeschaeftigungsArtModel>();
             List<BrancheModel> alleBranchen = new List<BrancheModel>();
 
             foreach (var branche in KonsumKreditVerwaltung.BranchenLaden())
@@ -220,9 +220,9 @@ namespace DeutscheBank.web.Controllers
                 });
             }
 
-            foreach (var beschaeftigungsArt in KonsumKreditVerwaltung.alleBeschaeftigungsArtenLaden())
+            foreach (var beschaeftigungsArt in KonsumKreditVerwaltung.BeschaeftigungsArtenLaden())
             {
-                alleBeschaeftigungen.Add(new BeschaeftigunsArtModel()
+                alleBeschaeftigungsArten.Add(new BeschaeftigungsArtModel()
                 {
                     ID = beschaeftigungsArt.ID.ToString(),
                     Bezeichnung = beschaeftigungsArt.Bezeichnung
@@ -231,7 +231,7 @@ namespace DeutscheBank.web.Controllers
 
             ArbeitgeberModel model = new ArbeitgeberModel()
             {
-                AlleBeschaeftigungen = alleBeschaeftigungen,
+                AlleBeschaeftigungsArten = alleBeschaeftigungsArten,
                 AlleBranchen = alleBranchen,
                 ID_Kunde = int.Parse(Request.Cookies["idKunde"].Value)
             };
@@ -241,7 +241,7 @@ namespace DeutscheBank.web.Controllers
             {
                 model.BeschäftigtSeit = arbeitgeberDaten.BeschaeftigtSeit.Value.ToString("MM.yyyy");
                 model.FirmenName = arbeitgeberDaten.Firma;
-                model.ID_BeschäftigungsArt = arbeitgeberDaten.FKBeschaeftigungsArt.Value; ;
+                model.ID_BeschäftigungsArt = arbeitgeberDaten.FKBeschaeftigungsArt; ;
                 model.ID_Branche = arbeitgeberDaten.FKBranche.Value;
             }
 

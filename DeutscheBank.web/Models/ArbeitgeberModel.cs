@@ -26,7 +26,7 @@ namespace DeutscheBank.web.Models
         [DisplayFormat(ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true, DataFormatString = "MM.yyyy")]
         public string BeschäftigtSeit { get; set; }
 
-        public List<BeschaeftigungsArtModel> AlleBeschaeftigungen { get; set; }
+        public List<BeschaeftigungsArtModel> AlleBeschaeftigungsArten { get; set; }
         public List<BrancheModel> AlleBranchen { get; set; }
 
         public int ID_Kunde { get; set; }

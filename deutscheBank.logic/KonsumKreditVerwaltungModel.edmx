@@ -789,7 +789,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="dbKreditEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tblArbeitgeber" EntityType="dbKreditModel.Arbeitgeber" />
+          <EntitySet Name="AlleArbeitgeber" EntityType="dbKreditModel.Arbeitgeber" />
           <EntitySet Name="AlleBeschaeftigungsArten" EntityType="dbKreditModel.Beschaeftigungsart" />
           <EntitySet Name="AlleBranchen" EntityType="dbKreditModel.Branche" />
           <EntitySet Name="tblEinstellungen" EntityType="dbKreditModel.Einstellungen" />
@@ -807,15 +807,15 @@
           <EntitySet Name="AlleWohnarten" EntityType="dbKreditModel.Wohnart" />
           <AssociationSet Name="FK__tblArbeit__FKBes__49C3F6B7" Association="Self.FK__tblArbeit__FKBes__49C3F6B7">
             <End Role="tblBeschaeftigungsart" EntitySet="AlleBeschaeftigungsArten" />
-            <End Role="tblArbeitgeber" EntitySet="tblArbeitgeber" />
+            <End Role="tblArbeitgeber" EntitySet="AlleArbeitgeber" />
           </AssociationSet>
           <AssociationSet Name="FK__tblArbeit__FKBra__4AB81AF0" Association="Self.FK__tblArbeit__FKBra__4AB81AF0">
             <End Role="tblBranche" EntitySet="AlleBranchen" />
-            <End Role="tblArbeitgeber" EntitySet="tblArbeitgeber" />
+            <End Role="tblArbeitgeber" EntitySet="AlleArbeitgeber" />
           </AssociationSet>
           <AssociationSet Name="FK__tblArbeit__IDArb__48CFD27E" Association="Self.FK__tblArbeit__IDArb__48CFD27E">
             <End Role="tblKunde" EntitySet="AlleKunden" />
-            <End Role="tblArbeitgeber" EntitySet="tblArbeitgeber" />
+            <End Role="tblArbeitgeber" EntitySet="AlleArbeitgeber" />
           </AssociationSet>
           <AssociationSet Name="FK__tblFinanz__IDFin__5535A963" Association="Self.FK__tblFinanz__IDFin__5535A963">
             <End Role="tblKunde" EntitySet="AlleKunden" />
@@ -897,7 +897,7 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="dbKreditModelStoreContainer" CdmEntityContainer="dbKreditEntities">
-          <EntitySetMapping Name="tblArbeitgeber">
+          <EntitySetMapping Name="AlleArbeitgeber">
             <EntityTypeMapping TypeName="dbKreditModel.Arbeitgeber">
               <MappingFragment StoreEntitySet="tblArbeitgeber">
                 <ScalarProperty Name="ID" ColumnName="IDArbeitgeber" />

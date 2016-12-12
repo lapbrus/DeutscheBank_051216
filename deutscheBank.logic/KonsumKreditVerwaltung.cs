@@ -222,7 +222,7 @@ namespace deutscheBank.logic
         ///Liefert alle Beschäftigungsarten zurück
         ///</summary>
         ///<returns>alle Beschäftigungsarten oder null bei einem Fehler</returns>
-        public static List<Beschaeftigungsart> alleBeschaeftigungsArtenLaden()
+        public static List<Beschaeftigungsart> BeschaeftigungsArtenLaden()
         {
 
             Debug.WriteLine("Konsumkreditverwaltung - Beschäftigungsarten");
@@ -546,6 +546,42 @@ namespace deutscheBank.logic
             Debug.Unindent();
             return erfolgreich;
         }
+
+        /// <summary>
+        /// Lädt den Kreditrahmen für die übergebene ID
+        /// </summary>
+        /// <param name="id">die id des zu ladenden Kreditrahmens</param>
+        /// <returns>der Kreditwunsch für die übergebene ID</returns>
+        public static Arbeitgeber ArbeitgeberAngabenLaden(int id)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - ArbeitgeberAngabenLaden");
+            Debug.Indent();
+
+            Arbeitgeber arbeitGeber = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    arbeitGeber = context.AlleArbeitgeber.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("ArbeitgeberAngaben geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in ArbeitgeberAngabenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return arbeitGeber;
+        }
+
+
+
         /// <summary>
         /// Speichert die Angaben des Arbeitsgebers zu einem Kunden
         /// </summary>
