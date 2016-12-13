@@ -640,45 +640,45 @@ namespace deutscheBank.logic
 
 
 
-    public static bool AdminloginVergleich(string adminUser, string adminKennwort)
-    {
-        Debug.WriteLine("AdminLogin - AdminLogin");
-        Debug.Indent();
+    //public static bool AdminloginVergleich(string adminUser, string adminKennwort)
+    //{
+    //    Debug.WriteLine("AdminLogin - AdminLogin");
+    //    Debug.Indent();
 
-        bool erfolgreich = false;
+    //    bool erfolgreich = false;
 
-        try
-        {
-            using (var context = new dbKreditEntities())
-            {
+    //    try
+    //    {
+    //        using (var context = new dbKreditEntities())
+    //        {
 
-                /// speichere zum Kunden die Angaben
-                AdminUser aktAdmin = context.AlleAdmin.Where(x => x.ID == idAdmin).FirstOrDefault();
+    //            /// speichere zum Kunden die Angaben
+    //            AdminUser aktAdmin = context.AlleAdmin.Where(x => x.ID == idAdmin).FirstOrDefault();
 
-                if (aktAdmin != null)
-                {
+    //            if (aktAdmin != null)
+    //            {
                     
-                }
+    //            }
 
-                int anzahlZeilenBetroffen = context.SaveChanges();
-                erfolgreich = anzahlZeilenBetroffen >= 1;
-                Debug.WriteLine($"{anzahlZeilenBetroffen} Paswort richtig!");
-            }
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine("Falsches Passwort");
-            Debug.Indent();
-            Debug.WriteLine(ex.Message);
-            Debug.Unindent();
-            Debugger.Break();
-        }
+    //            int anzahlZeilenBetroffen = context.SaveChanges();
+    //            erfolgreich = anzahlZeilenBetroffen >= 1;
+    //            Debug.WriteLine($"{anzahlZeilenBetroffen} Paswort richtig!");
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Debug.WriteLine("Falsches Passwort");
+    //        Debug.Indent();
+    //        Debug.WriteLine(ex.Message);
+    //        Debug.Unindent();
+    //        Debugger.Break();
+    //    }
 
-        Debug.Unindent();
-        return erfolgreich;
-    }
+    //    Debug.Unindent();
+    //    return erfolgreich;
+    
 
-}
+   }
 
 
 

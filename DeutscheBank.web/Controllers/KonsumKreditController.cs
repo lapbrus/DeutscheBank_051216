@@ -278,34 +278,7 @@ namespace DeutscheBank.web.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AdminLogin(AdminLoginModel model)
-        {
-            Debug.WriteLine("POST - AdminLogin - Login");
 
-            if (ModelState.IsValid)
-            {
-                /// speichere Daten über BusinessLogic
-                if (KonsumKreditVerwaltung.AdminloginVergleich(
-                                                model.Username,
-                                                model.AdminKennwort
-                                                ))
-                {
-                    return RedirectToAction("KontoInformationPlus");
-                }
-            }
-            return View();
-        }
-
-
-        [HttpGet]
-        public ActionResult AdminLogout()
-        {
-            Debug.WriteLine("GET - Adminlogout - Adminlogout");
-
-            return View();
-        }
 
     }
 
