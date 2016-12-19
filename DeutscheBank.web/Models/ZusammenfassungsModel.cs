@@ -14,6 +14,6 @@ namespace DeutscheBank.web.Models
         public KontaktDatenModel KontaktDaten { get; set; }
         public KontoInformationenModel KontoInformationen { get; set; }
 
-        public int ID_Kunde { get; set; }
+        public int ID_kunde { get; set; }
     }
 }

@@ -636,49 +636,90 @@ namespace deutscheBank.logic
             return erfolgreich;
         }
 
+        public static KontoDaten KontoInformationenLaden(int id)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - KontoInformationenLaden");
+            Debug.Indent();
+
+            KontoDaten kontoDaten = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    kontoDaten = context.AlleKontoDaten.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("KontoInformationen geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontoInformationenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return kontoDaten;
+        }
+
+        public static bool KontoInformationenSpeichern(string bankName, string iban, string bic, bool neuesKonto, int idKunde)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - KontoInformationenSpeichern");
+            Debug.Indent();
+
+            bool erfolgreich = false;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+
+                    /// speichere zum Kunden die Angaben
+                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
+
+                    if (aktKunde != null)
+                    {
+                        KontoDaten kontoDaten = context.AlleKontoDaten.FirstOrDefault(x => x.ID == idKunde);
+
+                        if (kontoDaten == null)
+                        {
+                            kontoDaten = new KontoDaten();
+                            context.AlleKontoDaten.Add(kontoDaten);
+                        }
+                        kontoDaten.Bank = bankName;
+                        kontoDaten.IBAN = iban;
+                        kontoDaten.BIC = bic;
+                        kontoDaten.HatKonto = !neuesKonto;
+                        kontoDaten.ID = idKunde;
+                    }
+
+                    int anzahlZeilenBetroffen = context.SaveChanges();
+                    erfolgreich = anzahlZeilenBetroffen >= 0;
+                    Debug.WriteLine($"{anzahlZeilenBetroffen} Konto-Daten gespeichert!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontoInformationenSpeichern");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return erfolgreich;
+        }
+
+
+
+
     }
 
 
-
-    //public static bool AdminloginVergleich(string adminUser, string adminKennwort)
-    //{
-    //    Debug.WriteLine("AdminLogin - AdminLogin");
-    //    Debug.Indent();
-
-    //    bool erfolgreich = false;
-
-    //    try
-    //    {
-    //        using (var context = new dbKreditEntities())
-    //        {
-
-    //            /// speichere zum Kunden die Angaben
-    //            AdminUser aktAdmin = context.AlleAdmin.Where(x => x.ID == idAdmin).FirstOrDefault();
-
-    //            if (aktAdmin != null)
-    //            {
-                    
-    //            }
-
-    //            int anzahlZeilenBetroffen = context.SaveChanges();
-    //            erfolgreich = anzahlZeilenBetroffen >= 1;
-    //            Debug.WriteLine($"{anzahlZeilenBetroffen} Paswort richtig!");
-    //        }
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        Debug.WriteLine("Falsches Passwort");
-    //        Debug.Indent();
-    //        Debug.WriteLine(ex.Message);
-    //        Debug.Unindent();
-    //        Debugger.Break();
-    //    }
-
-    //    Debug.Unindent();
-    //    return erfolgreich;
-    
-
-   }
+}
 
 
 

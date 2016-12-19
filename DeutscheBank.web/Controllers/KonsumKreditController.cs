@@ -1,4 +1,5 @@
-﻿using deutscheBank.logic;
+﻿using deutscheBank.freigabe;
+using deutscheBank.logic;
 using DeutscheBank.web.Models;
 using System;
 using System.Collections.Generic;
@@ -271,12 +272,50 @@ namespace DeutscheBank.web.Controllers
         }
 
         [HttpGet]
-        public ActionResult AdminLogin()
+        public ActionResult KontoInformationen()
         {
-            Debug.WriteLine("GET - Adminlogin - Adminlogin");
+            Debug.WriteLine("GET - KonsumKredit - KontoInformationen");
+
+
+            KontoInformationenModel model = new KontoInformationenModel()
+            {
+                ID_Kunde = int.Parse(Request.Cookies["ID_Kunde"].Value)
+            };
+
+            KontoDaten daten = KonsumKreditVerwaltung.KontoInformationenLaden(model.ID_Kunde);
+            if (daten != null)
+            {
+                model.BankName = daten.Bank;
+                model.BIC = daten.BIC;
+                model.IBAN = daten.IBAN;
+                model.NeuesKonto = !daten.HatKonto; 
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult KontoInformationen(KontoInformationenModel model)
+        {
+            Debug.WriteLine("POST - KonsumKredit - KontoInformationen");
+
+            if (ModelState.IsValid)
+            {
+                /// speichere Daten über BusinessLogic
+                if (KonsumKreditVerwaltung.KontoInformationenSpeichern(
+                                                model.BankName,
+                                                model.IBAN,
+                                                model.BIC,
+                                                model.NeuesKonto,
+                                                model.ID_Kunde))
+                {
+                    return RedirectToAction("Zusammenfassung");
+                }
+            }
 
             return View();
         }
+
 
 
 
