@@ -8,7 +8,7 @@ namespace DeutscheBank.web.Models
     public class KontaktDatenModel
     {
         public string Strasse { get; set; }
-        public string Hausnummer { get; set; }
+        public string HausNummer { get; set; }
         public int ID_PLZ { get; set; }
         public string Ort { get; set; }
         public string Land { get; set; }

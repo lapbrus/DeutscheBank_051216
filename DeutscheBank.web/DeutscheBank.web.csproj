@@ -131,9 +131,9 @@
     <Compile Include="Models\AdminLoginModel.cs" />
     <Compile Include="Models\AdminLogoutModel.cs" />
     <Compile Include="Models\ArbeitgeberModel.cs" />
+    <Compile Include="Models\BeschaeftigungsArtModel.cs" />
     <Compile Include="Models\BildungsModel.cs" />
     <Compile Include="Models\BrancheModel.cs" />
-    <Compile Include="Models\Class1.cs" />
     <Compile Include="Models\FamilienStandModel.cs" />
     <Compile Include="Models\FinanzielleSituationModel.cs" />
     <Compile Include="Models\IdentifikationsModel.cs" />
@@ -145,7 +145,7 @@
     <Compile Include="Models\StaatsbuergerschaftsModel.cs" />
     <Compile Include="Models\TitelModel.cs" />
     <Compile Include="Models\WohnartModel.cs" />
-    <Compile Include="Models\ZusammenfassungsModel.cs" />
+    <Compile Include="Models\ZusammenfassungModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -322,11 +322,11 @@
     <Content Include="Views\KonsumKredit\FinanzielleSituation.cshtml" />
     <Content Include="Views\KonsumKredit\KreditRahmen.cshtml" />
     <Content Include="Views\KonsumKredit\PersönlicheDaten.cshtml" />
-    <Content Include="Views\KonsumKredit\BeschaeftigungsArtModel.cshtml" />
     <Content Include="Views\KonsumKredit\AdminVerwaltung.cshtml" />
     <Content Include="Views\KonsumKredit\AdminLogin.cshtml" />
     <Content Include="Views\KonsumKredit\AdminLogout.cshtml" />
     <Content Include="Views\KonsumKredit\KontoInformationen.cshtml" />
+    <Content Include="Views\KonsumKredit\Arbeitgeber.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

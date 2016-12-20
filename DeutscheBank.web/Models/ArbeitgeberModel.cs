@@ -14,8 +14,8 @@ namespace DeutscheBank.web.Models
         public string FirmenName { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Pflichtfeld")]
-        [Display(Name = "Beschäftigungsart")]
-        public int ID_BeschäftigungsArt { get; set; }
+        [Display(Name = "Beschaeftigungsart")]
+        public int ID_BeschaeftigungsArt { get; set; }
 
         [Required(AllowEmptyStrings = false, ErrorMessage = "Pflichtfeld")]
         [Display(Name = "Branche")]
@@ -24,7 +24,7 @@ namespace DeutscheBank.web.Models
 
         [DataType(DataType.Date)]
         [DisplayFormat(ApplyFormatInEditMode = true, ConvertEmptyStringToNull = true, DataFormatString = "MM.yyyy")]
-        public string BeschäftigtSeit { get; set; }
+        public string BeschaeftigtSeit { get; set; }
 
         public List<BeschaeftigungsArtModel> AlleBeschaeftigungsArten { get; set; }
         public List<BrancheModel> AlleBranchen { get; set; }

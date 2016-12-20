@@ -7,5 +7,6 @@ namespace DeutscheBank.web.Models
 {
     public class BeschaeftigungsArtModel : NachschlagefeldModel
     {
+
     }
 }

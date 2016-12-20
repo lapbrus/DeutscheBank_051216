@@ -36,8 +36,8 @@ namespace DeutscheBank.web.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Pflichtfeld")]
         [DataType(DataType.Currency, ErrorMessage = "Bitte eine Zahl eingeben")]
         [Range(0, 10000, ErrorMessage = "Wert muss zwischen 0 und 10000 liegen")]
-        [Display(Name = "Bestehende Ratenverpflichtungen usw.")]
-        public double Ratenverpflichtungen { get; set; }
+        [Display(Name = "Bestehende RatenVerpflichtungen usw.")]
+        public double RatenVerpflichtungen { get; set; }
 
         [System.Web.Mvc.HiddenInput(DisplayValue = false)]
         [Required]

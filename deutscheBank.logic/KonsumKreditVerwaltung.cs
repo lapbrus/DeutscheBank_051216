@@ -219,13 +219,13 @@ namespace deutscheBank.logic
         //}
 
         ///<summary>
-        ///Liefert alle Beschäftigungsarten zurück
+        ///Liefert alle Beschaeftigungsarten zurück
         ///</summary>
-        ///<returns>alle Beschäftigungsarten oder null bei einem Fehler</returns>
+        ///<returns>alle Beschaeftigungsarten oder null bei einem Fehler</returns>
         public static List<Beschaeftigungsart> BeschaeftigungsArtenLaden()
         {
 
-            Debug.WriteLine("Konsumkreditverwaltung - Beschäftigungsarten");
+            Debug.WriteLine("Konsumkreditverwaltung - Beschaeftigungsarten");
             Debug.Indent();
 
             List<Beschaeftigungsart> alleBeschaeftigungsArten = null;
@@ -240,7 +240,7 @@ namespace deutscheBank.logic
             }
             catch (Exception Ex)
             {
-                Debug.WriteLine("Fehler in Beschäftigungsart");
+                Debug.WriteLine("Fehler in Beschaeftigungsart");
                 Debug.Indent();
                 Debug.WriteLine(Ex.Message);
                 Debug.Unindent();
@@ -586,12 +586,12 @@ namespace deutscheBank.logic
         /// Speichert die Angaben des Arbeitsgebers zu einem Kunden
         /// </summary>
         /// <param name="firmenName">der Firmenname des Arbeitgeber des Kunden</param>
-        /// <param name="idBeschäftigungsArt">die Beschäftigungsart des Arbeitgeber des Kunden</param>
+        /// <param name="idBeschaeftigungsArt">die Beschaeftigungsart des Arbeitgeber des Kunden</param>
         /// <param name="idBranche">die Branche des Arbeitgeber des Kunden</param>
-        /// <param name="beschäftigtSeit"> BeschäftigtSeit Wert des Kunden</param>
+        /// <param name="beschaeftigtSeit"> BeschaeftigtSeit Wert des Kunden</param>
         /// <param name="idKunde">die ID des Kunden</param>
         /// <returns>true wenn das Speichern erfolgreich war, ansonsten false</returns>
-        public static bool ArbeitgeberAngabenSpeichern(string firmenName, int idBeschäftigungsArt, int idBranche, string beschäftigtSeit, int idKunde)
+        public static bool ArbeitgeberAngabenSpeichern(string firmenName, int idBeschaeftigungsArt, int idBranche, string beschaeftigtSeit, int idKunde)
         {
             Debug.WriteLine("KonsumKreditVerwaltung - ArbeitgeberAngabenSpeichern");
             Debug.Indent();
@@ -610,9 +610,9 @@ namespace deutscheBank.logic
                     {
                         Arbeitgeber neuerArbeitgeber = new Arbeitgeber()
                         {
-                            BeschaeftigtSeit = DateTime.Parse(beschäftigtSeit),
+                            BeschaeftigtSeit = DateTime.Parse(beschaeftigtSeit),
                             FKBranche = idBranche,
-                            FKBeschaeftigungsArt = idBeschäftigungsArt,
+                            FKBeschaeftigungsArt = idBeschaeftigungsArt,
                             Firma = firmenName
                         };
                         aktKunde.Arbeitgeber = neuerArbeitgeber;

@@ -69,9 +69,9 @@
           <Property Name="IDKontaktDaten" Type="int" Nullable="false" />
           <Property Name="FKOrt" Type="int" />
           <Property Name="Strasse" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="Hausnummer" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="HausNummer" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="EMail" Type="nvarchar" MaxLength="100" />
-          <Property Name="Telefonnummer" Type="nvarchar" MaxLength="100" />
+          <Property Name="TelefonNummer" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="tblKontoDaten">
           <Key>
@@ -498,9 +498,9 @@
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="FKOrt" Type="Int32" />
           <Property Name="Strasse" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Hausnummer" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="HausNummer" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="EMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Telefonnummer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="TelefonNummer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="tblOrt" Relationship="Self.FK__tblKontak__FKOrt__412EB0B6" FromRole="tblKontaktDaten" ToRole="tblOrt" />
           <NavigationProperty Name="Kunde" Relationship="Self.FK__tblKontak__IDKon__403A8C7D" FromRole="tblKontaktDaten" ToRole="tblKunde" />
         </EntityType>
@@ -959,9 +959,9 @@
                 <ScalarProperty Name="ID" ColumnName="IDKontaktDaten" />
                 <ScalarProperty Name="FKOrt" ColumnName="FKOrt" />
                 <ScalarProperty Name="Strasse" ColumnName="Strasse" />
-                <ScalarProperty Name="Hausnummer" ColumnName="Hausnummer" />
+                <ScalarProperty Name="HausNummer" ColumnName="HausNummer" />
                 <ScalarProperty Name="EMail" ColumnName="EMail" />
-                <ScalarProperty Name="Telefonnummer" ColumnName="Telefonnummer" />
+                <ScalarProperty Name="TelefonNummer" ColumnName="TelefonNummer" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

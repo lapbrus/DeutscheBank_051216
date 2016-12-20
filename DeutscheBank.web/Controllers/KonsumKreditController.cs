@@ -74,7 +74,7 @@ namespace DeutscheBank.web.Controllers
                 /// speichere Daten über BusinessLogic
                 if (KonsumKreditVerwaltung.FinanzielleSituationSpeichern(
                                                 model.NettoEinkommen,
-                                                model.Ratenverpflichtungen,
+                                                model.RatenVerpflichtungen,
                                                 model.WohnKosten,
                                                 model.EinkuenfteAlimente,
                                                 model.UnterhaltsZahlungen,
@@ -240,9 +240,9 @@ namespace DeutscheBank.web.Controllers
             Arbeitgeber arbeitgeberDaten = KonsumKreditVerwaltung.ArbeitgeberAngabenLaden(model.ID_Kunde);
             if (arbeitgeberDaten != null)
             {
-                model.BeschäftigtSeit = arbeitgeberDaten.BeschaeftigtSeit.Value.ToString("MM.yyyy");
+                model.BeschaeftigtSeit = arbeitgeberDaten.BeschaeftigtSeit.Value.ToString("MM.yyyy");
                 model.FirmenName = arbeitgeberDaten.Firma;
-                model.ID_BeschäftigungsArt = arbeitgeberDaten.FKBeschaeftigungsArt; ;
+                model.ID_BeschaeftigungsArt = arbeitgeberDaten.FKBeschaeftigungsArt; ;
                 model.ID_Branche = arbeitgeberDaten.FKBranche.Value;
             }
 
@@ -260,9 +260,9 @@ namespace DeutscheBank.web.Controllers
                 /// speichere Daten über BusinessLogic
                 if (KonsumKreditVerwaltung.ArbeitgeberAngabenSpeichern(
                                                 model.FirmenName,
-                                                model.ID_BeschäftigungsArt,
+                                                model.ID_BeschaeftigungsArt,
                                                 model.ID_Branche,
-                                                model.BeschäftigtSeit,
+                                                model.BeschaeftigtSeit,
                                                 model.ID_Kunde))
                 {
                     return RedirectToAction("KontoInformationen");
@@ -309,7 +309,7 @@ namespace DeutscheBank.web.Controllers
                                                 model.HatKonto,
                                                 model.ID))
                 {
-                    return RedirectToAction("Zusammenfassung");
+                    return RedirectToAction("FinanzielleSituation");
                 }
             }
 
