@@ -277,18 +277,18 @@ namespace DeutscheBank.web.Controllers
             Debug.WriteLine("GET - KonsumKredit - KontoInformationen");
 
 
-            KontoInformationenModel model = new KontoInformationenModel()
+            DeutscheBank.web.Models.KontoInformationenModel model = new KontoInformationenModel()
             {
-                ID_Kunde = int.Parse(Request.Cookies["ID_Kunde"].Value)
+                ID = int.Parse(Request.Cookies["idkunde"].Value)
             };
 
-            KontoDaten daten = KonsumKreditVerwaltung.KontoInformationenLaden(model.ID_Kunde);
+            KontoDaten daten = KonsumKreditVerwaltung.KontoInformationenLaden(model.ID);
             if (daten != null)
             {
-                model.BankName = daten.Bank;
+                model.Bank = daten.Bank;
                 model.BIC = daten.BIC;
                 model.IBAN = daten.IBAN;
-                model.NeuesKonto = !daten.HatKonto; 
+                model.HatKonto = !daten.HatKonto; 
             }
             return View(model);
         }
@@ -303,11 +303,11 @@ namespace DeutscheBank.web.Controllers
             {
                 /// speichere Daten über BusinessLogic
                 if (KonsumKreditVerwaltung.KontoInformationenSpeichern(
-                                                model.BankName,
+                                                model.Bank,
                                                 model.IBAN,
                                                 model.BIC,
-                                                model.NeuesKonto,
-                                                model.ID_Kunde))
+                                                model.HatKonto,
+                                                model.ID))
                 {
                     return RedirectToAction("Zusammenfassung");
                 }
