@@ -59,6 +59,40 @@ namespace deutscheBank.logic
 
         }
 
+        /// <summary>
+        /// Lädt den Kreditrahmen für die übergebene ID
+        /// </summary>
+        /// <param name="id">die id des zu ladenden Kreditrahmens</param>
+        /// <returns>der Kreditwunsch für die übergebene ID</returns>
+        public static Kredit KreditRahmenLaden(int id)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - KreditRahmenLaden");
+            Debug.Indent();
+
+            Kredit wunsch = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    wunsch = context.AlleKredite.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("KreditRahmen geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KreditRahmenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return wunsch;
+        }
+
+
         ///<summary>
         ///Speichert zu einer übergebene ID_Kunde den Wunschkredit und dessen Laufzeit ab
         ///</summary>
@@ -714,7 +748,52 @@ namespace deutscheBank.logic
         }
 
 
+        /// <summary>
+        /// Lädt zu einer übergebenen ID alle Informationen zu diesem Kunden aus der DB
+        /// </summary>
+        /// <param name="iKunde">die ID des zu landenden Kunden</param>
+        /// <returns>alle Daten aus der DB zu diesem Kunden</returns>
+        public static Kunde KundeLaden(int idKunde)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - KundeLaden");
+            Debug.Indent();
 
+            Kunde aktuellerKunde = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    aktuellerKunde = context.AlleKunden
+                        .Include("Arbeitgeber")
+                        .Include("Arbeitgeber.Beschaeftigungsart")
+                        .Include("Arbeitgeber.Branche")
+                        .Include("FamilienStand")
+                        .Include("FinanzielleSituation")
+                        .Include("IdentifikationsArt")
+                        .Include("KontaktDaten")
+                        .Include("KontoDaten")
+                        .Include("Kredit")
+                   //     .Include("Schulabschluss")
+                        .Include("Titel")
+                   //     .Include("TitelNachstehend")
+                        .Include("Wohnart")
+                        .Include("Land")
+                        .Where(x => x.ID == idKunde).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KundeLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return aktuellerKunde;
+        }
 
     }
 

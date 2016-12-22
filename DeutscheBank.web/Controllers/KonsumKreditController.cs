@@ -16,6 +16,21 @@ namespace DeutscheBank.web.Controllers
         public ActionResult KreditRahmen()
         {
             Debug.WriteLine("GET - KonsumKredit - KreditRahmen");
+            KreditRahmenModel model = new KreditRahmenModel()
+            {
+                GewünschterBetrag = 50000, // default Werte
+                Laufzeit = 12 // default Werte
+
+            };
+            int id = -1;
+            if (Request.Cookies["idkunde"] != null && int.TryParse(Request.Cookies["idKunde"].Value, out id))
+            {
+                // lade aus Datenbank
+                Kredit wunsch = KonsumKreditVerwaltung.KreditRahmenLaden(id);
+                model.GewünschterBetrag = (int)wunsch.GewuenschterKredit;
+                model.Laufzeit = wunsch.GewuenschteLaufzeit;
+            }
+
 
             return View();
         }
@@ -293,6 +308,8 @@ namespace DeutscheBank.web.Controllers
             return View(model);
         }
 
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult KontoInformationen(KontoInformationenModel model)
@@ -309,14 +326,109 @@ namespace DeutscheBank.web.Controllers
                                                 model.HatKonto,
                                                 model.ID))
                 {
-                    return RedirectToAction("FinanzielleSituation");
+                    return RedirectToAction("Zusammenfassung");
                 }
             }
 
             return View();
         }
 
+        [HttpGet]
+        public ActionResult Zusammenfassung()
+        {
+            Debug.WriteLine("GET - KonsumKredit - Zusammenfassung");
 
+            /// ermittle für diese Kunden_ID
+            /// alle gespeicherten Daten (ACHTUNG! das sind viele ....)
+            /// gib Sie alle in das ZusammenfassungsModel (bzw. die UNTER-Modelle) 
+            /// hinein.
+            ZusammenfassungModel model = new ZusammenfassungModel();
+            model.ID_Kunde = int.Parse(Request.Cookies["idKunde"].Value);
+
+            /// lädt ALLE Daten zu diesem Kunden (also auch die angehängten/referenzierten
+            /// Entities) aus der DB
+            Kunde aktKunde = KonsumKreditVerwaltung.KundeLaden(model.ID_Kunde);
+
+            model.GewünschterBetrag = (double) aktKunde.Kredit.ToList()[aktKunde.Kredit.ToList().Count-1].GewuenschterKredit;
+            //model.Laufzeit = aktKunde.Kredit;
+
+            model.NettoEinkommen = (double)aktKunde.FinanzielleSituation.MonatsEinkommenNetto.Value;
+            model.Wohnkosten = (double)aktKunde.FinanzielleSituation.Wohnkosten.Value;
+            model.EinkuenfteAlimente = (double)aktKunde.FinanzielleSituation.SonstigeEinkommen;
+            model.UnterhaltsZahlungen = (double)aktKunde.FinanzielleSituation.Unterhalt.Value;
+            model.RatenVerpflichtungen = (double)aktKunde.FinanzielleSituation.Raten.Value;
+
+            model.Geschlecht = aktKunde.Geschlecht == "m" ? "Herr" : "Frau";
+            model.Vorname = aktKunde.Vorname;
+            model.Nachname = aktKunde.Nachname;
+            model.Titel = aktKunde.Titel?.Bezeichnung;
+         //   model.Titel = aktKunde.TitelNachstehend?.Bezeichnung;
+            model.GeburtsDatum = DateTime.Now;
+            model.Staatsbuergerschaft = aktKunde.Land.Bezeichnung;
+            model.AnzahlUnterhaltspflichtigeKinder = -1;
+            model.Familienstand= aktKunde.FamilienStand?.Bezeichnung;
+            model.Wohnart = aktKunde.Wohnart?.Bezeichnung;
+            //  model.Schulabschluss = aktKunde.Schulabschluss?.Bezeichnung;
+            model.Identifikationsart = aktKunde.IdentifikationsArt?.Bezeichnung;
+            model.IdentifikationsNummer = aktKunde.IdentifikationsNummer;
+
+            model.FirmenName = aktKunde.Arbeitgeber?.Firma;
+            model.BeschaeftigungsArt = aktKunde.Arbeitgeber?.Beschaeftigungsart.Bezeichnung;
+            model.Branche = aktKunde.Arbeitgeber?.Branche?.Bezeichnung;
+            model.BeschaeftigtSeit = aktKunde.Arbeitgeber?.BeschaeftigtSeit.Value.ToShortDateString();
+
+            model.Strasse = aktKunde.KontaktDaten?.Strasse;
+            model.HausNummer = aktKunde.KontaktDaten?.HausNummer;
+            model.Ort = aktKunde.KontaktDaten?.tblOrt.PLZ;
+            model.Mail = aktKunde.KontaktDaten?.EMail;
+            model.TelefonNummer = aktKunde.KontaktDaten?.TelefonNummer;
+
+            model.HatKonto = (bool)aktKunde.KontoDaten?.HatKonto;
+            model.Bank = aktKunde.KontoDaten?.Bank;
+            model.IBAN = aktKunde.KontoDaten?.IBAN;
+            model.BIC = aktKunde.KontoDaten?.BIC;
+
+            /// gib model an die View
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Bestätigung(int id, bool? bestätigt)
+        {
+            if (bestätigt.HasValue && bestätigt.Value)
+            {
+                Debug.WriteLine("POST - KonsumKredit - Bestätigung");
+                Debug.Indent();
+
+
+                //int idKunde = int.Parse(Request.Cookies["idKunde"].Value);
+                Kunde aktKunde = KonsumKreditVerwaltung.KundeLaden(id);
+                Response.Cookies.Remove("idKunde");
+
+                bool istFreigegeben = KreditFreigabe.FreigabeErteilt(
+                                                          aktKunde.Geschlecht,
+                                                            aktKunde.Vorname,
+                                                            aktKunde.Nachname,
+                                                            aktKunde.FamilienStand.Bezeichnung,
+                                                            (double)aktKunde.FinanzielleSituation.MonatsEinkommenNetto,
+                                                            (double)aktKunde.FinanzielleSituation.Wohnkosten,
+                                                            (double)aktKunde.FinanzielleSituation.SonstigeEinkommen,
+                                                            (double)aktKunde.FinanzielleSituation.Unterhalt,
+                                                            (double)aktKunde.FinanzielleSituation.Raten);
+
+                /// Rüfe Service/DLL auf und prüfe auf Kreditfreigabe
+                Debug.WriteLine($"Kreditfreigabe {(istFreigegeben ? "" : "nicht")}erteilt!");
+
+                Debug.Unindent();
+                return RedirectToAction("Index", "Freigabe", new { erfolgreich = istFreigegeben });
+
+            }
+            else
+            {
+                return RedirectToAction("Zusammenfassung");
+            }
+        }
 
 
     }

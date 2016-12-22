@@ -13,7 +13,7 @@ namespace DeutscheBank.web.Models
             #endregion
 
             #region KreditRahmen
-            public int GewünschterBetrag { get; set; }
+            public double GewünschterBetrag { get; set; }
             public int Laufzeit { get; set; }
             #endregion
 

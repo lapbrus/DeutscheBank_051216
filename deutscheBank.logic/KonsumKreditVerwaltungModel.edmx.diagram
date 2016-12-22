@@ -13,7 +13,7 @@
         <EntityTypeShape EntityType="dbKreditModel.IdentifikationsArt" Width="1.5" PointX="0.5" PointY="12.375" IsExpanded="true" />
         <EntityTypeShape EntityType="dbKreditModel.KontaktDaten" Width="1.5" PointX="2.375" PointY="3.125" IsExpanded="true" />
         <EntityTypeShape EntityType="dbKreditModel.KontoDaten" Width="1.5" PointX="0.5" PointY="10" IsExpanded="true" />
-        <EntityTypeShape EntityType="dbKreditModel.Kredit" Width="1.5" PointX="4.625" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="dbKreditModel.Kredit" Width="2" PointX="4.625" PointY="7.625" IsExpanded="true" />
         <EntityTypeShape EntityType="dbKreditModel.Kunde" Width="1.5" PointX="2.5" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="dbKreditModel.Land" Width="1.5" PointX="0.5" PointY="6.625" IsExpanded="true" />
         <EntityTypeShape EntityType="dbKreditModel.login" Width="1.5" PointX="4.625" PointY="11.625" IsExpanded="true" />

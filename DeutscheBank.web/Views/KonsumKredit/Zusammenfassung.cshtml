@@ -1,0 +1,20 @@
+﻿@model DeutscheBank.web.Models.ZusammenfassungModel
+
+@{
+    ViewBag.Title = "Zusammenfassung";
+}
+
+<h2>Zusammenfassung</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="row">
+    <div class="col-md-3">
+        @Html.DisplayNameFor(model => model.Vorname)
+    </div>
+    <div class="col-md-9">
+        @Html.DisplayFor(model => model.Vorname)
+    </div>
+</div>
