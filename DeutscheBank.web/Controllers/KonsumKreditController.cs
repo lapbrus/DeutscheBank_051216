@@ -114,7 +114,6 @@ namespace DeutscheBank.web.Controllers
             List<WohnartModel> alleWohnartAngaben = new List<WohnartModel>();
 
             /// Lade Daten aus Logic
-        
 
             foreach (var familienStand in KonsumKreditVerwaltung.FamilienStandArtenLaden())
             {
@@ -383,7 +382,7 @@ namespace DeutscheBank.web.Controllers
             model.Mail = aktKunde.KontaktDaten?.EMail;
             model.TelefonNummer = aktKunde.KontaktDaten?.TelefonNummer;
 
-            model.HatKonto = (bool)aktKunde.KontoDaten?.HatKonto;
+      //     model.HatKonto = (bool)aktKunde.KontoDaten?.HatKonto;
             model.Bank = aktKunde.KontoDaten?.Bank;
             model.IBAN = aktKunde.KontoDaten?.IBAN;
             model.BIC = aktKunde.KontoDaten?.BIC;

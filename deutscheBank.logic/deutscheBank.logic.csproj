@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="KonsumKreditVerwaltungModel.edmx.diagram">
       <DependentUpon>KonsumKreditVerwaltungModel.edmx</DependentUpon>
     </None>

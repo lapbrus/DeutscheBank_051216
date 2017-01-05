@@ -149,6 +149,38 @@ namespace deutscheBank.logic
             Debug.Unindent();
             return erfolgreich;
         }
+        /// <summary>
+        /// Lädt die FinanzielleSituation für die übergebene ID
+        /// </summary>
+        /// <param name="id">die id der zu ladenden FinanzielleSituation</param>
+        /// <returns>die FinanzielleSituation für die übergebene ID</returns>
+        public static FinanzielleSituation FinanzielleSituationLaden(int id)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - FinanzielleSituationLaden");
+            Debug.Indent();
+
+            FinanzielleSituation finanzielleSituation = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    finanzielleSituation = context.AlleFinanzielleSituationsArten.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("FinanzielleSituation geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in FinanzielleSituationLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return finanzielleSituation;
+        }
 
         /// <summary>
         /// Speichert die Daten aus der Finanziellen Situation zu einem Kunden
