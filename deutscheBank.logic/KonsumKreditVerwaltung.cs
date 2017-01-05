@@ -10,7 +10,7 @@ namespace deutscheBank.logic
     public class KonsumKreditVerwaltung
     {
 
-        #region Erledigt
+        
 
         ///<summary>
         ///Erzeugt einen "lleren dummy Kunden
@@ -475,7 +475,12 @@ namespace deutscheBank.logic
             return alleIdentifikationsArten;
         }
 
-        /// <summary>
+        //public static Kunde KundeLaden(int iD_Kunde)
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+        ///// <summary>
         /// Liefert alle Titel zurück
         /// </summary>
         /// <returns>alle Titel oder null bei einem Fehler</returns>
@@ -510,7 +515,7 @@ namespace deutscheBank.logic
         /// </summary>
         /// <returns>alle TitelNachstehend oder null bei einem Fehler</returns>
 
-        #endregion
+      
 
 
 
@@ -545,7 +550,7 @@ namespace deutscheBank.logic
 
             try
             {
-                using (var context = new dbKreditEntities() )
+                using (var context = new dbKreditEntities())
                 {
                     persönlicheDaten = context.AlleKunden.Where(x => x.ID == id).FirstOrDefault();
                     Debug.WriteLine("PersönlicheDatenLaden geladen!");
@@ -563,9 +568,9 @@ namespace deutscheBank.logic
             Debug.Unindent();
             return persönlicheDaten;
         }
-        
 
-        public static bool PersönlicheDatenSpeichern(int? idTitel, string geschlecht, DateTime geburtsDatum, string vorname, string nachname,  int idFamilienstand, int idIdentifikationsart, string identifikationsNummer, string idStaatsbuergerschaft, int idWohnart, int idKunde)
+
+        public static bool PersönlicheDatenSpeichern(int? idTitel, string geschlecht, DateTime geburtsDatum, string vorname, string nachname, int idFamilienstand, int idIdentifikationsart, string identifikationsNummer, string idStaatsbuergerschaft, int idWohnart, int idKunde)
         {
             Debug.WriteLine("KonsumKreditVerwaltung - PersönlicheDatenSpeichern");
             Debug.Indent();
@@ -779,12 +784,93 @@ namespace deutscheBank.logic
             return erfolgreich;
         }
 
+        ///NEW:
+        ///
+
+        public static KontaktDaten KontaktDatenLaden(int id)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - KontakdatenLaden");
+            Debug.Indent();
+            KontaktDaten kontaktDaten = null;
+
+            try
+            { 
+                using (var context = new dbKreditEntities())
+                {
+                    kontaktDaten = context.AlleKontaktDaten.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("KontaktDaten geladen");
+                }
+            }
+            catch (Exception ex)
+            { 
+                Debug.WriteLine("Fehler in KontaktDatenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Indent();
+                Debugger.Break();
+            } 
+            Debug.Unindent();
+            return kontaktDaten;
+            
+        }
+
+        public static bool KontaktDatenSpeichern(int idKunde, string strasse, string hausnummer, string email, string telefonnummer)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - KonataktDatenSpeichern");
+            Debug.Indent();
+            bool erfolgreich = false;
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    ///Speichere zum Kunden die Angaben
+                    ///
+                    //  Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
+                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
+                    if (aktKunde != null)
+                    {
+                        KontaktDaten kontaktDaten = context.AlleKontaktDaten.FirstOrDefault(x => x.ID == idKunde);
+                        if (kontaktDaten == null)
+                        {
+                            kontaktDaten = new KontaktDaten();
+                            context.AlleKontaktDaten.Add(kontaktDaten);
+
+                        }
+                        kontaktDaten.Strasse = strasse;
+                        kontaktDaten.HausNummer = hausnummer;
+                        kontaktDaten.EMail = email;
+                        kontaktDaten.TelefonNummer = telefonnummer;
+
+                    }
+                    int anzahlZeilenBetroffen = context.SaveChanges();
+                    erfolgreich = anzahlZeilenBetroffen >= 0;
+                    Debug.WriteLine($"{anzahlZeilenBetroffen} Kontakt-Daten gespeichert");
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontaktDatenSpeichern");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+
+                
+            }
+
+
+                Debug.Unindent();
+                return erfolgreich;
+            }
 
         /// <summary>
         /// Lädt zu einer übergebenen ID alle Informationen zu diesem Kunden aus der DB
         /// </summary>
         /// <param name="iKunde">die ID des zu landenden Kunden</param>
         /// <returns>alle Daten aus der DB zu diesem Kunden</returns>
+
+
         public static Kunde KundeLaden(int idKunde)
         {
             Debug.WriteLine("KonsumKreditVerwaltung - KundeLaden");
@@ -798,17 +884,17 @@ namespace deutscheBank.logic
                 {
                     aktuellerKunde = context.AlleKunden
                         .Include("Arbeitgeber")
-                        .Include("Arbeitgeber.Beschaeftigungsart")
+                        .Include("Arbeitgeber.BeschaeftigungsArt")
                         .Include("Arbeitgeber.Branche")
-                        .Include("FamilienStand")
+                        .Include("Familienstand")
                         .Include("FinanzielleSituation")
                         .Include("IdentifikationsArt")
                         .Include("KontaktDaten")
                         .Include("KontoDaten")
                         .Include("Kredit")
-                   //     .Include("Schulabschluss")
+                      // .Include("Schulabschluss")
                         .Include("Titel")
-                   //     .Include("TitelNachstehend")
+                      //  .Include("TitelNachstehend")
                         .Include("Wohnart")
                         .Include("Land")
                         .Where(x => x.ID == idKunde).FirstOrDefault();
@@ -827,10 +913,18 @@ namespace deutscheBank.logic
             return aktuellerKunde;
         }
 
+
+
+
     }
 
 
+    
+
 }
+
+
+
 
 
 

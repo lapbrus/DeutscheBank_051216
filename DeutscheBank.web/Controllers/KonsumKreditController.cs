@@ -32,7 +32,7 @@ namespace DeutscheBank.web.Controllers
             }
 
 
-            return View();
+            return View(model);
         }
 
         [HttpPost]
@@ -294,6 +294,8 @@ namespace DeutscheBank.web.Controllers
             DeutscheBank.web.Models.KontoInformationenModel model = new KontoInformationenModel()
             {
                 ID = int.Parse(Request.Cookies["idkunde"].Value)
+
+                
             };
 
             KontoDaten daten = KonsumKreditVerwaltung.KontoInformationenLaden(model.ID);
@@ -332,6 +334,60 @@ namespace DeutscheBank.web.Controllers
             return View();
         }
 
+        
+        // NEW:
+
+        [HttpGet]
+        public ActionResult KontaktDaten()
+        {
+            Debug.WriteLine("Get - KonsumKredit - KontaktDaten");
+
+            DeutscheBank.web.Models.KontaktDatenModel model = new KontaktDatenModel()
+            {
+                ID_PLZ = int.Parse(Request.Cookies["idKunde"].Value)
+
+            };
+            KontaktDaten daten = deutscheBank.logic.KonsumKreditVerwaltung.KontaktDatenLaden(model.ID_PLZ);
+            if (daten != null)
+            {
+                model.Strasse = daten.Strasse;
+                model.HausNummer = daten.HausNummer;
+                model.TelefonNummer = daten.TelefonNummer;
+                model.Mail = daten.EMail;
+                
+            }
+
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult KontaktDaten(KontaktDatenModel model)
+        {
+            Debug.WriteLine("POST - Konsumkredit - Kontaktdaten");
+            if (ModelState.IsValid)
+            {
+                ///Speichere Daten über Busines Logic
+                
+
+
+                    return View(model);
+                };
+
+                     return View(model);
+
+                    
+
+            }
+
+
+        
+
+
+
+        // ---ENDNEW
+
         [HttpGet]
         public ActionResult Zusammenfassung()
         {
@@ -349,7 +405,7 @@ namespace DeutscheBank.web.Controllers
             Kunde aktKunde = KonsumKreditVerwaltung.KundeLaden(model.ID_Kunde);
 
             model.GewünschterBetrag = (double) aktKunde.Kredit.ToList()[aktKunde.Kredit.ToList().Count-1].GewuenschterKredit;
-            //model.Laufzeit = aktKunde.Kredit;
+          //  model.Laufzeit = (double)aktKunde.Kredit.ToString()Count-1].;
 
             model.NettoEinkommen = (double)aktKunde.FinanzielleSituation.MonatsEinkommenNetto.Value;
             model.Wohnkosten = (double)aktKunde.FinanzielleSituation.Wohnkosten.Value;
