@@ -909,9 +909,10 @@ namespace deutscheBank.logic
 
             Debug.Unindent();
             return aktuellerKunde;
+         
         }
 
-
+        
 
 
     }

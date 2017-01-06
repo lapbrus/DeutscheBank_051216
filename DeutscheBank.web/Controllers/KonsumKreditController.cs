@@ -407,7 +407,7 @@ namespace DeutscheBank.web.Controllers
             Kunde aktKunde = KonsumKreditVerwaltung.KundeLaden(model.ID_Kunde);
 
             model.GewünschterBetrag = (double) aktKunde.Kredit.ToList()[aktKunde.Kredit.ToList().Count-1].GewuenschterKredit;
-          //  model.Laufzeit = (double)aktKunde.Kredit.ToString()Count-1].;
+            model.Laufzeit = (int)aktKunde.Kredit.ToList()[aktKunde.Kredit.ToList().Count-1].GewuenschteLaufzeit;
 
             model.NettoEinkommen = (double)aktKunde.FinanzielleSituation.MonatsEinkommenNetto.Value;
             model.Wohnkosten = (double)aktKunde.FinanzielleSituation.Wohnkosten.Value;
