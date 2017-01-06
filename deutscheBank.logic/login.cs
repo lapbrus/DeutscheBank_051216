@@ -18,6 +18,6 @@ namespace deutscheBank.logic
         public string Username { get; set; }
         public string Passwort { get; set; }
     
-        public virtual Kunde Kunde { get; set; }
+        public virtual Kunde tblKunde { get; set; }
     }
 }

@@ -31,10 +31,8 @@ namespace deutscheBank.logic
         public DbSet<Einstellungen> tblEinstellungen { get; set; }
         public DbSet<FinanzielleSituation> AlleFinanzielleSituationsArten { get; set; }
         public DbSet<IdentifikationsArt> AlleIdentifikationsArten { get; set; }
-        public DbSet<KontaktDaten> AlleKontaktDaten { get; set; }
         public DbSet<KontoDaten> AlleKontoDaten { get; set; }
         public DbSet<Kredit> AlleKredite { get; set; }
-        public DbSet<Kunde> AlleKunden { get; set; }
         public DbSet<Land> AlleLaender { get; set; }
         public DbSet<login> tbllogin { get; set; }
         public DbSet<Ort> AlleOrte { get; set; }
@@ -42,5 +40,9 @@ namespace deutscheBank.logic
         public DbSet<Titel> AlleTitel { get; set; }
         public DbSet<Wohnart> AlleWohnarten { get; set; }
         public DbSet<FamilienStand> AlleFamilienStandArten { get; set; }
+        public DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public DbSet<tblAdmin> tblAdmin { get; set; }
+        public DbSet<KontaktDaten> AlleKontaktDaten { get; set; }
+        public DbSet<Kunde> AlleKunden { get; set; }
     }
 }

@@ -15,13 +15,13 @@ namespace deutscheBank.logic
     public partial class KontaktDaten
     {
         public int ID { get; set; }
-        public Nullable<int> FKOrt { get; set; }
+        public int FKOrt { get; set; }
         public string Strasse { get; set; }
-        public string HausNummer { get; set; }
+        public string Hausnummer { get; set; }
         public string EMail { get; set; }
-        public string TelefonNummer { get; set; }
+        public string Telefonnummer { get; set; }
     
         public virtual Ort tblOrt { get; set; }
-        public virtual Kunde Kunde { get; set; }
+        public virtual Kunde tblKunde { get; set; }
     }
 }

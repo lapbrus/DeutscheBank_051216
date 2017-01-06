@@ -20,6 +20,6 @@ namespace deutscheBank.logic
         public int GewuenschteLaufzeit { get; set; }
         public bool KreditBewilligt { get; set; }
     
-        public virtual Kunde Kunde { get; set; }
+        public virtual Kunde tblKunde { get; set; }
     }
 }

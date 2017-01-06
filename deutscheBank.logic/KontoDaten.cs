@@ -20,6 +20,6 @@ namespace deutscheBank.logic
         public bool HatKonto { get; set; }
         public string Bank { get; set; }
     
-        public virtual Kunde AlleKunden { get; set; }
+        public virtual Kunde tblKunde { get; set; }
     }
 }

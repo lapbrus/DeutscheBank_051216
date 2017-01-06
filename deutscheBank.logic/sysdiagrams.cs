@@ -12,16 +12,12 @@ namespace deutscheBank.logic
     using System;
     using System.Collections.Generic;
     
-    public partial class Schulabschluss
+    public partial class sysdiagrams
     {
-        public Schulabschluss()
-        {
-            this.tblKunde = new HashSet<Kunde>();
-        }
-    
-        public int ID { get; set; }
-        public string Bezeichnung { get; set; }
-    
-        public virtual ICollection<Kunde> tblKunde { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

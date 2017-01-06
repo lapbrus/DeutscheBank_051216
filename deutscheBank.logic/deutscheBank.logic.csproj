@@ -110,6 +110,12 @@
     <Compile Include="Schulabschluss.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tblAdmin.cs">
+      <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Titel.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>

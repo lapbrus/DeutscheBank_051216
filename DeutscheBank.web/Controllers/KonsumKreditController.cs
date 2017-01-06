@@ -327,7 +327,7 @@ namespace DeutscheBank.web.Controllers
                                                 model.HatKonto,
                                                 model.ID))
                 {
-                    return RedirectToAction("Zusammenfassung");
+                    return RedirectToAction("Kontaktdaten");
                 }
             }
 
@@ -351,8 +351,8 @@ namespace DeutscheBank.web.Controllers
             if (daten != null)
             {
                 model.Strasse = daten.Strasse;
-                model.HausNummer = daten.HausNummer;
-                model.TelefonNummer = daten.TelefonNummer;
+                model.HausNummer = daten.Hausnummer;
+                model.TelefonNummer = daten.Telefonnummer;
                 model.Mail = daten.EMail;
                 
             }
@@ -366,23 +366,25 @@ namespace DeutscheBank.web.Controllers
         public ActionResult KontaktDaten(KontaktDatenModel model)
         {
             Debug.WriteLine("POST - Konsumkredit - Kontaktdaten");
-            if (ModelState.IsValid)
-            {
-                ///Speichere Daten über Busines Logic
-                
+          
+                if (ModelState.IsValid)
+                {
+                /// speichere Daten über BusinessLogic
+                if (KonsumKreditVerwaltung.KontaktDatenSpeichern(
+                                                model.ID_PLZ,
+                                                model.Strasse,
+                                                model.HausNummer,
+                                                model.Mail,
+                                                model.TelefonNummer))                             
+                    {
+                        return RedirectToAction("Zusammenfassung");
+                    }
+                }
 
-
-                    return View(model);
-                };
-
-                     return View(model);
-
-                    
-
+                return View();
             }
 
 
-        
 
 
 
@@ -421,7 +423,7 @@ namespace DeutscheBank.web.Controllers
             model.GeburtsDatum = DateTime.Now;
             model.Staatsbuergerschaft = aktKunde.Land.Bezeichnung;
             model.AnzahlUnterhaltspflichtigeKinder = -1;
-            model.Familienstand= aktKunde.FamilienStand?.Bezeichnung;
+            model.Familienstand= aktKunde.Familienstand?.Bezeichnung;
             model.Wohnart = aktKunde.Wohnart?.Bezeichnung;
             //  model.Schulabschluss = aktKunde.Schulabschluss?.Bezeichnung;
             model.Identifikationsart = aktKunde.IdentifikationsArt?.Bezeichnung;
@@ -433,10 +435,10 @@ namespace DeutscheBank.web.Controllers
             model.BeschaeftigtSeit = aktKunde.Arbeitgeber?.BeschaeftigtSeit.Value.ToShortDateString();
 
             model.Strasse = aktKunde.KontaktDaten?.Strasse;
-            model.HausNummer = aktKunde.KontaktDaten?.HausNummer;
+            model.HausNummer = aktKunde.KontaktDaten?.Hausnummer;
             model.Ort = aktKunde.KontaktDaten?.tblOrt.PLZ;
             model.Mail = aktKunde.KontaktDaten?.EMail;
-            model.TelefonNummer = aktKunde.KontaktDaten?.TelefonNummer;
+            model.TelefonNummer = aktKunde.KontaktDaten?.Telefonnummer;
 
       //     model.HatKonto = (bool)aktKunde.KontoDaten?.HatKonto;
             model.Bank = aktKunde.KontoDaten?.Bank;
@@ -465,7 +467,7 @@ namespace DeutscheBank.web.Controllers
                                                           aktKunde.Geschlecht,
                                                             aktKunde.Vorname,
                                                             aktKunde.Nachname,
-                                                            aktKunde.FamilienStand.Bezeichnung,
+                                                            aktKunde.Familienstand.Bezeichnung,
                                                             (double)aktKunde.FinanzielleSituation.MonatsEinkommenNetto,
                                                             (double)aktKunde.FinanzielleSituation.Wohnkosten,
                                                             (double)aktKunde.FinanzielleSituation.SonstigeEinkommen,

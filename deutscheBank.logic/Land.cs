@@ -16,14 +16,14 @@ namespace deutscheBank.logic
     {
         public Land()
         {
-            this.AlleKunden_Staatsangehoerigkeit = new HashSet<Kunde>();
             this.tblOrt = new HashSet<Ort>();
+            this.tblKunde = new HashSet<Kunde>();
         }
     
         public string ID { get; set; }
         public string Bezeichnung { get; set; }
     
-        public virtual ICollection<Kunde> AlleKunden_Staatsangehoerigkeit { get; set; }
         public virtual ICollection<Ort> tblOrt { get; set; }
+        public virtual ICollection<Kunde> tblKunde { get; set; }
     }
 }

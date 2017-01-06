@@ -9,9 +9,7 @@ namespace deutscheBank.logic
 {
     public class KonsumKreditVerwaltung
     {
-
-        
-
+  
         ///<summary>
         ///Erzeugt einen "lleren dummy Kunden
         ///zu dem in Folge alle Konsumkredit Daten
@@ -837,9 +835,9 @@ namespace deutscheBank.logic
 
                         }
                         kontaktDaten.Strasse = strasse;
-                        kontaktDaten.HausNummer = hausnummer;
+                        kontaktDaten.Hausnummer = hausnummer;
                         kontaktDaten.EMail = email;
-                        kontaktDaten.TelefonNummer = telefonnummer;
+                        kontaktDaten.Telefonnummer = telefonnummer;
 
                     }
                     int anzahlZeilenBetroffen = context.SaveChanges();
