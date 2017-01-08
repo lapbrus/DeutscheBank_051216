@@ -334,35 +334,61 @@ namespace DeutscheBank.web.Controllers
             return View();
         }
 
-        
+
         // NEW:
 
         [HttpGet]
+
+
         public ActionResult KontaktDaten()
         {
             Debug.WriteLine("Get - KonsumKredit - KontaktDaten");
 
             DeutscheBank.web.Models.KontaktDatenModel model = new KontaktDatenModel()
             {
-                ID_PLZ = int.Parse(Request.Cookies["idKunde"].Value)
-
+              ID = int.Parse(Request.Cookies["idkunde"].Value)
             };
-            KontaktDaten daten = deutscheBank.logic.KonsumKreditVerwaltung.KontaktDatenLaden(model.ID_PLZ);
+
+
+            KontaktDaten daten = KonsumKreditVerwaltung.KontaktDatenLaden(model.ID);
             if (daten != null)
             {
+                
+
                 model.Strasse = daten.Strasse;
                 model.HausNummer = daten.Hausnummer;
-                model.TelefonNummer = daten.Telefonnummer;
                 model.Mail = daten.EMail;
-                
+                model.TelefonNummer = daten.Telefonnummer;
+
             }
-
-
             return View(model);
-        }
 
+            
+            List<LandsModel> alleLaenderAngaben = new List<LandsModel>();
+
+            foreach (var land in KonsumKreditVerwaltung.LaenderLaden())
+                alleLaenderAngaben.Add(new LandsModel()
+                {
+                    ID = land.ID,
+                    Bezeichnung = land.Bezeichnung
+                });
+
+            List<OrtsModel> alleOrtsAngaben = new List<OrtsModel>();
+            foreach (var ort in KonsumKreditVerwaltung.OrteLaden())
+                alleOrtsAngaben.Add(new OrtsModel()
+                {
+                    ID = Convert.ToString(ort.ID),
+                    Bezeichnung = ort.Bezeichnung
+                });
+
+
+        }
+          
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
+        
+
         public ActionResult KontaktDaten(KontaktDatenModel model)
         {
             Debug.WriteLine("POST - Konsumkredit - Kontaktdaten");
@@ -370,8 +396,10 @@ namespace DeutscheBank.web.Controllers
                 if (ModelState.IsValid)
                 {
                 /// speichere Daten über BusinessLogic
-                if (KonsumKreditVerwaltung.KontaktDatenSpeichern(
-                                                model.ID_PLZ,
+                if (KonsumKreditVerwaltung.KontaktDatenSpeichern
+                (
+                                                model.ID,
+                                                model.FKOrt,
                                                 model.Strasse,
                                                 model.HausNummer,
                                                 model.Mail,
@@ -433,7 +461,8 @@ namespace DeutscheBank.web.Controllers
             model.BeschaeftigungsArt = aktKunde.Arbeitgeber?.Beschaeftigungsart.Bezeichnung;
             model.Branche = aktKunde.Arbeitgeber?.Branche?.Bezeichnung;
             model.BeschaeftigtSeit = aktKunde.Arbeitgeber?.BeschaeftigtSeit.Value.ToShortDateString();
-
+            
+            
             model.Strasse = aktKunde.KontaktDaten?.Strasse;
             model.HausNummer = aktKunde.KontaktDaten?.Hausnummer;
             model.Ort = aktKunde.KontaktDaten?.tblOrt.PLZ;

@@ -140,7 +140,9 @@
     <Compile Include="Models\KontaktDatenModel.cs" />
     <Compile Include="Models\KontoInformationenModel.cs" />
     <Compile Include="Models\KreditRahmenModel.cs" />
+    <Compile Include="Models\LandsModel.cs" />
     <Compile Include="Models\NachschlagefeldModel.cs" />
+    <Compile Include="Models\OrtsModel.cs" />
     <Compile Include="Models\PersoenlicheDatenModel.cs" />
     <Compile Include="Models\StaatsbuergerschaftsModel.cs" />
     <Compile Include="Models\TitelModel.cs" />

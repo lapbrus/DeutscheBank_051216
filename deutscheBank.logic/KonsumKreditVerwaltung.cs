@@ -411,10 +411,32 @@ namespace deutscheBank.logic
             return alleLänder;
         }
 
-        /// <summary>
-        /// Liefert alle Wohnarten zurück
-        /// </summary>
-        /// <returns>alle Wohnarten oder null bei einem Fehler</returns>
+        public static List<Ort> OrteLaden()
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - OrteLaden");
+            Debug.Indent();
+
+            List<Ort> alleOrte = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    alleOrte = context.AlleOrte.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in OrteLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return alleOrte;
+        }
         public static List<Wohnart> WohnartenLaden()
         {
             Debug.WriteLine("KonsumKreditVerwaltung - WohnartenLaden");
@@ -812,7 +834,7 @@ namespace deutscheBank.logic
             
         }
 
-        public static bool KontaktDatenSpeichern(int idKunde, string strasse, string hausnummer, string email, string telefonnummer)
+        public static bool KontaktDatenSpeichern(int id, int plz, string strasse, string hausNummer, string eMail, string telefonNummer)
         {
             Debug.WriteLine("KonsumKreditVerwaltung - KonataktDatenSpeichern");
             Debug.Indent();
@@ -824,28 +846,26 @@ namespace deutscheBank.logic
                     ///Speichere zum Kunden die Angaben
                     ///
                     //  Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
-                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
+                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == id).FirstOrDefault();
                     if (aktKunde != null)
                     {
-                        KontaktDaten kontaktDaten = context.AlleKontaktDaten.FirstOrDefault(x => x.ID == idKunde);
-                        if (kontaktDaten == null)
+                        KontaktDaten kontaktDaten = new KontaktDaten()
                         {
-                            kontaktDaten = new KontaktDaten();
-                            context.AlleKontaktDaten.Add(kontaktDaten);
+                            FKOrt = plz,
+                            Strasse = strasse,
+                            Hausnummer = hausNummer,
+                            EMail = eMail,
+                            Telefonnummer = telefonNummer
+                        };
+                        aktKunde.KontaktDaten = kontaktDaten;
 
-                        }
-                        kontaktDaten.Strasse = strasse;
-                        kontaktDaten.Hausnummer = hausnummer;
-                        kontaktDaten.EMail = email;
-                        kontaktDaten.Telefonnummer = telefonnummer;
+                        int anzahlZeilenBetroffen = context.SaveChanges();
+                        erfolgreich = anzahlZeilenBetroffen >= 0;
+                        Debug.WriteLine($"{anzahlZeilenBetroffen} Kontakt-Daten gespeichert");
 
                     }
-                    int anzahlZeilenBetroffen = context.SaveChanges();
-                    erfolgreich = anzahlZeilenBetroffen >= 0;
-                    Debug.WriteLine($"{anzahlZeilenBetroffen} Kontakt-Daten gespeichert");
 
                 }
-
             }
             catch (Exception ex)
             {
@@ -854,7 +874,7 @@ namespace deutscheBank.logic
                 Debug.WriteLine(ex.Message);
                 Debug.Unindent();
 
-                
+
             }
 
 
