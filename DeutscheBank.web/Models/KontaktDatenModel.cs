@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.ComponentModel.DataAnnotations;
+
 
 namespace DeutscheBank.web.Models
 {
     public class KontaktDatenModel 
     {
-        public int ID { get; set; }
-        public int FKOrt { get; set; }
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [Display(Name = "Ort")]
+        public int ID_Ort { get; set; }
+
+        [Required(ErrorMessage = "Pflichtfeld")]
+        [Display(Name = "Kunde")]
+        public int ID_Kunde { get; set; }
+
 
         [Required(ErrorMessage = "Pflichtfeld")]
         [Display(Name = "Strasse")]
@@ -21,14 +28,13 @@ namespace DeutscheBank.web.Models
 
         [Required(ErrorMessage = "Pflichtfeld")]
         [Display(Name = "Email")]
-        public string Mail { get; set; }
+        public string EMail { get; set; }
 
        [Required(ErrorMessage = "Pflichtfeld")]
        [Display(Name = "Telefonnummer")]
        public string TelefonNummer { get; set; }
 
-        public List<LandsModel> AlleLaender { get; set; }
-        public List<OrtsModel> AlleOrte { get; set; }
-
+        
+        public List<AlleOrteModel> AlleOrte { get; set; }
     }
 }

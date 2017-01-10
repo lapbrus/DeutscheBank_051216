@@ -834,7 +834,7 @@ namespace deutscheBank.logic
             
         }
 
-        public static bool KontaktDatenSpeichern(int id, int plz, string strasse, string hausNummer, string eMail, string telefonNummer)
+        public static bool KontaktDatenSpeichern(int id, int ort,  string strasse, string hausNummer, string eMail, string telefonNummer)
         {
             Debug.WriteLine("KonsumKreditVerwaltung - KonataktDatenSpeichern");
             Debug.Indent();
@@ -843,6 +843,8 @@ namespace deutscheBank.logic
             {
                 using (var context = new dbKreditEntities())
                 {
+
+                    
                     ///Speichere zum Kunden die Angaben
                     ///
                     //  Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
@@ -851,19 +853,20 @@ namespace deutscheBank.logic
                     {
                         KontaktDaten kontaktDaten = new KontaktDaten()
                         {
-                            FKOrt = plz,
+                            ID = id,
+                            FKOrt = ort,
                             Strasse = strasse,
                             Hausnummer = hausNummer,
                             EMail = eMail,
                             Telefonnummer = telefonNummer
                         };
                         aktKunde.KontaktDaten = kontaktDaten;
-
+                    }
                         int anzahlZeilenBetroffen = context.SaveChanges();
                         erfolgreich = anzahlZeilenBetroffen >= 0;
                         Debug.WriteLine($"{anzahlZeilenBetroffen} Kontakt-Daten gespeichert");
 
-                    }
+                    
 
                 }
             }

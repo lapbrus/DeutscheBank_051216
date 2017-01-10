@@ -130,6 +130,8 @@
     </Compile>
     <Compile Include="Models\AdminLoginModel.cs" />
     <Compile Include="Models\AdminLogoutModel.cs" />
+    <Compile Include="Models\AlleLaenderModel.cs" />
+    <Compile Include="Models\AlleOrteModel.cs" />
     <Compile Include="Models\ArbeitgeberModel.cs" />
     <Compile Include="Models\BeschaeftigungsArtModel.cs" />
     <Compile Include="Models\BildungsModel.cs" />

@@ -344,43 +344,42 @@ namespace DeutscheBank.web.Controllers
         {
             Debug.WriteLine("Get - KonsumKredit - KontaktDaten");
 
-            DeutscheBank.web.Models.KontaktDatenModel model = new KontaktDatenModel()
+            List<AlleOrteModel> alleOrte = new List<AlleOrteModel>();
+
+            /// Lade Daten aus Logic
+
+            foreach (var ort in KonsumKreditVerwaltung.OrteLaden())
             {
-              ID = int.Parse(Request.Cookies["idkunde"].Value)
+                alleOrte.Add(new AlleOrteModel()
+                {
+                    ID  = ort.ID.ToString(),
+                    Bezeichnung = ort.Bezeichnung
+                });
+            }
+
+
+            KontaktDatenModel model = new KontaktDatenModel()
+            {
+                AlleOrte = alleOrte,
+                ID_Kunde= int.Parse(Request.Cookies["idKunde"].Value)
             };
 
+           
 
-            KontaktDaten daten = KonsumKreditVerwaltung.KontaktDatenLaden(model.ID);
-            if (daten != null)
+            KontaktDaten kontaktDaten = KonsumKreditVerwaltung.KontaktDatenLaden(model.ID_Kunde);
+            if (kontaktDaten != null)
             {
-                
-
-                model.Strasse = daten.Strasse;
-                model.HausNummer = daten.Hausnummer;
-                model.Mail = daten.EMail;
-                model.TelefonNummer = daten.Telefonnummer;
-
+                model.ID_Ort = kontaktDaten.FKOrt;
+                model.Strasse = kontaktDaten.Strasse;
+                model.HausNummer = kontaktDaten.Hausnummer;
+                model.EMail = kontaktDaten.EMail;
+                model.TelefonNummer =kontaktDaten.Telefonnummer;
+               
             }
             return View(model);
 
             
-            List<LandsModel> alleLaenderAngaben = new List<LandsModel>();
-
-            foreach (var land in KonsumKreditVerwaltung.LaenderLaden())
-                alleLaenderAngaben.Add(new LandsModel()
-                {
-                    ID = land.ID,
-                    Bezeichnung = land.Bezeichnung
-                });
-
-            List<OrtsModel> alleOrtsAngaben = new List<OrtsModel>();
-            foreach (var ort in KonsumKreditVerwaltung.OrteLaden())
-                alleOrtsAngaben.Add(new OrtsModel()
-                {
-                    ID = Convert.ToString(ort.ID),
-                    Bezeichnung = ort.Bezeichnung
-                });
-
+           
 
         }
           
@@ -398,11 +397,11 @@ namespace DeutscheBank.web.Controllers
                 /// speichere Daten über BusinessLogic
                 if (KonsumKreditVerwaltung.KontaktDatenSpeichern
                 (
-                                                model.ID,
-                                                model.FKOrt,
+                                                model.ID_Kunde,
+                                                model.ID_Ort,
                                                 model.Strasse,
                                                 model.HausNummer,
-                                                model.Mail,
+                                                model.EMail,
                                                 model.TelefonNummer))                             
                     {
                         return RedirectToAction("Zusammenfassung");

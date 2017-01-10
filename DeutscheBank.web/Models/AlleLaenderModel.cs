@@ -5,8 +5,7 @@ using System.Web;
 
 namespace DeutscheBank.web.Models
 {
-    public class LandsModel : NachschlagefeldModel
+    public class AlleLaenderModel :NachschlagefeldModel
     {
-        
     }
 }
