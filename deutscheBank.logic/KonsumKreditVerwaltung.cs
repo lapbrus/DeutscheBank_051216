@@ -29,11 +29,13 @@ namespace deutscheBank.logic
                 {
                     neuerKunde = new logic.Kunde()
                     {
+                       
                         Vorname = "anonym",
                         Nachname = "anonym",
                         Geschlecht = "m"
 
                     };
+
                     context.AlleKunden.Add(neuerKunde);
 
                     int anzahlZeilenBetroffen = context.SaveChanges();
@@ -54,8 +56,9 @@ namespace deutscheBank.logic
 
             Debug.Unindent();
             return neuerKunde;
-
+            
         }
+        #region Kreditrahmen
 
         /// <summary>
         /// Lädt den Kreditrahmen für die übergebene ID
@@ -180,6 +183,9 @@ namespace deutscheBank.logic
             return finanzielleSituation;
         }
 
+        #endregion
+
+        #region finanzielle Situation
         /// <summary>
         /// Speichert die Daten aus der Finanziellen Situation zu einem Kunden
         /// </summary>
@@ -317,6 +323,12 @@ namespace deutscheBank.logic
             return (alleBeschaeftigungsArten);
 
         }
+
+
+        #endregion
+
+        #region Persoenlich Daten
+
 
         /// <summary>
         /// Liefert alle Schulabschlüsse zurück
@@ -535,7 +547,7 @@ namespace deutscheBank.logic
         /// </summary>
         /// <returns>alle TitelNachstehend oder null bei einem Fehler</returns>
 
-      
+
 
 
 
@@ -556,6 +568,7 @@ namespace deutscheBank.logic
         /// <param name="idKunde">die ID des Kunden</param>
         /// <returns>true wenn das Anpassen der Werte erfolgreich war, ansonsten false</returns>
 
+       
         /// <summary>
         /// Lädt den Kunden für die übergebene ID
         /// </summary>
@@ -637,6 +650,9 @@ namespace deutscheBank.logic
             Debug.Unindent();
             return erfolgreich;
         }
+        #endregion
+
+        #region Arbeitgeber
 
         /// <summary>
         /// Lädt den Kreditrahmen für die übergebene ID
@@ -727,85 +743,9 @@ namespace deutscheBank.logic
             return erfolgreich;
         }
 
-        public static KontoDaten KontoInformationenLaden(int id)
-        {
-            Debug.WriteLine("KonsumKreditVerwaltung - KontoInformationenLaden");
-            Debug.Indent();
+        #endregion
 
-            KontoDaten kontoDaten = null;
-
-            try
-            {
-                using (var context = new dbKreditEntities())
-                {
-                    kontoDaten = context.AlleKontoDaten.Where(x => x.ID == id).FirstOrDefault();
-                    Debug.WriteLine("KontoInformationen geladen!");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Fehler in KontoInformationenLaden");
-                Debug.Indent();
-                Debug.WriteLine(ex.Message);
-                Debug.Unindent();
-                Debugger.Break();
-            }
-
-            Debug.Unindent();
-            return kontoDaten;
-        }
-
-        public static bool KontoInformationenSpeichern(string bankName, string iban, string bic, bool neuesKonto, int idKunde)
-        {
-            Debug.WriteLine("KonsumKreditVerwaltung - KontoInformationenSpeichern");
-            Debug.Indent();
-
-            bool erfolgreich = false;
-
-            try
-            {
-                using (var context = new dbKreditEntities())
-                {
-
-                    /// speichere zum Kunden die Angaben
-                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
-
-                    if (aktKunde != null)
-                    {
-                        KontoDaten kontoDaten = context.AlleKontoDaten.FirstOrDefault(x => x.ID == idKunde);
-
-                        if (kontoDaten == null)
-                        {
-                            kontoDaten = new KontoDaten();
-                            context.AlleKontoDaten.Add(kontoDaten);
-                        }
-                        kontoDaten.Bank = bankName;
-                        kontoDaten.IBAN = iban;
-                        kontoDaten.BIC = bic;
-                        kontoDaten.HatKonto = !neuesKonto;
-                        kontoDaten.ID = idKunde;
-                    }
-
-                    int anzahlZeilenBetroffen = context.SaveChanges();
-                    erfolgreich = anzahlZeilenBetroffen >= 0;
-                    Debug.WriteLine($"{anzahlZeilenBetroffen} Konto-Daten gespeichert!");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Fehler in KontoInformationenSpeichern");
-                Debug.Indent();
-                Debug.WriteLine(ex.Message);
-                Debug.Unindent();
-                Debugger.Break();
-            }
-
-            Debug.Unindent();
-            return erfolgreich;
-        }
-
-        ///NEW:
-        ///
+        #region Kontaktdaten
 
         public static KontaktDaten KontaktDatenLaden(int id)
         {
@@ -843,31 +783,26 @@ namespace deutscheBank.logic
             {
                 using (var context = new dbKreditEntities())
                 {
-
-                    
                     ///Speichere zum Kunden die Angaben
                     ///
                     //  Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
                     Kunde aktKunde = context.AlleKunden.Where(x => x.ID == id).FirstOrDefault();
-                    if (aktKunde != null)
-                    {
-                        KontaktDaten kontaktDaten = new KontaktDaten()
-                        {
-                            ID = id,
-                            FKOrt = ort,
-                            Strasse = strasse,
-                            Hausnummer = hausNummer,
-                            EMail = eMail,
-                            Telefonnummer = telefonNummer
-                        };
-                        aktKunde.KontaktDaten = kontaktDaten;
+                    if (aktKunde != null)                                                                                                 
+                    {                                                                                                                     
+                        if (aktKunde.KontaktDaten == null)  // ist in den "KontaktDaten" schon vorhanen                                   
+                            aktKunde.KontaktDaten = new KontaktDaten();                                                                   
+                                                                                                                                          
+                        aktKunde.KontaktDaten.ID = id;                                                                                    
+                        aktKunde.KontaktDaten.FKOrt = ort;                                                                                
+                        aktKunde.KontaktDaten.Strasse = strasse;                                                                          
+                        aktKunde.KontaktDaten.Hausnummer = hausNummer;                                                                    
+                        aktKunde.KontaktDaten.EMail = eMail;                                                                              
+                        aktKunde.KontaktDaten.Telefonnummer = telefonNummer;                                                              
+                                                                                                                                          
                     }
                         int anzahlZeilenBetroffen = context.SaveChanges();
-                        erfolgreich = anzahlZeilenBetroffen >= 0;
+                        erfolgreich = anzahlZeilenBetroffen >= 0;                                                                                                                  
                         Debug.WriteLine($"{anzahlZeilenBetroffen} Kontakt-Daten gespeichert");
-
-                    
-
                 }
             }
             catch (Exception ex)
@@ -912,7 +847,7 @@ namespace deutscheBank.logic
                         .Include("IdentifikationsArt")
                         .Include("KontaktDaten")
                         .Include("KontoDaten")
-                        .Include("Kredit")
+                        .Include("AlleKredite")
                       // .Include("Schulabschluss")
                         .Include("Titel")
                       //  .Include("TitelNachstehend")
@@ -935,13 +870,427 @@ namespace deutscheBank.logic
          
         }
 
-        
+        public static Ort KundenOrtLaden(int id)
+        {
+            Debug.WriteLine("KonsumKreditVerwaltung - KundenOrtLaden");
+            Debug.Indent();
+
+            Ort Ort = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    Ort = context.AlleOrte.Where(x => x.ID == id).FirstOrDefault();
+                    Debug.WriteLine("KundenOrt geladen!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KundenOrtLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            return Ort;
+        }
+
+        #endregion
+
+        #region KontoInformation
+
+        /// <summary>
+        /// Hier wird das statisch hinzugefügte Model "KontoAbfrageMoeglichkeit"
+        /// Als Basis genommen. Davon wird eine Liste erzeugt, die statisch 3 Einträge
+        /// beinhaltet. Da es nicht notwendig ist diese ändern zu können, wird sie eben 
+        /// statisch produziert.
+        /// </summary>
+        /// <returns>Eine Liste aus Abfragemöglichkeiten</returns>
+        public static List<KontoAbfrageMoeglichkeit> KontoAbfrageMoeglichkeitenLaden()
+        {
+            List<KontoAbfrageMoeglichkeit> alleKontoAbfrageMoeglichkeitenAngabenBL = null;
+
+            try
+            {
+                List<KontoAbfrageMoeglichkeit> zwischenListe = new List<KontoAbfrageMoeglichkeit>()
+                {
+                    new KontoAbfrageMoeglichkeit() { ID = 1, Bezeichnung = "Vorhandenes Deutsche Bank AG Konto." },
+                    new KontoAbfrageMoeglichkeit() { ID = 2, Bezeichnung = "Neues Konto bei Deutsche Bank AG anlegen." },
+                    new KontoAbfrageMoeglichkeit() { ID = 3, Bezeichnung = "Anderes Konto verwenden." }
+                };
+
+                alleKontoAbfrageMoeglichkeitenAngabenBL = zwischenListe;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontoAbfrageMoeglichkeitenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+
+            return alleKontoAbfrageMoeglichkeitenAngabenBL;
+        }
+
+        /// <summary>
+        /// Speichert zu einer übergebenene ID_Kunde seine Kontoinformationen ab.
+        /// </summary>
+        /// <param name="bic"></param>
+        /// <param name="iban"></param>
+        /// <param name="bankInstitut"></param>
+        /// <param name="istDeutscheBankKunde"></param>
+        /// <param name="kundenID"></param>
+        /// <param name="datenSatzVorhanden">bei TRUE wird ein vorhandener Datensatz bearbeitet/ bei FALSE ein neuer generiert</param>
+        /// <returns></returns>
+        public static bool KontoInformationenSpeichern(string bic, string iban, string bankInstitut, bool istDeutscheBankKunde, int kundenID)
+        {
+            Debug.Indent();
+            Debug.WriteLine("KonsumKreditVerwaltung - KontoInformationenSpeichern");
+            Debug.Indent();
+
+            bool erfolgreich = false;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == kundenID).FirstOrDefault();
+
+                    if (aktKunde != null)
+                    {
+                        if (aktKunde.KontoDaten == null)
+                            aktKunde.KontoDaten = new KontoDaten();
+
+                        /// Weise Daten den aktuellen Kunden zu (Somit kann man vorhandene Daten auch ändern)
+                        aktKunde.KontoDaten.ID = kundenID;
+                        aktKunde.KontoDaten.BIC = bic;
+                        aktKunde.KontoDaten.IBAN = iban;
+                        aktKunde.KontoDaten.Bank = bankInstitut;
+                        aktKunde.KontoDaten.HatKonto = istDeutscheBankKunde;
+                    }
+
+                    /// Speichere KontoDaten (Änderungen) in die Datenbank
+                    int anzahlZeilenBetroffen = context.SaveChanges();
+                    erfolgreich = anzahlZeilenBetroffen >= 0;
+                    Debug.WriteLine($"{anzahlZeilenBetroffen} Kontoinformationen gespeichert!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontoInformationenSpeichern");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+
+            return erfolgreich;
+        }
+
+        /// <summary>
+        /// Liefert ALLE Kontodaten aus der Datenbank
+        /// </summary>
+        /// <param name="kundenID">ID des vorhandenen Kunden</param>
+        /// <returns>Kontodaten bei Fehler NULL</returns>
+        public static List<KontoDaten> KontoDatenLaden()
+        {
+            Debug.Indent();
+            Debug.WriteLine("KonsumKreditVerwaltung - KontoDatenLaden");
+            Debug.Indent();
+
+            List<KontoDaten> alleKontoDateneBL = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    alleKontoDateneBL = context.AlleKontoDaten.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontoDatenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+            Debug.Unindent();
+
+            return alleKontoDateneBL;
+        }
+
+        /// <summary>
+        /// Dieses Objekt wird zum erzeugen einer Zufallszahl benötigt.
+        /// Da dies mit einem Algorithmus bezogen auf die Uhrzeit basiert,
+        /// muss ich den "Random" als Membervariable initialisieren.
+        /// </summary>
+        static Random zufall = new Random();
+
+        /// <summary>
+        /// Erzeugt ein neues Bankkonto mittels Liste und gibt diese Liste zurück
+        /// An der Stelle "0" BIC
+        /// An der Stelle "1" IBAN
+        /// </summary>
+        /// <returns>Ein neues Bankkonto</returns>
+        public static List<string> NeuesBankKontoErzeugen()
+        {
+            Debug.Indent();
+            Debug.WriteLine("NeuesBankKontoErzeugen");
+
+            /// Da für dieses Beispiel, wir immer nur von der selben Bank ausgehen,
+            /// bleibt die Banknummer (IBAN) immer derselbe.
+            const string bic = "BARCDEHAXXX";
+
+            /// In dieser 2 dimensionalen Liste, werden die BIC´s und die IBAN´s gespeichert.
+            List<string> bicUndIban = new List<string>();
+
+            /* 
+              __________________________________________________________________________________________________________
+              Bestandteile des  |  Kurz-         |  Formatierung und Vergaben                          |  Beispiel
+              IBAN-Standards    |  bezeichnung   |                                                     |
+              __________________________________________________________________________________________________________
+              Ländercode        |  LL            |   Konstant "DE"                                     |    DE
+              ----------------------------------------------------------------------------------------------------------
+              Prüfziffer        |  PZ            |   2-stellig, Modulus 97-10 (ISO 7064)	             |    21
+              ----------------------------------------------------------------------------------------------------------
+              Bankleitzahl      |  BLZ           |   Konstant 8-stellig, Bankidentifikation            |    30120400
+                                |                |   entsprechend deutschem                            |
+                                |                |   Bankleitzahlenverzeichnis                         |
+              ----------------------------------------------------------------------------------------------------------
+              Kontonummer       |  KTO           |   Konstant 10-stellig (ggf. mit vorangestellten     |    15228
+                                                     Nullen) Kunden-Kontonummer
+          */
+
+            /// Dieser Teil des IBAN`s bleibt immmer gleich
+            /// es werden lediglich die 10 Kundenstellen erzeugt.
+            string iban = "AT78 0202 16217";
+
+            try
+            {
+                int leerzeichen = 0;
+
+                for (int i = 0; i <= 12; i++)
+                {
+                    Debug.Indent();
+                    Debug.WriteLine(leerzeichen + " % 5 =" + leerzeichen % 5);
+
+                    if (leerzeichen % 5 == 0)
+                    {
+                        iban += " ";
+                    }
+                    else
+                    {
+                        iban += zufall.Next(0, 10).ToString();
+                    }
+
+                    leerzeichen++;
+                    Debug.Unindent();
+                }
+
+                bicUndIban.Add(bic);
+                bicUndIban.Add(iban);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in NeuesBankKontoErzeugen");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+
+            return bicUndIban;
+        }
+
+        /// <summary>
+        /// Überprüft ob das erzeugte Bankkonto schon in der 
+        /// Datenbank vorhanden ist, ist dies der Fall
+        /// wird ein neues Bankkonto erzeugt
+        /// </summary>
+        /// <returns>Bei Erfolg das neue Bankkonto / andernfalls null</returns>
+        public static List<string> BankKontoErzeugen()
+        {
+            Debug.Indent();
+            Debug.WriteLine("BankKontoErzeugen");
+
+            List<string> neuesBankKonto = null;
+            bool erfolgreich = false;
+
+            try
+            {
+                do
+                {
+                    neuesBankKonto = NeuesBankKontoErzeugen();
+
+                    int zaehler = 0;
+
+                    if (KontoDatenLaden().Count != 0)
+                    {
+                        foreach (var item in KontoDatenLaden())
+                        {
+                            if (item.IBAN == neuesBankKonto[1] && zaehler != KontoDatenLaden().Count)
+                            {
+                                NeuesBankKontoErzeugen();
+                                zaehler++;
+                            }
+                            else
+                            {
+                                erfolgreich = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        erfolgreich = true;
+                    }
+                } while (!erfolgreich);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in NeuesBankKontoErzeugen");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+
+
+            return neuesBankKonto;
+        }
+
+        /// <summary>
+        /// Erstüberprüfung der eingegebenen Textkette, die überprüft, ob
+        /// etwaige Leerzeichen vorhanden sind (die könnten an jeder Stelle stehen)
+        /// und fügt stattdesen einen Leerstring "" => null ein. Was bewirkt, dass das 
+        /// Leerzeichen gelöscht wird und das danachkommende Zeichen (Buchstabe/Zahl)
+        /// in der Zeichenkette, was auch als Liste von Caracter bekannt ist, automatisch auf.
+        /// </summary>
+        /// <param name="eingabeIBAN"></param>
+        /// <returns>Textkette ohne Leerzzeichen</returns>
+        public static string FilterAufVorhandeneLeerzeichen(string eingabeIBAN)
+        {
+            string zwischenListe = "";
+            if (eingabeIBAN != null)
+            {
+                for (int i = 0; i < eingabeIBAN.Length; i++)
+                {
+                    if (eingabeIBAN[i] == ' ')
+                        zwischenListe += "";
+                    else
+                        zwischenListe += eingabeIBAN[i];
+                }
+
+                eingabeIBAN = zwischenListe;
+
+            }
+
+            return eingabeIBAN;
+        }
+
+        /// <summary>
+        /// Filtert eine Texteingabe und fügt an jeder 4ten Stelle ein Leerzeichen " " ein. 
+        /// </summary>
+        /// <param name="eingabeIBAN">Die Texteingabe die gefiltert werden soll.</param>
+        /// <returns>überarbeitete Texteingabe</returns>
+        public static string LeerzeichenEinfuegen(string eingabeIBAN)
+        {
+            string zwischenListe = "";
+            int leerzeichen = 1;
+
+            if (eingabeIBAN != null)
+            {
+                for (int j = 0; j < eingabeIBAN.Length; j++)
+                {
+                    if (leerzeichen % 5 == 0)
+                    {
+                        for (int i = 0; i < (eingabeIBAN.Length); i++)
+                        {
+                            if (i == (leerzeichen - 1))
+                            {
+                                zwischenListe += " ";
+                                zwischenListe += eingabeIBAN[i];
+                            }
+                            else
+                            {
+                                zwischenListe += eingabeIBAN[i];
+                            }
+                        }
+                        eingabeIBAN = zwischenListe;
+                        zwischenListe = "";
+                    }
+                    leerzeichen++;
+                }
+            }
+
+            return eingabeIBAN;
+        }
+
+        /// <summary>
+        /// Liefert die aktuellen, KontoDaten des Kunden
+        /// </summary>
+        /// <param name="kundenID">ID des vorhandenen Kunden</param>
+        /// <returns>Kontodaten bei Fehler NULL</returns>
+        public static KontoDaten KontoDatenLaden(int kundenID)
+        {
+            Debug.Indent();
+            Debug.WriteLine("KonsumKreditVerwaltung - KontaktDatenLaden");
+            Debug.Indent();
+
+            KontoDaten aktKontoDaten = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    aktKontoDaten = context.AlleKontoDaten.Where(x => x.ID == kundenID).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KonsumKreditVerwaltung KontaktDatenLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+                Debug.Unindent();
+            }
+
+            return aktKontoDaten;
+        }
+
+        #endregion
+
+        #region Zusammenfassung
+
+        #endregion
+
+        // keine Eintraege in die Datenbank benötigt 
+        public class KontoAbfrageMoeglichkeit
+        {
+            public int ID { get; set; }
+
+            public string Bezeichnung { get; set; }
+        }
 
 
     }
 
 
-    
+
 
 }
 

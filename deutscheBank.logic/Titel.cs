@@ -16,12 +16,12 @@ namespace deutscheBank.logic
     {
         public Titel()
         {
-            this.tblKunde = new HashSet<Kunde>();
+            this.AlleKunden = new HashSet<Kunde>();
         }
     
         public int ID { get; set; }
         public string Bezeichnung { get; set; }
     
-        public virtual ICollection<Kunde> tblKunde { get; set; }
+        public virtual ICollection<Kunde> AlleKunden { get; set; }
     }
 }

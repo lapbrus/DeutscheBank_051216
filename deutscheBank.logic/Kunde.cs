@@ -16,7 +16,7 @@ namespace deutscheBank.logic
     {
         public Kunde()
         {
-            this.Kredit = new HashSet<Kredit>();
+            this.AlleKredite = new HashSet<Kredit>();
         }
     
         public int ID { get; set; }
@@ -36,13 +36,13 @@ namespace deutscheBank.logic
         public virtual FamilienStand Familienstand { get; set; }
         public virtual FinanzielleSituation FinanzielleSituation { get; set; }
         public virtual IdentifikationsArt IdentifikationsArt { get; set; }
-        public virtual KontaktDaten KontaktDaten { get; set; }
         public virtual KontoDaten KontoDaten { get; set; }
-        public virtual ICollection<Kredit> Kredit { get; set; }
+        public virtual ICollection<Kredit> AlleKredite { get; set; }
         public virtual Schulabschluss Schulabschluss { get; set; }
         public virtual Land Land { get; set; }
         public virtual Titel Titel { get; set; }
         public virtual Wohnart Wohnart { get; set; }
         public virtual login login { get; set; }
+        public virtual KontaktDaten KontaktDaten { get; set; }
     }
 }

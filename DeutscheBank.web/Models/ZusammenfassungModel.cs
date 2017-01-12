@@ -67,6 +67,7 @@ namespace DeutscheBank.web.Models
             public string Strasse { get; set; }
             public string HausNummer { get; set; }
             public string Ort { get; set; }
+            public string PLZ { get; set; }
             public string Mail { get; set; }
             public string TelefonNummer { get; set; }
             #endregion

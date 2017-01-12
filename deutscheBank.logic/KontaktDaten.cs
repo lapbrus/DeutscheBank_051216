@@ -21,7 +21,7 @@ namespace deutscheBank.logic
         public string EMail { get; set; }
         public string Telefonnummer { get; set; }
     
-        public virtual Ort tblOrt { get; set; }
-        public virtual Kunde tblKunde { get; set; }
+        public virtual Ort Ort { get; set; }
+        public virtual Kunde Kunde { get; set; }
     }
 }

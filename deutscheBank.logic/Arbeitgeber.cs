@@ -22,6 +22,6 @@ namespace deutscheBank.logic
     
         public virtual Beschaeftigungsart Beschaeftigungsart { get; set; }
         public virtual Branche Branche { get; set; }
-        public virtual Kunde tblKunde { get; set; }
+        public virtual Kunde Kunde { get; set; }
     }
 }

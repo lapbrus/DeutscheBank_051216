@@ -16,7 +16,7 @@ namespace deutscheBank.logic
     {
         public Ort()
         {
-            this.tblKontaktDaten = new HashSet<KontaktDaten>();
+            this.AlleKontaktDaten = new HashSet<KontaktDaten>();
         }
     
         public int ID { get; set; }
@@ -24,7 +24,7 @@ namespace deutscheBank.logic
         public string FKLand { get; set; }
         public string Bezeichnung { get; set; }
     
-        public virtual Land tblLand { get; set; }
-        public virtual ICollection<KontaktDaten> tblKontaktDaten { get; set; }
+        public virtual Land Land { get; set; }
+        public virtual ICollection<KontaktDaten> AlleKontaktDaten { get; set; }
     }
 }

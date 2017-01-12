@@ -21,6 +21,6 @@ namespace deutscheBank.logic
         public Nullable<decimal> Unterhalt { get; set; }
         public Nullable<decimal> Raten { get; set; }
     
-        public virtual Kunde tblKunde { get; set; }
+        public virtual Kunde Kunde { get; set; }
     }
 }

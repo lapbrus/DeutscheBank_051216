@@ -70,7 +70,6 @@ namespace deutscheBank.freigabe
                         break;
                     default:
                         throw new ArgumentException($"Ungültiger Wert für {nameof(geschlecht)}!\n\nNur 'm' oder 'w' erlaubt.");
-                        break;
                 }
 
                 break;
@@ -87,7 +86,6 @@ namespace deutscheBank.freigabe
                 break;
             default:
                 throw new ArgumentException($"Ungültiger Wert für {nameof(familienStand)}!\n\nNur 'ledig', 'verwitwet', 'in Partnerschaft', 'verheiratet' erlaubt.");
-                break;
         }
 
         Debug.Unindent();

@@ -90,7 +90,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Key>
             <PropertyRef Name="IDKontaktDaten" />
           </Key>
-          <Property Name="IDKontaktDaten" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IDKontaktDaten" Type="int" Nullable="false" />
           <Property Name="FKOrt" Type="int" Nullable="false" />
           <Property Name="Strasse" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Hausnummer" Type="nvarchar" MaxLength="20" Nullable="false" />
@@ -471,7 +471,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="BeschaeftigtSeit" Type="DateTime" Precision="0" />
           <NavigationProperty Name="Beschaeftigungsart" Relationship="Self.FK__tblArbeit__FKBes__49C3F6B7" FromRole="tblArbeitgeber" ToRole="tblBeschaeftigungsart" />
           <NavigationProperty Name="Branche" Relationship="Self.FK__tblArbeit__FKBra__4AB81AF0" FromRole="tblArbeitgeber" ToRole="tblBranche" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblArbeit__IDArb__48CFD27E" FromRole="Arbeitgeber" ToRole="tblKunde" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblArbeit__IDArb__48CFD27E" FromRole="Arbeitgeber" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="Beschaeftigungsart">
           <Key>
@@ -507,7 +507,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="SonstigeEinkommen" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Unterhalt" Type="Decimal" Precision="10" Scale="2" />
           <Property Name="Raten" Type="Decimal" Precision="10" Scale="2" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblFinanz__IDFin__5535A963" FromRole="FinanzielleSituation" ToRole="tblKunde" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblFinanz__IDFin__5535A963" FromRole="FinanzielleSituation" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="IdentifikationsArt">
           <Key>
@@ -515,7 +515,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Bezeichnung" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKunde__FKIden__3D5E1FD2" FromRole="IdentifikationsArt" ToRole="tblKunde" />
+          <NavigationProperty Name="AlleKunden" Relationship="dbKreditModel.FK__tblKunde__FKIden__3D5E1FD2" FromRole="IdentifikationsArt" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="KontoDaten">
           <Key>
@@ -526,7 +526,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="IBAN" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="HatKonto" Type="Boolean" Nullable="false" />
           <Property Name="Bank" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKontoD__IDKon__4D94879B" FromRole="KontoDaten" ToRole="tblKunde" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblKontoD__IDKon__4D94879B" FromRole="KontoDaten" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="Kredit">
           <Key>
@@ -537,7 +537,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="GewuenschterKredit" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="GewuenschteLaufzeit" Type="Int32" Nullable="false" />
           <Property Name="KreditBewilligt" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKredit__FKKun__02FC7413" FromRole="Kredit" ToRole="tblKunde" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblKredit__FKKun__02FC7413" FromRole="Kredit" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="Land">
           <Key>
@@ -545,8 +545,8 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </Key>
           <Property Name="ID" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="Bezeichnung" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblOrt" Relationship="Self.FK__tblOrt__FKLand__25869641" FromRole="tblLand" ToRole="tblOrt" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKunde__FKStaa__3A81B327" FromRole="Land" ToRole="tblKunde" />
+          <NavigationProperty Name="AlleOrte" Relationship="Self.FK__tblOrt__FKLand__25869641" FromRole="tblLand" ToRole="tblOrt" />
+          <NavigationProperty Name="AlleKunden" Relationship="dbKreditModel.FK__tblKunde__FKStaa__3A81B327" FromRole="Land" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="login">
           <Key>
@@ -555,7 +555,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="Username" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Passwort" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tbllogin__IDLogi__70DDC3D8" FromRole="login" ToRole="tblKunde" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tbllogin__IDLogi__70DDC3D8" FromRole="login" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="Ort">
           <Key>
@@ -565,8 +565,8 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="PLZ" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FKLand" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="Bezeichnung" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblLand" Relationship="Self.FK__tblOrt__FKLand__25869641" FromRole="tblOrt" ToRole="tblLand" />
-          <NavigationProperty Name="tblKontaktDaten" Relationship="dbKreditModel.FK__tblKontak__FKOrt__45BE5BA9" FromRole="Ort" ToRole="tblKontaktDaten" />
+          <NavigationProperty Name="Land" Relationship="Self.FK__tblOrt__FKLand__25869641" FromRole="tblOrt" ToRole="tblLand" />
+          <NavigationProperty Name="AlleKontaktDaten" Relationship="dbKreditModel.FK__tblKontak__FKOrt__45BE5BA9" FromRole="Ort" ToRole="tblKontaktDaten" />
         </EntityType>
         <EntityType Name="Schulabschluss">
           <Key>
@@ -574,7 +574,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Bezeichnung" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKunde__FKSchu__3C69FB99" FromRole="Schulabschluss" ToRole="tblKunde" />
+          <NavigationProperty Name="AlleKunden" Relationship="dbKreditModel.FK__tblKunde__FKSchu__3C69FB99" FromRole="Schulabschluss" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="Titel">
           <Key>
@@ -582,7 +582,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Bezeichnung" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKunde__FKTite__38996AB5" FromRole="Titel" ToRole="tblKunde" />
+          <NavigationProperty Name="AlleKunden" Relationship="dbKreditModel.FK__tblKunde__FKTite__38996AB5" FromRole="Titel" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="Wohnart">
           <Key>
@@ -590,7 +590,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Bezeichnung" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKunde__FKWohn__3B75D760" FromRole="Wohnart" ToRole="tblKunde" />
+          <NavigationProperty Name="AlleKunden" Relationship="dbKreditModel.FK__tblKunde__FKWohn__3B75D760" FromRole="Wohnart" ToRole="tblKunde" />
         </EntityType>
         <Association Name="FK__tblArbeit__FKBes__49C3F6B7">
           <End Role="tblBeschaeftigungsart" Type="dbKreditModel.Beschaeftigungsart" Multiplicity="1" />
@@ -632,13 +632,13 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <EntitySet Name="AlleArbeitgeber" EntityType="dbKreditModel.Arbeitgeber" />
           <EntitySet Name="AlleBeschaeftigungsArten" EntityType="dbKreditModel.Beschaeftigungsart" />
           <EntitySet Name="AlleBranchen" EntityType="dbKreditModel.Branche" />
-          <EntitySet Name="tblEinstellungen" EntityType="dbKreditModel.Einstellungen" />
+          <EntitySet Name="AlleEinstellungen" EntityType="dbKreditModel.Einstellungen" />
           <EntitySet Name="AlleFinanzielleSituationsArten" EntityType="dbKreditModel.FinanzielleSituation" />
           <EntitySet Name="AlleIdentifikationsArten" EntityType="dbKreditModel.IdentifikationsArt" />
           <EntitySet Name="AlleKontoDaten" EntityType="dbKreditModel.KontoDaten" />
           <EntitySet Name="AlleKredite" EntityType="dbKreditModel.Kredit" />
           <EntitySet Name="AlleLaender" EntityType="dbKreditModel.Land" />
-          <EntitySet Name="tbllogin" EntityType="dbKreditModel.login" />
+          <EntitySet Name="AlleLogins" EntityType="dbKreditModel.login" />
           <EntitySet Name="AlleOrte" EntityType="dbKreditModel.Ort" />
           <EntitySet Name="AlleSchulabschlussArten" EntityType="dbKreditModel.Schulabschluss" />
           <EntitySet Name="AlleTitel" EntityType="dbKreditModel.Titel" />
@@ -657,8 +657,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </AssociationSet>
           <EntitySet Name="AlleFamilienStandArten" EntityType="dbKreditModel.FamilienStand" />
           <EntitySet Name="sysdiagrams" EntityType="dbKreditModel.sysdiagrams" />
-          <EntitySet Name="tblAdmin" EntityType="dbKreditModel.tblAdmin" />
-          <EntitySet Name="AlleKontaktDaten" EntityType="dbKreditModel.KontaktDaten" />
+          <EntitySet Name="AlleAdmins" EntityType="dbKreditModel.Admin" />
           <EntitySet Name="AlleKunden" EntityType="dbKreditModel.Kunde" />
           <AssociationSet Name="FK__tblArbeit__IDArb__48CFD27E" Association="dbKreditModel.FK__tblArbeit__IDArb__48CFD27E">
             <End Role="tblKunde" EntitySet="AlleKunden" />
@@ -675,14 +674,6 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <AssociationSet Name="FK__tblKunde__FKIden__3D5E1FD2" Association="dbKreditModel.FK__tblKunde__FKIden__3D5E1FD2">
             <End Role="IdentifikationsArt" EntitySet="AlleIdentifikationsArten" />
             <End Role="tblKunde" EntitySet="AlleKunden" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tblKontak__FKOrt__45BE5BA9" Association="dbKreditModel.FK__tblKontak__FKOrt__45BE5BA9">
-            <End Role="Ort" EntitySet="AlleOrte" />
-            <End Role="tblKontaktDaten" EntitySet="AlleKontaktDaten" />
-          </AssociationSet>
-          <AssociationSet Name="FK__tblKontak__IDKon__44CA3770" Association="dbKreditModel.FK__tblKontak__IDKon__44CA3770">
-            <End Role="tblKunde" EntitySet="AlleKunden" />
-            <End Role="tblKontaktDaten" EntitySet="AlleKontaktDaten" />
           </AssociationSet>
           <AssociationSet Name="FK__tblKontoD__IDKon__4D94879B" Association="dbKreditModel.FK__tblKontoD__IDKon__4D94879B">
             <End Role="tblKunde" EntitySet="AlleKunden" />
@@ -710,7 +701,16 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </AssociationSet>
           <AssociationSet Name="FK__tbllogin__IDLogi__70DDC3D8" Association="dbKreditModel.FK__tbllogin__IDLogi__70DDC3D8">
             <End Role="tblKunde" EntitySet="AlleKunden" />
-            <End Role="login" EntitySet="tbllogin" />
+            <End Role="login" EntitySet="AlleLogins" />
+          </AssociationSet>
+          <EntitySet Name="AlleKontaktDaten" EntityType="dbKreditModel.KontaktDaten" />
+          <AssociationSet Name="FK__tblKontak__FKOrt__45BE5BA9" Association="dbKreditModel.FK__tblKontak__FKOrt__45BE5BA9">
+            <End Role="Ort" EntitySet="AlleOrte" />
+            <End Role="tblKontaktDaten" EntitySet="AlleKontaktDaten" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblKontak__IDKon__44CA3770" Association="dbKreditModel.FK__tblKontak__IDKon__44CA3770">
+            <End Role="Kunde" EntitySet="AlleKunden" />
+            <End Role="tblKontaktDaten" EntitySet="AlleKontaktDaten" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="FamilienStand">
@@ -719,7 +719,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Bezeichnung" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKunde__FKFami__398D8EEE" FromRole="FamilienStand" ToRole="tblKunde" />
+          <NavigationProperty Name="AlleKunden" Relationship="dbKreditModel.FK__tblKunde__FKFami__398D8EEE" FromRole="FamilienStand" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -731,26 +731,13 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="tblAdmin">
+        <EntityType Name="Admin">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Kennwort" Type="Binary" MaxLength="16" FixedLength="false" />
-        </EntityType>
-        <EntityType Name="KontaktDaten">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FKOrt" Type="Int32" Nullable="false" />
-          <Property Name="Strasse" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Hausnummer" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="EMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <Property Name="Telefonnummer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="tblOrt" Relationship="dbKreditModel.FK__tblKontak__FKOrt__45BE5BA9" FromRole="tblKontaktDaten" ToRole="Ort" />
-          <NavigationProperty Name="tblKunde" Relationship="dbKreditModel.FK__tblKontak__IDKon__44CA3770" FromRole="tblKontaktDaten" ToRole="tblKunde" />
         </EntityType>
         <EntityType Name="Kunde">
           <Key>
@@ -772,14 +759,14 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <NavigationProperty Name="Familienstand" Relationship="dbKreditModel.FK__tblKunde__FKFami__398D8EEE" FromRole="tblKunde" ToRole="FamilienStand" />
           <NavigationProperty Name="FinanzielleSituation" Relationship="dbKreditModel.FK__tblFinanz__IDFin__5535A963" FromRole="tblKunde" ToRole="FinanzielleSituation" />
           <NavigationProperty Name="IdentifikationsArt" Relationship="dbKreditModel.FK__tblKunde__FKIden__3D5E1FD2" FromRole="tblKunde" ToRole="IdentifikationsArt" />
-          <NavigationProperty Name="KontaktDaten" Relationship="dbKreditModel.FK__tblKontak__IDKon__44CA3770" FromRole="tblKunde" ToRole="tblKontaktDaten" />
           <NavigationProperty Name="KontoDaten" Relationship="dbKreditModel.FK__tblKontoD__IDKon__4D94879B" FromRole="tblKunde" ToRole="KontoDaten" />
-          <NavigationProperty Name="Kredit" Relationship="dbKreditModel.FK__tblKredit__FKKun__02FC7413" FromRole="tblKunde" ToRole="Kredit" />
+          <NavigationProperty Name="AlleKredite" Relationship="dbKreditModel.FK__tblKredit__FKKun__02FC7413" FromRole="tblKunde" ToRole="Kredit" />
           <NavigationProperty Name="Schulabschluss" Relationship="dbKreditModel.FK__tblKunde__FKSchu__3C69FB99" FromRole="tblKunde" ToRole="Schulabschluss" />
           <NavigationProperty Name="Land" Relationship="dbKreditModel.FK__tblKunde__FKStaa__3A81B327" FromRole="tblKunde" ToRole="Land" />
           <NavigationProperty Name="Titel" Relationship="dbKreditModel.FK__tblKunde__FKTite__38996AB5" FromRole="tblKunde" ToRole="Titel" />
           <NavigationProperty Name="Wohnart" Relationship="dbKreditModel.FK__tblKunde__FKWohn__3B75D760" FromRole="tblKunde" ToRole="Wohnart" />
           <NavigationProperty Name="login" Relationship="dbKreditModel.FK__tbllogin__IDLogi__70DDC3D8" FromRole="tblKunde" ToRole="login" />
+          <NavigationProperty Name="KontaktDaten" Relationship="dbKreditModel.FK__tblKontak__IDKon__44CA3770" FromRole="Kunde" ToRole="tblKontaktDaten" />
         </EntityType>
         <Association Name="FK__tblArbeit__IDArb__48CFD27E">
           <End Type="dbKreditModel.Kunde" Role="tblKunde" Multiplicity="1" />
@@ -826,30 +813,6 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
             </Principal>
             <Dependent Role="tblKunde">
               <PropertyRef Name="FKIdentifikationsArt" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tblKontak__FKOrt__45BE5BA9">
-          <End Type="dbKreditModel.Ort" Role="Ort" Multiplicity="1" />
-          <End Type="dbKreditModel.KontaktDaten" Role="tblKontaktDaten" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Ort">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="tblKontaktDaten">
-              <PropertyRef Name="FKOrt" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK__tblKontak__IDKon__44CA3770">
-          <End Type="dbKreditModel.Kunde" Role="tblKunde" Multiplicity="1" />
-          <End Type="dbKreditModel.KontaktDaten" Role="tblKontaktDaten" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="tblKunde">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="tblKontaktDaten">
-              <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -937,6 +900,43 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="KontaktDaten">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FKOrt" Type="Int32" Nullable="false" />
+          <Property Name="Strasse" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Hausnummer" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EMail" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Telefonnummer" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Ort" Relationship="dbKreditModel.FK__tblKontak__FKOrt__45BE5BA9" FromRole="tblKontaktDaten" ToRole="Ort" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblKontak__IDKon__44CA3770" FromRole="tblKontaktDaten" ToRole="Kunde" />
+        </EntityType>
+        <Association Name="FK__tblKontak__FKOrt__45BE5BA9">
+          <End Type="dbKreditModel.Ort" Role="Ort" Multiplicity="1" />
+          <End Type="dbKreditModel.KontaktDaten" Role="tblKontaktDaten" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ort">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblKontaktDaten">
+              <PropertyRef Name="FKOrt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblKontak__IDKon__44CA3770">
+          <End Type="dbKreditModel.Kunde" Role="Kunde" Multiplicity="1" />
+          <End Type="dbKreditModel.KontaktDaten" Role="tblKontaktDaten" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Kunde">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblKontaktDaten">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -970,7 +970,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblEinstellungen">
+          <EntitySetMapping Name="AlleEinstellungen">
             <EntityTypeMapping TypeName="dbKreditModel.Einstellungen">
               <MappingFragment StoreEntitySet="tblEinstellungen">
                 <ScalarProperty Name="ID" ColumnName="IDEinstellungen" />
@@ -1029,7 +1029,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tbllogin">
+          <EntitySetMapping Name="AlleLogins">
             <EntityTypeMapping TypeName="dbKreditModel.login">
               <MappingFragment StoreEntitySet="tbllogin">
                 <ScalarProperty Name="ID" ColumnName="IDLogin" />
@@ -1091,24 +1091,12 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblAdmin">
-            <EntityTypeMapping TypeName="dbKreditModel.tblAdmin">
+          <EntitySetMapping Name="AlleAdmins">
+            <EntityTypeMapping TypeName="dbKreditModel.Admin">
               <MappingFragment StoreEntitySet="tblAdmin">
                 <ScalarProperty Name="Kennwort" ColumnName="Kennwort" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AlleKontaktDaten">
-            <EntityTypeMapping TypeName="dbKreditModel.KontaktDaten">
-              <MappingFragment StoreEntitySet="tblKontaktDaten">
-                <ScalarProperty Name="Telefonnummer" ColumnName="Telefonnummer" />
-                <ScalarProperty Name="EMail" ColumnName="EMail" />
-                <ScalarProperty Name="Hausnummer" ColumnName="Hausnummer" />
-                <ScalarProperty Name="Strasse" ColumnName="Strasse" />
-                <ScalarProperty Name="FKOrt" ColumnName="FKOrt" />
-                <ScalarProperty Name="ID" ColumnName="IDKontaktDaten" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1127,6 +1115,18 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
                 <ScalarProperty Name="Nachname" ColumnName="Nachname" />
                 <ScalarProperty Name="Vorname" ColumnName="Vorname" />
                 <ScalarProperty Name="ID" ColumnName="IDKunde" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleKontaktDaten">
+            <EntityTypeMapping TypeName="dbKreditModel.KontaktDaten">
+              <MappingFragment StoreEntitySet="tblKontaktDaten">
+                <ScalarProperty Name="Telefonnummer" ColumnName="Telefonnummer" />
+                <ScalarProperty Name="EMail" ColumnName="EMail" />
+                <ScalarProperty Name="Hausnummer" ColumnName="Hausnummer" />
+                <ScalarProperty Name="Strasse" ColumnName="Strasse" />
+                <ScalarProperty Name="FKOrt" ColumnName="FKOrt" />
+                <ScalarProperty Name="ID" ColumnName="IDKontaktDaten" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
