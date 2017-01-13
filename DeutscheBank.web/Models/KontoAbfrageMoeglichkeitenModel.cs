@@ -5,7 +5,7 @@ using System.Web;
 
 namespace DeutscheBank.web.Models
 {
-    public class KontoAbfrageMoeglichkeitModel : NachschlagefeldModel
+    public class KontoAbfrageArtModel : NachschlagefeldModel
     {
     }
 }

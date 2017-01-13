@@ -321,13 +321,13 @@ namespace DeutscheBank.web.Controllers
             Debug.WriteLine("GET - KonsumKreditController - KontoInformation");
             Debug.Unindent();
 
-            List<KontoAbfrageMoeglichkeitModel> alleKontoAbfrageMoeglichkeitenWeb = new List<KontoAbfrageMoeglichkeitModel>();
+            List<KontoAbfrageArtModel> alleKontoAbfrageArten = new List<KontoAbfrageArtModel>();
 
             /// Lade alle Kontoabfrage-Möglichkeiten aus der Businesslogic in 
-            /// die Liste "alleKontoAbfrageMoeglichkeitenWeb".
+            /// die Liste "alleKontoAbfrageArten".
             foreach (var kontoAbfrageMoeglichkeitWeb in KonsumKreditVerwaltung.KontoAbfrageMoeglichkeitenLaden())
             {
-                alleKontoAbfrageMoeglichkeitenWeb.Add(new KontoAbfrageMoeglichkeitModel()
+                alleKontoAbfrageArten.Add(new KontoAbfrageArtModel()
                 {
                     ID = kontoAbfrageMoeglichkeitWeb.ID.ToString(),
                     Bezeichnung = kontoAbfrageMoeglichkeitWeb.Bezeichnung
@@ -337,7 +337,7 @@ namespace DeutscheBank.web.Controllers
             /// Erzeuge das Model und weise der Liste alle wichtigen Details zu (ID´s, Bezeichnungen)
             KontoAbfrageModel model = new KontoAbfrageModel()
             {
-                AlleKontoAbfrageMoeglichkeitenAngaben = alleKontoAbfrageMoeglichkeitenWeb,
+                AlleKontoAbfrageMoeglichkeitenAngaben = alleKontoAbfrageArten,
                 KundenID = int.Parse(Request.Cookies["idKunde"].Value)
             };
            
@@ -476,7 +476,7 @@ namespace DeutscheBank.web.Controllers
                 IBAN = bicUndIban[1],
                 IstDeutscheBankKunde = true,
                 BankInstitut = "Deutsche Bank AG",
-                KundenID = int.Parse(Request.Cookies["kundenID"].Value)
+                KundenID = int.Parse(Request.Cookies["idKunde"].Value)
             };
 
             return View(model);
@@ -520,7 +520,7 @@ namespace DeutscheBank.web.Controllers
 
             KontoInformationenModel model = new KontoInformationenModel()
             {
-                ID = int.Parse(Request.Cookies["kundenID"].Value)
+                ID = int.Parse(Request.Cookies["idKunde"].Value)
             };
 
             return View(model);

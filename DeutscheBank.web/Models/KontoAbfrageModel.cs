@@ -17,7 +17,7 @@ namespace DeutscheBank.web.Models
         [Required]
         public int KundenID { get; set; }
 
-        public List<KontoAbfrageMoeglichkeitModel> AlleKontoAbfrageMoeglichkeitenAngaben { get; set; }
+        public List<KontoAbfrageArtModel> AlleKontoAbfrageMoeglichkeitenAngaben { get; set; }
 
 
 
