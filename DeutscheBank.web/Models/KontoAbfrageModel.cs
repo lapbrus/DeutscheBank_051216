@@ -10,14 +10,14 @@ namespace DeutscheBank.web.Models
     public class KontoAbfrageModel
     {
         [Required(ErrorMessage = "Bitte Ihre Angaben zum Konto machen, mittels dem Sie den Kredit abwickeln möchten.")]
-        [Display(Name = "Kontaktabfrage")]
+        [Display(Name = "Kontoabfrage")]
         public int ID_KontoAbfrage { get; set; }
 
         [HiddenInput(DisplayValue = false)]
         [Required]
         public int KundenID { get; set; }
 
-        public List<KontoAbfrageArtModel> AlleKontoAbfrageMoeglichkeitenAngaben { get; set; }
+        public List<KontoIdentifizierungsArtModel> AlleKontoIdentifizierungsMoeglichkeitsAngaben { get; set; }
 
 
 

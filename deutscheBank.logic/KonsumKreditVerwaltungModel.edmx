@@ -5,12 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="dbKreditModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Während der Generierung sind Fehler aufgetreten:
-Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschlüssel definiert, und es konnte kein gültiger Primärschlüssel abgeleitet werden. Diese Tabelle/Sicht wurde ausgeschlossen. Wenn Sie die Entität verwenden möchten, müssen Sie das Schema überprüfen, die richtigen Schlüssel hinzufügen und die Auskommentierung aufheben.
-        <EntityType Name="Länderneu">
-          <Property Name="ABC" Type="varchar" MaxLength="50" />
-          <Property Name="Abchasien" Type="varchar" MaxLength="500" />
-        </EntityType>-->
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -28,6 +22,13 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="Kennwort" Type="varbinary" MaxLength="16" />
+        </EntityType>
+        <EntityType Name="tblAntragBezahlt">
+          <Key>
+            <PropertyRef Name="IDAntragBezahlt" />
+          </Key>
+          <Property Name="IDAntragBezahlt" Type="int" Nullable="false" />
+          <Property Name="Bezahlt" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="tblArbeitgeber">
           <Key>
@@ -103,8 +104,17 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </Key>
           <Property Name="IDKontoDaten" Type="int" Nullable="false" />
           <Property Name="BIC" Type="varchar" MaxLength="25" Nullable="false" />
-          <Property Name="IBAN" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="IBAN" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="HatKonto" Type="bit" Nullable="false" />
+          <Property Name="Bank" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblKontoDatenZurAbbuchung">
+          <Key>
+            <PropertyRef Name="IDKontoDatenZurAbbuchung" />
+          </Key>
+          <Property Name="IDKontoDatenZurAbbuchung" Type="int" Nullable="false" />
+          <Property Name="BIC" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="IBAN" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Bank" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="tblKredit">
@@ -116,6 +126,16 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="GewuenschterKredit" Type="decimal" Precision="10" Scale="2" Nullable="false" />
           <Property Name="GewuenschteLaufzeit" Type="int" Nullable="false" />
           <Property Name="KreditBewilligt" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblKreditKartenDatenZurAbbuchung">
+          <Key>
+            <PropertyRef Name="IDKreditKartenDatenZurAbbuchung" />
+          </Key>
+          <Property Name="IDKreditKartenDatenZurAbbuchung" Type="int" Nullable="false" />
+          <Property Name="Inhaber" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="KartenNr" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gueltigkeit" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CVCNummer" Type="char" MaxLength="3" Nullable="false" />
         </EntityType>
         <EntityType Name="tblKunde">
           <Key>
@@ -133,6 +153,16 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="FKSchulabschluss" Type="int" />
           <Property Name="IdentifikationsNummer" Type="varchar" MaxLength="30" />
           <Property Name="FKIdentifikationsArt" Type="int" />
+        </EntityType>
+        <EntityType Name="tblKundenKreditkarte">
+          <Key>
+            <PropertyRef Name="IDKundenKreditKarte" />
+          </Key>
+          <Property Name="IDKundenKreditKarte" Type="int" Nullable="false" />
+          <Property Name="Inhaber" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="KartenNummer" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Gueltigkeit" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="CVC_Nummer" Type="char" MaxLength="3" Nullable="false" />
         </EntityType>
         <EntityType Name="tblLand">
           <Key>
@@ -179,6 +209,18 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <Property Name="IDWohnart" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Wohnart" Type="varchar" MaxLength="40" Nullable="false" />
         </EntityType>
+        <Association Name="FK__tblAntrag__IDAnt__0E391C95">
+          <End Role="tblKunde" Type="Self.tblKunde" Multiplicity="1" />
+          <End Role="tblAntragBezahlt" Type="Self.tblAntragBezahlt" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblKunde">
+              <PropertyRef Name="IDKunde" />
+            </Principal>
+            <Dependent Role="tblAntragBezahlt">
+              <PropertyRef Name="IDAntragBezahlt" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__tblArbeit__FKBes__49C3F6B7">
           <End Role="tblBeschaeftigungsart" Type="Self.tblBeschaeftigungsart" Multiplicity="1" />
           <End Role="tblArbeitgeber" Type="Self.tblArbeitgeber" Multiplicity="*" />
@@ -251,6 +293,18 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__tblKontoD__IDKon__0880433F">
+          <End Role="tblKunde" Type="Self.tblKunde" Multiplicity="1" />
+          <End Role="tblKontoDatenZurAbbuchung" Type="Self.tblKontoDatenZurAbbuchung" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblKunde">
+              <PropertyRef Name="IDKunde" />
+            </Principal>
+            <Dependent Role="tblKontoDatenZurAbbuchung">
+              <PropertyRef Name="IDKontoDatenZurAbbuchung" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__tblKontoD__IDKon__4D94879B">
           <End Role="tblKunde" Type="Self.tblKunde" Multiplicity="1" />
           <End Role="tblKontoDaten" Type="Self.tblKontoDaten" Multiplicity="0..1" />
@@ -272,6 +326,18 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
             </Principal>
             <Dependent Role="tblKredit">
               <PropertyRef Name="FKKunde" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblKredit__IDKre__0B5CAFEA">
+          <End Role="tblKunde" Type="Self.tblKunde" Multiplicity="1" />
+          <End Role="tblKreditKartenDatenZurAbbuchung" Type="Self.tblKreditKartenDatenZurAbbuchung" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblKunde">
+              <PropertyRef Name="IDKunde" />
+            </Principal>
+            <Dependent Role="tblKreditKartenDatenZurAbbuchung">
+              <PropertyRef Name="IDKreditKartenDatenZurAbbuchung" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -347,6 +413,18 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK__tblKunden__IDKun__625A9A57">
+          <End Role="tblKunde" Type="Self.tblKunde" Multiplicity="1" />
+          <End Role="tblKundenKreditkarte" Type="Self.tblKundenKreditkarte" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="tblKunde">
+              <PropertyRef Name="IDKunde" />
+            </Principal>
+            <Dependent Role="tblKundenKreditkarte">
+              <PropertyRef Name="IDKundenKreditKarte" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK__tbllogin__IDLogi__70DDC3D8">
           <End Role="tblKunde" Type="Self.tblKunde" Multiplicity="1" />
           <End Role="tbllogin" Type="Self.tbllogin" Multiplicity="0..1" />
@@ -374,6 +452,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
         <EntityContainer Name="dbKreditModelStoreContainer">
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblAdmin" EntityType="Self.tblAdmin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblAntragBezahlt" EntityType="Self.tblAntragBezahlt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblArbeitgeber" EntityType="Self.tblArbeitgeber" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBeschaeftigungsart" EntityType="Self.tblBeschaeftigungsart" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblBranche" EntityType="Self.tblBranche" Schema="dbo" store:Type="Tables" />
@@ -383,14 +462,21 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <EntitySet Name="tblIdentifikationsArt" EntityType="Self.tblIdentifikationsArt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKontaktDaten" EntityType="Self.tblKontaktDaten" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKontoDaten" EntityType="Self.tblKontoDaten" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblKontoDatenZurAbbuchung" EntityType="Self.tblKontoDatenZurAbbuchung" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKredit" EntityType="Self.tblKredit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblKreditKartenDatenZurAbbuchung" EntityType="Self.tblKreditKartenDatenZurAbbuchung" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblKunde" EntityType="Self.tblKunde" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblKundenKreditkarte" EntityType="Self.tblKundenKreditkarte" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblLand" EntityType="Self.tblLand" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbllogin" EntityType="Self.tbllogin" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblOrt" EntityType="Self.tblOrt" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblSchulabschluss" EntityType="Self.tblSchulabschluss" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblTitel" EntityType="Self.tblTitel" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tblWohnart" EntityType="Self.tblWohnart" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblAntrag__IDAnt__0E391C95" Association="Self.FK__tblAntrag__IDAnt__0E391C95">
+            <End Role="tblKunde" EntitySet="tblKunde" />
+            <End Role="tblAntragBezahlt" EntitySet="tblAntragBezahlt" />
+          </AssociationSet>
           <AssociationSet Name="FK__tblArbeit__FKBes__49C3F6B7" Association="Self.FK__tblArbeit__FKBes__49C3F6B7">
             <End Role="tblBeschaeftigungsart" EntitySet="tblBeschaeftigungsart" />
             <End Role="tblArbeitgeber" EntitySet="tblArbeitgeber" />
@@ -415,6 +501,10 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
             <End Role="tblKunde" EntitySet="tblKunde" />
             <End Role="tblKontaktDaten" EntitySet="tblKontaktDaten" />
           </AssociationSet>
+          <AssociationSet Name="FK__tblKontoD__IDKon__0880433F" Association="Self.FK__tblKontoD__IDKon__0880433F">
+            <End Role="tblKunde" EntitySet="tblKunde" />
+            <End Role="tblKontoDatenZurAbbuchung" EntitySet="tblKontoDatenZurAbbuchung" />
+          </AssociationSet>
           <AssociationSet Name="FK__tblKontoD__IDKon__4D94879B" Association="Self.FK__tblKontoD__IDKon__4D94879B">
             <End Role="tblKunde" EntitySet="tblKunde" />
             <End Role="tblKontoDaten" EntitySet="tblKontoDaten" />
@@ -422,6 +512,10 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <AssociationSet Name="FK__tblKredit__FKKun__02FC7413" Association="Self.FK__tblKredit__FKKun__02FC7413">
             <End Role="tblKunde" EntitySet="tblKunde" />
             <End Role="tblKredit" EntitySet="tblKredit" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblKredit__IDKre__0B5CAFEA" Association="Self.FK__tblKredit__IDKre__0B5CAFEA">
+            <End Role="tblKunde" EntitySet="tblKunde" />
+            <End Role="tblKreditKartenDatenZurAbbuchung" EntitySet="tblKreditKartenDatenZurAbbuchung" />
           </AssociationSet>
           <AssociationSet Name="FK__tblKunde__FKFami__398D8EEE" Association="Self.FK__tblKunde__FKFami__398D8EEE">
             <End Role="tblFamilienstand" EntitySet="tblFamilienstand" />
@@ -446,6 +540,10 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <AssociationSet Name="FK__tblKunde__FKWohn__3B75D760" Association="Self.FK__tblKunde__FKWohn__3B75D760">
             <End Role="tblWohnart" EntitySet="tblWohnart" />
             <End Role="tblKunde" EntitySet="tblKunde" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblKunden__IDKun__625A9A57" Association="Self.FK__tblKunden__IDKun__625A9A57">
+            <End Role="tblKunde" EntitySet="tblKunde" />
+            <End Role="tblKundenKreditkarte" EntitySet="tblKundenKreditkarte" />
           </AssociationSet>
           <AssociationSet Name="FK__tbllogin__IDLogi__70DDC3D8" Association="Self.FK__tbllogin__IDLogi__70DDC3D8">
             <End Role="tblKunde" EntitySet="tblKunde" />
@@ -523,7 +621,7 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="BIC" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="IBAN" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IBAN" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="HatKonto" Type="Boolean" Nullable="false" />
           <Property Name="Bank" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblKontoD__IDKon__4D94879B" FromRole="KontoDaten" ToRole="tblKunde" />
@@ -712,6 +810,26 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
             <End Role="Kunde" EntitySet="AlleKunden" />
             <End Role="tblKontaktDaten" EntitySet="AlleKontaktDaten" />
           </AssociationSet>
+          <EntitySet Name="AlleKundenKreditkarten" EntityType="dbKreditModel.KundenKreditkarte" />
+          <AssociationSet Name="FK__tblKunden__IDKun__625A9A57" Association="dbKreditModel.FK__tblKunden__IDKun__625A9A57">
+            <End Role="Kunde" EntitySet="AlleKunden" />
+            <End Role="tblKundenKreditkarte" EntitySet="AlleKundenKreditkarten" />
+          </AssociationSet>
+          <EntitySet Name="AlleAntragBezahltKonditionen" EntityType="dbKreditModel.AntragBezahlt" />
+          <EntitySet Name="AlleKontoDatenZurAbbuchung" EntityType="dbKreditModel.KontoDatenZurAbbuchung" />
+          <EntitySet Name="AlleKreditKartenDatenZurAbbuchung" EntityType="dbKreditModel.KreditKartenDatenZurAbbuchung" />
+          <AssociationSet Name="FK__tblAntrag__IDAnt__0E391C95" Association="dbKreditModel.FK__tblAntrag__IDAnt__0E391C95">
+            <End Role="Kunde" EntitySet="AlleKunden" />
+            <End Role="tblAntragBezahlt" EntitySet="AlleAntragBezahltKonditionen" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblKontoD__IDKon__0880433F" Association="dbKreditModel.FK__tblKontoD__IDKon__0880433F">
+            <End Role="Kunde" EntitySet="AlleKunden" />
+            <End Role="tblKontoDatenZurAbbuchung" EntitySet="AlleKontoDatenZurAbbuchung" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblKredit__IDKre__0B5CAFEA" Association="dbKreditModel.FK__tblKredit__IDKre__0B5CAFEA">
+            <End Role="Kunde" EntitySet="AlleKunden" />
+            <End Role="tblKreditKartenDatenZurAbbuchung" EntitySet="AlleKreditKartenDatenZurAbbuchung" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="FamilienStand">
           <Key>
@@ -767,6 +885,10 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
           <NavigationProperty Name="Wohnart" Relationship="dbKreditModel.FK__tblKunde__FKWohn__3B75D760" FromRole="tblKunde" ToRole="Wohnart" />
           <NavigationProperty Name="login" Relationship="dbKreditModel.FK__tbllogin__IDLogi__70DDC3D8" FromRole="tblKunde" ToRole="login" />
           <NavigationProperty Name="KontaktDaten" Relationship="dbKreditModel.FK__tblKontak__IDKon__44CA3770" FromRole="Kunde" ToRole="tblKontaktDaten" />
+          <NavigationProperty Name="KundenKreditkarte" Relationship="dbKreditModel.FK__tblKunden__IDKun__625A9A57" FromRole="Kunde" ToRole="tblKundenKreditkarte" />
+          <NavigationProperty Name="AntragBezahlt" Relationship="dbKreditModel.FK__tblAntrag__IDAnt__0E391C95" FromRole="Kunde" ToRole="tblAntragBezahlt" />
+          <NavigationProperty Name="KontoDatenZurAbbuchung" Relationship="dbKreditModel.FK__tblKontoD__IDKon__0880433F" FromRole="Kunde" ToRole="tblKontoDatenZurAbbuchung" />
+          <NavigationProperty Name="KreditKartenDatenZurAbbuchung" Relationship="dbKreditModel.FK__tblKredit__IDKre__0B5CAFEA" FromRole="Kunde" ToRole="tblKreditKartenDatenZurAbbuchung" />
         </EntityType>
         <Association Name="FK__tblArbeit__IDArb__48CFD27E">
           <End Type="dbKreditModel.Kunde" Role="tblKunde" Multiplicity="1" />
@@ -933,6 +1055,94 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="tblKontaktDaten">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="KundenKreditkarte">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Inhaber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KartenNummer" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gueltigkeit" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CVC_Nummer" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblKunden__IDKun__625A9A57" FromRole="tblKundenKreditkarte" ToRole="Kunde" />
+        </EntityType>
+        <Association Name="FK__tblKunden__IDKun__625A9A57">
+          <End Type="dbKreditModel.Kunde" Role="Kunde" Multiplicity="1" />
+          <End Type="dbKreditModel.KundenKreditkarte" Role="tblKundenKreditkarte" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Kunde">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblKundenKreditkarte">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AntragBezahlt">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Bezahlt" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblAntrag__IDAnt__0E391C95" FromRole="tblAntragBezahlt" ToRole="Kunde" />
+        </EntityType>
+        <EntityType Name="KontoDatenZurAbbuchung">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="BIC" Type="String" Nullable="false" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="IBAN" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Bank" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblKontoD__IDKon__0880433F" FromRole="tblKontoDatenZurAbbuchung" ToRole="Kunde" />
+        </EntityType>
+        <EntityType Name="KreditKartenDatenZurAbbuchung">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Inhaber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KartenNr" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Gueltigkeit" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CVCNummer" Type="String" Nullable="false" MaxLength="3" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="Kunde" Relationship="dbKreditModel.FK__tblKredit__IDKre__0B5CAFEA" FromRole="tblKreditKartenDatenZurAbbuchung" ToRole="Kunde" />
+        </EntityType>
+        <Association Name="FK__tblAntrag__IDAnt__0E391C95">
+          <End Type="dbKreditModel.Kunde" Role="Kunde" Multiplicity="1" />
+          <End Type="dbKreditModel.AntragBezahlt" Role="tblAntragBezahlt" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Kunde">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblAntragBezahlt">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblKontoD__IDKon__0880433F">
+          <End Type="dbKreditModel.Kunde" Role="Kunde" Multiplicity="1" />
+          <End Type="dbKreditModel.KontoDatenZurAbbuchung" Role="tblKontoDatenZurAbbuchung" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Kunde">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblKontoDatenZurAbbuchung">
+              <PropertyRef Name="ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblKredit__IDKre__0B5CAFEA">
+          <End Type="dbKreditModel.Kunde" Role="Kunde" Multiplicity="1" />
+          <End Type="dbKreditModel.KreditKartenDatenZurAbbuchung" Role="tblKreditKartenDatenZurAbbuchung" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Kunde">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="tblKreditKartenDatenZurAbbuchung">
               <PropertyRef Name="ID" />
             </Dependent>
           </ReferentialConstraint>
@@ -1127,6 +1337,46 @@ Warnung 6013: Für Tabelle/Sicht 'dbKredit.dbo.Länderneu' ist kein Primärschl�
                 <ScalarProperty Name="Strasse" ColumnName="Strasse" />
                 <ScalarProperty Name="FKOrt" ColumnName="FKOrt" />
                 <ScalarProperty Name="ID" ColumnName="IDKontaktDaten" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleKundenKreditkarten">
+            <EntityTypeMapping TypeName="dbKreditModel.KundenKreditkarte">
+              <MappingFragment StoreEntitySet="tblKundenKreditkarte">
+                <ScalarProperty Name="CVC_Nummer" ColumnName="CVC_Nummer" />
+                <ScalarProperty Name="Gueltigkeit" ColumnName="Gueltigkeit" />
+                <ScalarProperty Name="KartenNummer" ColumnName="KartenNummer" />
+                <ScalarProperty Name="Inhaber" ColumnName="Inhaber" />
+                <ScalarProperty Name="ID" ColumnName="IDKundenKreditKarte" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleAntragBezahltKonditionen">
+            <EntityTypeMapping TypeName="dbKreditModel.AntragBezahlt">
+              <MappingFragment StoreEntitySet="tblAntragBezahlt">
+                <ScalarProperty Name="Bezahlt" ColumnName="Bezahlt" />
+                <ScalarProperty Name="ID" ColumnName="IDAntragBezahlt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleKontoDatenZurAbbuchung">
+            <EntityTypeMapping TypeName="dbKreditModel.KontoDatenZurAbbuchung">
+              <MappingFragment StoreEntitySet="tblKontoDatenZurAbbuchung">
+                <ScalarProperty Name="Bank" ColumnName="Bank" />
+                <ScalarProperty Name="IBAN" ColumnName="IBAN" />
+                <ScalarProperty Name="BIC" ColumnName="BIC" />
+                <ScalarProperty Name="ID" ColumnName="IDKontoDatenZurAbbuchung" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AlleKreditKartenDatenZurAbbuchung">
+            <EntityTypeMapping TypeName="dbKreditModel.KreditKartenDatenZurAbbuchung">
+              <MappingFragment StoreEntitySet="tblKreditKartenDatenZurAbbuchung">
+                <ScalarProperty Name="CVCNummer" ColumnName="CVCNummer" />
+                <ScalarProperty Name="Gueltigkeit" ColumnName="Gueltigkeit" />
+                <ScalarProperty Name="KartenNr" ColumnName="KartenNr" />
+                <ScalarProperty Name="Inhaber" ColumnName="Inhaber" />
+                <ScalarProperty Name="ID" ColumnName="IDKreditKartenDatenZurAbbuchung" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

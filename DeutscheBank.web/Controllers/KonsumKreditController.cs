@@ -14,7 +14,6 @@ namespace DeutscheBank.web.Controllers
     {
         #region KreditRahmen
 
-  
 
         [HttpGet]
         public ActionResult KreditRahmen()
@@ -70,7 +69,7 @@ namespace DeutscheBank.web.Controllers
         #endregion
 
         #region FinanzielleSituation
-       
+
         [HttpGet]
         public ActionResult FinanzielleSituation()
         {
@@ -111,7 +110,7 @@ namespace DeutscheBank.web.Controllers
         #endregion
 
         #region PersönlicheDaten
-        
+
         [HttpGet]
         public ActionResult PersönlicheDaten()
         {
@@ -231,7 +230,7 @@ namespace DeutscheBank.web.Controllers
         #endregion
 
         #region Arbeitgeber
-        
+
         [HttpGet]
         public ActionResult Arbeitgeber()
         {
@@ -303,17 +302,13 @@ namespace DeutscheBank.web.Controllers
 
         #region KontoInformationen
 
-
-
-
         /// <summary>
-        /// Hier wird mittels Dropdown abgefragt, ob der Kunde:
-        ///     - ein vorhandenes Deutsche Ban AG - Konto verwenden möchte
-        ///     - ein neues Konto bei der Deutschen Bank AG anlegen möchte
-        ///       und dieses dann für den Konsum-Kredit vewenden möchte
-        ///     - oder ein anderes Konto einer anderen Bank verwenden möchte
+        /// Es wird geprüft welche Bankverbindung der Kunde bereits hat 
+        ///     Konto bei der Deutschen Bank bereits vorhanden oder soll ein neues Angelegt werden?
+        ///     Konto bei einer anderen Bank? 
+        ///     Möchte sich der Kunde mit einer Kreditkarte ausweisen
         /// </summary>
-        /// <returns>Je nach Entscheidung zum richtigen Controller / anderfalls das "model" in der akt. View</returns>
+
         [HttpGet]
         public ActionResult KontoVerfuegbar()
         {
@@ -321,26 +316,26 @@ namespace DeutscheBank.web.Controllers
             Debug.WriteLine("GET - KonsumKreditController - KontoInformation");
             Debug.Unindent();
 
-            List<KontoAbfrageArtModel> alleKontoAbfrageArten = new List<KontoAbfrageArtModel>();
+            List<KontoIdentifizierungsArtModel> alleKontoIdentifizierungsArten = new List<KontoIdentifizierungsArtModel>();
 
             /// Lade alle Kontoabfrage-Möglichkeiten aus der Businesslogic in 
-            /// die Liste "alleKontoAbfrageArten".
-            foreach (var kontoAbfrageMoeglichkeitWeb in KonsumKreditVerwaltung.KontoAbfrageMoeglichkeitenLaden())
+            /// die Liste "alleKontoIdentifizierungsArten".
+            foreach (var kontoIdentifizierungsMoeglichkeit in KonsumKreditVerwaltung.KontoIdentifizierungsMoeglichkeitenLaden())
             {
-                alleKontoAbfrageArten.Add(new KontoAbfrageArtModel()
+                alleKontoIdentifizierungsArten.Add(new KontoIdentifizierungsArtModel()
                 {
-                    ID = kontoAbfrageMoeglichkeitWeb.ID.ToString(),
-                    Bezeichnung = kontoAbfrageMoeglichkeitWeb.Bezeichnung
-                    });
+                    ID = kontoIdentifizierungsMoeglichkeit.ID.ToString(),
+                    Bezeichnung = kontoIdentifizierungsMoeglichkeit.Bezeichnung
+                });
             }
 
             /// Erzeuge das Model und weise der Liste alle wichtigen Details zu (ID´s, Bezeichnungen)
             KontoAbfrageModel model = new KontoAbfrageModel()
             {
-                AlleKontoAbfrageMoeglichkeitenAngaben = alleKontoAbfrageArten,
+                AlleKontoIdentifizierungsMoeglichkeitsAngaben = alleKontoIdentifizierungsArten,
                 KundenID = int.Parse(Request.Cookies["idKunde"].Value)
             };
-           
+
             Debug.Unindent();
 
             return View(model);
@@ -387,9 +382,19 @@ namespace DeutscheBank.web.Controllers
 
                     return RedirectToAction("AndereKontoInformation");
                 }
+                else if (auswahl == 4)
+                {
+                    Debug.WriteLine("Auswahl Kreditkarte:");
+                    Debug.Indent();
+                    Debug.WriteLine("ID: " + model.ID_KontoAbfrage);
+                    Debug.WriteLine("Auswahl: \"Kreditkarte verwenden\"");
+                    Debug.Unindent();
+
+                    return RedirectToAction("KreditkarteVerfuegbar");
+                }
                 else
                 {
-                    Debug.WriteLine("Irgendetwas ist Schief gegangen....");
+                    Debug.WriteLine("Fehler bei Konto angaben....");
                     Debug.Indent();
                     Debug.WriteLine("ID: " + model.ID_KontoAbfrage);
                     Debug.Unindent();
@@ -404,11 +409,9 @@ namespace DeutscheBank.web.Controllers
         }
 
         /// <summary>
-        /// Hier darf der User die Daten seines Vorhandenen Deutsche Bank AG - Kontos
-        /// angeben, Das Eingabefeld Bank wird sichtbar für den User da gestellt, aber
-        /// nicht veränderbar sein (Label)
+        /// Für vorhandenen Deutsche Bank AG - Kontos
         /// </summary>
-        /// <returns></returns>
+
         [HttpGet]
         public ActionResult HatDeutscheBankKontoInformation()
         {
@@ -454,11 +457,9 @@ namespace DeutscheBank.web.Controllers
         }
 
         /// <summary>
-        /// Hier bekommt der User einen Vorschlag für sein neues 
-        /// Deutsche Bank AG - Kontos und kann dieses mit "erstellen" 
-        /// bestätigen.
-        /// </summary>
-        /// <returns></returns>
+        /// neues Konto bei der Deutschen Bank erstellen 
+        /// </summary> 
+
         [HttpGet]
         public ActionResult NeuesDeutscheBankKontoInformation()
         {
@@ -507,10 +508,8 @@ namespace DeutscheBank.web.Controllers
         }
 
         /// <summary>
-        /// Hier kann der User die ganzen benötigten Konto-Informationene selbst eingeben,
-        /// muss allerdings seine Bank angeben.
+        /// Andere selbst eingegeben Konto-Informationen (andere nicht Deutsche Bank)
         /// </summary>
-        /// <returns></returns>
         [HttpGet]
         public ActionResult AndereKontoInformation()
         {
@@ -549,6 +548,62 @@ namespace DeutscheBank.web.Controllers
 
             return View(model);
         }
+
+        // Wenn der Kunde statt Kontoinformationen lieber die 
+        // Kreditkarten Infomationen angeben möchte
+
+
+        [HttpGet]
+        public ActionResult KreditKarteVerfuegbar()
+        {
+            Debug.Indent();
+            Debug.WriteLine("GET - KonsumKreditController - KreditKarteVerfuegbar");
+            Debug.Unindent();
+
+            KontoAbfrageModel model = new KontoAbfrageModel()
+            {
+                KundenID = int.Parse(Request.Cookies["idKunde"].Value)
+            };
+            KreditKartenModel model1 = new KreditKartenModel()
+            {
+                KundenID = model.KundenID,
+                Inhaber = "Max Musterman",
+                GueltigBis = "05/20",
+                CVC_Nummer = "888"
+            };
+
+            return View(model1);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult KreditkarteVerfuegbar(KreditKartenModel model)
+        {
+            Debug.Indent();
+            Debug.WriteLine("POST - KonsumKreditController - Kreditkarte");
+            Debug.Unindent();
+
+            // model.Inhaber = KonsumKreditVerwaltung.FilterAufVorhandeneLeerzeichen(model.Inhaber);
+            // model.KartenNummer = KonsumKreditVerwaltung.
+            //model.GueltigBis = KonsumKreditVerwaltung.LeerzeichenEinfuegen(model.IBAN);
+            //model.CVC_Nummer = 
+
+            if (ModelState.IsValid)
+            {
+                if (KonsumKreditVerwaltung.KreditKontoInformationenSpeichern(model.Inhaber,
+                                                                        model.KartenNummer,
+                                                                        model.GueltigBis,
+                                                                        model.CVC_Nummer,
+                                                                        model.KundenID
+                                                                        ))
+                {
+                    return RedirectToAction("KontaktDaten");
+                }
+            }
+
+            return View(model);
+        }
+
         #endregion
 
         #region KontaktDaten
@@ -587,8 +642,8 @@ namespace DeutscheBank.web.Controllers
 
             KontaktDatenModel model = new KontaktDatenModel();
             model = KontaktDatenLookup(model);
-            
-            
+
+
 
             KontaktDaten kontaktDaten = KonsumKreditVerwaltung.KontaktDatenLaden(model.ID_Kunde);
             if (kontaktDaten != null)
@@ -601,7 +656,7 @@ namespace DeutscheBank.web.Controllers
 
             }
             return View(model);
-            
+
         }
 
         [HttpPost]
@@ -622,7 +677,7 @@ namespace DeutscheBank.web.Controllers
                                                 model.EMail,
                                                 model.TelefonNummer))
                 {
-                    return RedirectToAction("Zusammenfassung");
+                    return RedirectToAction("HinweisAufBearbeitungsKosten");
                 }
             }
             model = KontaktDatenLookup(model);
@@ -633,10 +688,141 @@ namespace DeutscheBank.web.Controllers
 
 
         #endregion
+
+        #region BearbeitungsKosten
+
+       
+
+        /// <summary>
+        /// Hinweis auf BearbeitungsKosten
+        /// </summary>
+
+        [HttpGet]
+        public ActionResult HinweisAufBearbeitungsKosten()
+        {
+            Debug.Indent();
+            Debug.WriteLine("GET - KonsumKreditController - HinweisAufBerabeitungsKosten");
+            Debug.Unindent();
+
+            AntragBezahltModel model = new AntragBezahltModel()
+            {
+                ID_Kunde = int.Parse(Request.Cookies["idKunde"].Value)
+
+            };
+            return View(model);
+            
+        }
+
+       
+    
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult HinweisAufBearbeitungsKosten(AntragBezahltModel model)
+    {
+        Debug.Indent();
+        Debug.WriteLine("POST - KonsumKreditController - HinweisAufAntragsKosten");
+        Debug.Unindent();
+
+        if (ModelState.IsValid)
+        {
+            if (KonsumKreditVerwaltung.AntragsKonditionSpeichern
+                (model.Bezahlt,
+                model.ID_Kunde))                                                                                                                    
+                {
+                return RedirectToAction("KontoinformationenFuerAbbuchung");
+            }
+        }
+        return View(model);
+    }
+
+    ///KontoDatenZurAbbuchung
+    /// <summary>
+    /// Andere selbst eingegeben Konto-Informationen (andere nicht Deutsche Bank)
+    /// </summary>
+    [HttpGet]
+    public ActionResult KontoInformationenFuerAbbuchung()
+    {
+        Debug.Indent();
+        Debug.WriteLine("GET - KonsumKreditController - KontoInformation");
+        Debug.Unindent();
+
+        KontoDatenZurAbbuchung model = new KontoDatenZurAbbuchung()
+        {
+            ID = int.Parse(Request.Cookies["idKunde"].Value)
+        };
+
+        return View(model);
+    }
+
         
+
+        [HttpPost]
+    [ValidateAntiForgeryToken]
+    public ActionResult KontoInformationenFuerAbbuchung(KontoDatenZurAbbuchungModel model)
+    {
+        Debug.Indent();
+        Debug.WriteLine("POST - KonsumKreditController - KontoInformation");
+        Debug.Unindent();
+
+        if (ModelState.IsValid)
+        {
+            if (KonsumKreditVerwaltung.KontoInformationenZurAbbuchungSpeichern (model.BIC,
+                                                                    model.IBAN,
+                                                                    model.Bank,
+                                                                    model.ID))
+                {                                                       
+                return RedirectToAction("Zusammenfassung");
+            }
+        }
+
+        return View(model);
+    }
+
+        [HttpGet]
+        public ActionResult KreditCardInformationenFuerAbbuchung()
+        {
+            Debug.Indent();
+            Debug.WriteLine("GET - KonsumKreditController - KreditCardInformation");
+            Debug.Unindent();
+
+            KreditKartenDatenZurAbbuchung model = new KreditKartenDatenZurAbbuchung()
+            {
+                ID = int.Parse(Request.Cookies["idKunde"].Value)
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult KreditCardInformationenFuerAbbuchung(KontoDatenZurAbbuchungModel model)
+        {
+            Debug.Indent();
+            Debug.WriteLine("POST - KonsumKreditController - KontoInformation");
+            Debug.Unindent();
+
+            if (ModelState.IsValid)
+            {
+                if (KonsumKreditVerwaltung.KontoInformationenZurAbbuchungSpeichern(model.BIC,
+                                                                        model.IBAN,
+                                                                        model.Bank,
+                                                                        model.ID))
+                {
+                    return RedirectToAction("Zusammenfassung");
+                }
+            }
+
+            return View(model);
+        }
+
+        #endregion
+
+
+
         #region Zusammenfassung
 
-   
+
         [HttpGet]
         public ActionResult Zusammenfassung()
         {
@@ -654,8 +840,8 @@ namespace DeutscheBank.web.Controllers
             Kunde aktKunde = KonsumKreditVerwaltung.KundeLaden(model.ID_Kunde);
             Ort aktOrt = KonsumKreditVerwaltung.KundenOrtLaden(model.ID_Kunde);
 
-            model.GewünschterBetrag = (double) aktKunde.AlleKredite.ToList()[aktKunde.AlleKredite.ToList().Count-1].GewuenschterKredit;
-            model.Laufzeit = (int)aktKunde.AlleKredite.ToList()[aktKunde.AlleKredite.ToList().Count-1].GewuenschteLaufzeit;
+            model.GewünschterBetrag = (double)aktKunde.AlleKredite.ToList()[aktKunde.AlleKredite.ToList().Count - 1].GewuenschterKredit;
+            model.Laufzeit = (int)aktKunde.AlleKredite.ToList()[aktKunde.AlleKredite.ToList().Count - 1].GewuenschteLaufzeit;
 
             model.NettoEinkommen = (double)aktKunde.FinanzielleSituation.MonatsEinkommenNetto.Value;
             model.Wohnkosten = (double)aktKunde.FinanzielleSituation.Wohnkosten.Value;
@@ -667,11 +853,11 @@ namespace DeutscheBank.web.Controllers
             model.Vorname = aktKunde.Vorname;
             model.Nachname = aktKunde.Nachname;
             model.Titel = aktKunde.Titel?.Bezeichnung;
-         //   model.Titel = aktKunde.TitelNachstehend?.Bezeichnung;
+            //   model.Titel = aktKunde.TitelNachstehend?.Bezeichnung;
             model.GeburtsDatum = DateTime.Now;
             model.Staatsbuergerschaft = aktKunde.Land.Bezeichnung;
             model.AnzahlUnterhaltspflichtigeKinder = -1;
-            model.Familienstand= aktKunde.Familienstand?.Bezeichnung;
+            model.Familienstand = aktKunde.Familienstand?.Bezeichnung;
             model.Wohnart = aktKunde.Wohnart?.Bezeichnung;
             //  model.Schulabschluss = aktKunde.Schulabschluss?.Bezeichnung;
             model.Identifikationsart = aktKunde.IdentifikationsArt?.Bezeichnung;
@@ -681,8 +867,8 @@ namespace DeutscheBank.web.Controllers
             model.BeschaeftigungsArt = aktKunde.Arbeitgeber?.Beschaeftigungsart.Bezeichnung;
             model.Branche = aktKunde.Arbeitgeber?.Branche?.Bezeichnung;
             model.BeschaeftigtSeit = aktKunde.Arbeitgeber?.BeschaeftigtSeit.Value.ToShortDateString();
-            
-            
+
+
             model.Strasse = aktKunde.KontaktDaten?.Strasse;
             model.HausNummer = aktKunde.KontaktDaten?.Hausnummer;
             model.Ort = aktOrt.Bezeichnung;
@@ -690,7 +876,7 @@ namespace DeutscheBank.web.Controllers
             model.Mail = aktKunde.KontaktDaten?.EMail;
             model.TelefonNummer = aktKunde.KontaktDaten?.Telefonnummer;
 
-      //     model.HatKonto = (bool)aktKunde.KontoDaten?.HatKonto;
+            //     model.HatKonto = (bool)aktKunde.KontoDaten?.HatKonto;
             model.Bank = aktKunde.KontoDaten?.Bank;
             model.IBAN = aktKunde.KontoDaten?.IBAN;
             model.BIC = aktKunde.KontoDaten?.BIC;

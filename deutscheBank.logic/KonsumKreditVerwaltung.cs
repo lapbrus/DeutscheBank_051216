@@ -9,7 +9,7 @@ namespace deutscheBank.logic
 {
     public class KonsumKreditVerwaltung
     {
-  
+
         ///<summary>
         ///Erzeugt einen "lleren dummy Kunden
         ///zu dem in Folge alle Konsumkredit Daten
@@ -29,7 +29,7 @@ namespace deutscheBank.logic
                 {
                     neuerKunde = new logic.Kunde()
                     {
-                       
+
                         Vorname = "anonym",
                         Nachname = "anonym",
                         Geschlecht = "m"
@@ -56,7 +56,7 @@ namespace deutscheBank.logic
 
             Debug.Unindent();
             return neuerKunde;
-            
+
         }
         #region Kreditrahmen
 
@@ -568,7 +568,7 @@ namespace deutscheBank.logic
         /// <param name="idKunde">die ID des Kunden</param>
         /// <returns>true wenn das Anpassen der Werte erfolgreich war, ansonsten false</returns>
 
-       
+
         /// <summary>
         /// Lädt den Kunden für die übergebene ID
         /// </summary>
@@ -754,7 +754,7 @@ namespace deutscheBank.logic
             KontaktDaten kontaktDaten = null;
 
             try
-            { 
+            {
                 using (var context = new dbKreditEntities())
                 {
                     kontaktDaten = context.AlleKontaktDaten.Where(x => x.ID == id).FirstOrDefault();
@@ -762,19 +762,19 @@ namespace deutscheBank.logic
                 }
             }
             catch (Exception ex)
-            { 
+            {
                 Debug.WriteLine("Fehler in KontaktDatenLaden");
                 Debug.Indent();
                 Debug.WriteLine(ex.Message);
                 Debug.Indent();
                 Debugger.Break();
-            } 
+            }
             Debug.Unindent();
             return kontaktDaten;
-            
+
         }
 
-        public static bool KontaktDatenSpeichern(int id, int ort,  string strasse, string hausNummer, string eMail, string telefonNummer)
+        public static bool KontaktDatenSpeichern(int id, int ort, string strasse, string hausNummer, string eMail, string telefonNummer)
         {
             Debug.WriteLine("KonsumKreditVerwaltung - KonataktDatenSpeichern");
             Debug.Indent();
@@ -787,22 +787,22 @@ namespace deutscheBank.logic
                     ///
                     //  Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
                     Kunde aktKunde = context.AlleKunden.Where(x => x.ID == id).FirstOrDefault();
-                    if (aktKunde != null)                                                                                                 
-                    {                                                                                                                     
+                    if (aktKunde != null)
+                    {
                         if (aktKunde.KontaktDaten == null)  // ist in den "KontaktDaten" schon vorhanen                                   
-                            aktKunde.KontaktDaten = new KontaktDaten();                                                                   
-                                                                                                                                          
-                        aktKunde.KontaktDaten.ID = id;                                                                                    
-                        aktKunde.KontaktDaten.FKOrt = ort;                                                                                
-                        aktKunde.KontaktDaten.Strasse = strasse;                                                                          
-                        aktKunde.KontaktDaten.Hausnummer = hausNummer;                                                                    
-                        aktKunde.KontaktDaten.EMail = eMail;                                                                              
-                        aktKunde.KontaktDaten.Telefonnummer = telefonNummer;                                                              
-                                                                                                                                          
+                            aktKunde.KontaktDaten = new KontaktDaten();
+
+                        aktKunde.KontaktDaten.ID = id;
+                        aktKunde.KontaktDaten.FKOrt = ort;
+                        aktKunde.KontaktDaten.Strasse = strasse;
+                        aktKunde.KontaktDaten.Hausnummer = hausNummer;
+                        aktKunde.KontaktDaten.EMail = eMail;
+                        aktKunde.KontaktDaten.Telefonnummer = telefonNummer;
+
                     }
-                        int anzahlZeilenBetroffen = context.SaveChanges();
-                        erfolgreich = anzahlZeilenBetroffen >= 0;                                                                                                                  
-                        Debug.WriteLine($"{anzahlZeilenBetroffen} Kontakt-Daten gespeichert");
+                    int anzahlZeilenBetroffen = context.SaveChanges();
+                    erfolgreich = anzahlZeilenBetroffen >= 0;
+                    Debug.WriteLine($"{anzahlZeilenBetroffen} Kontakt-Daten gespeichert");
                 }
             }
             catch (Exception ex)
@@ -816,9 +816,9 @@ namespace deutscheBank.logic
             }
 
 
-                Debug.Unindent();
-                return erfolgreich;
-            }
+            Debug.Unindent();
+            return erfolgreich;
+        }
 
         /// <summary>
         /// Lädt zu einer übergebenen ID alle Informationen zu diesem Kunden aus der DB
@@ -848,9 +848,9 @@ namespace deutscheBank.logic
                         .Include("KontaktDaten")
                         .Include("KontoDaten")
                         .Include("AlleKredite")
-                      // .Include("Schulabschluss")
+                        // .Include("Schulabschluss")
                         .Include("Titel")
-                      //  .Include("TitelNachstehend")
+                        //  .Include("TitelNachstehend")
                         .Include("Wohnart")
                         .Include("Land")
                         .Where(x => x.ID == idKunde).FirstOrDefault();
@@ -867,7 +867,7 @@ namespace deutscheBank.logic
 
             Debug.Unindent();
             return aktuellerKunde;
-         
+
         }
 
         public static Ort KundenOrtLaden(int id)
@@ -903,30 +903,31 @@ namespace deutscheBank.logic
         #region KontoInformation
 
         /// <summary>
-        /// Hier wird das statisch hinzugefügte Model "KontoAbfrageMoeglichkeit"
+        /// Hier wird das statisch hinzugefügte Model "KontoIdentifizierungsMoeglichkeit"
         /// Als Basis genommen. Davon wird eine Liste erzeugt, die statisch 3 Einträge
         /// beinhaltet. Da es nicht notwendig ist diese ändern zu können, wird sie eben 
         /// statisch produziert.
         /// </summary>
         /// <returns>Eine Liste aus Abfragemöglichkeiten</returns>
-        public static List<KontoAbfrageMoeglichkeit> KontoAbfrageMoeglichkeitenLaden()
+        public static List<KontoIdentifizierungsMoeglichkeit> KontoIdentifizierungsMoeglichkeitenLaden()
         {
-            List<KontoAbfrageMoeglichkeit> alleKontoAbfrageMoeglichkeitenAngabenBL = null;
+            List<KontoIdentifizierungsMoeglichkeit> alleKontoIdentifizierungsMoeglichkeitenAngaben = null;
 
             try
             {
-                List<KontoAbfrageMoeglichkeit> zwischenListe = new List<KontoAbfrageMoeglichkeit>()
+                List<KontoIdentifizierungsMoeglichkeit> temporareKontoIdentifizierungsListe = new List<KontoIdentifizierungsMoeglichkeit>()
                 {
-                    new KontoAbfrageMoeglichkeit() { ID = 1, Bezeichnung = "Vorhandenes Deutsche Bank AG Konto." },
-                    new KontoAbfrageMoeglichkeit() { ID = 2, Bezeichnung = "Neues Konto bei Deutsche Bank AG anlegen." },
-                    new KontoAbfrageMoeglichkeit() { ID = 3, Bezeichnung = "Anderes Konto verwenden." }
+                    new KontoIdentifizierungsMoeglichkeit() { ID = 1, Bezeichnung = "Vorhandenes Deutsche Bank AG Konto." },
+                    new KontoIdentifizierungsMoeglichkeit() { ID = 2, Bezeichnung = "Neues Konto bei Deutsche Bank AG anlegen." },
+                    new KontoIdentifizierungsMoeglichkeit() { ID = 3, Bezeichnung = "Anderes Konto verwenden." },
+                    new KontoIdentifizierungsMoeglichkeit() { ID = 4, Bezeichnung = "Kreditkarte verwenden." }
                 };
 
-                alleKontoAbfrageMoeglichkeitenAngabenBL = zwischenListe;
+                alleKontoIdentifizierungsMoeglichkeitenAngaben = temporareKontoIdentifizierungsListe;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Fehler in KontoAbfrageMoeglichkeitenLaden");
+                Debug.WriteLine("Fehler in KontoIdentifizierungsMoeglichkeitenLaden");
                 Debug.Indent();
                 Debug.WriteLine(ex.Message);
                 Debug.Unindent();
@@ -935,7 +936,7 @@ namespace deutscheBank.logic
 
             Debug.Unindent();
 
-            return alleKontoAbfrageMoeglichkeitenAngabenBL;
+            return alleKontoIdentifizierungsMoeglichkeitenAngaben;
         }
 
         /// <summary>
@@ -945,10 +946,10 @@ namespace deutscheBank.logic
         /// <param name="iban"></param>
         /// <param name="bankInstitut"></param>
         /// <param name="istDeutscheBankKunde"></param>
-        /// <param name="kundenID"></param>
+        /// <param name="idKunde"></param>
         /// <param name="datenSatzVorhanden">bei TRUE wird ein vorhandener Datensatz bearbeitet/ bei FALSE ein neuer generiert</param>
         /// <returns></returns>
-        public static bool KontoInformationenSpeichern(string bic, string iban, string bankInstitut, bool istDeutscheBankKunde, int kundenID)
+        public static bool KontoInformationenSpeichern(string bic, string iban, string bankInstitut, bool istDeutscheBankKunde, int idKunde)
         {
             Debug.Indent();
             Debug.WriteLine("KonsumKreditVerwaltung - KontoInformationenSpeichern");
@@ -960,7 +961,7 @@ namespace deutscheBank.logic
             {
                 using (var context = new dbKreditEntities())
                 {
-                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == kundenID).FirstOrDefault();
+                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
 
                     if (aktKunde != null)
                     {
@@ -968,7 +969,7 @@ namespace deutscheBank.logic
                             aktKunde.KontoDaten = new KontoDaten();
 
                         /// Weise Daten den aktuellen Kunden zu (Somit kann man vorhandene Daten auch ändern)
-                        aktKunde.KontoDaten.ID = kundenID;
+                        aktKunde.KontoDaten.ID = idKunde;
                         aktKunde.KontoDaten.BIC = bic;
                         aktKunde.KontoDaten.IBAN = iban;
                         aktKunde.KontoDaten.Bank = bankInstitut;
@@ -1183,18 +1184,18 @@ namespace deutscheBank.logic
         /// <returns>Textkette ohne Leerzzeichen</returns>
         public static string FilterAufVorhandeneLeerzeichen(string eingabeIBAN)
         {
-            string zwischenListe = "";
+            string temporareKontoIdentifizierungsListe = "";
             if (eingabeIBAN != null)
             {
                 for (int i = 0; i < eingabeIBAN.Length; i++)
                 {
                     if (eingabeIBAN[i] == ' ')
-                        zwischenListe += "";
+                        temporareKontoIdentifizierungsListe += "";
                     else
-                        zwischenListe += eingabeIBAN[i];
+                        temporareKontoIdentifizierungsListe += eingabeIBAN[i];
                 }
 
-                eingabeIBAN = zwischenListe;
+                eingabeIBAN = temporareKontoIdentifizierungsListe;
 
             }
 
@@ -1208,7 +1209,7 @@ namespace deutscheBank.logic
         /// <returns>überarbeitete Texteingabe</returns>
         public static string LeerzeichenEinfuegen(string eingabeIBAN)
         {
-            string zwischenListe = "";
+            string temporareKontoIdentifizierungsListe = "";
             int leerzeichen = 1;
 
             if (eingabeIBAN != null)
@@ -1221,16 +1222,16 @@ namespace deutscheBank.logic
                         {
                             if (i == (leerzeichen - 1))
                             {
-                                zwischenListe += " ";
-                                zwischenListe += eingabeIBAN[i];
+                                temporareKontoIdentifizierungsListe += " ";
+                                temporareKontoIdentifizierungsListe += eingabeIBAN[i];
                             }
                             else
                             {
-                                zwischenListe += eingabeIBAN[i];
+                                temporareKontoIdentifizierungsListe += eingabeIBAN[i];
                             }
                         }
-                        eingabeIBAN = zwischenListe;
-                        zwischenListe = "";
+                        eingabeIBAN = temporareKontoIdentifizierungsListe;
+                        temporareKontoIdentifizierungsListe = "";
                     }
                     leerzeichen++;
                 }
@@ -1244,7 +1245,7 @@ namespace deutscheBank.logic
         /// </summary>
         /// <param name="kundenID">ID des vorhandenen Kunden</param>
         /// <returns>Kontodaten bei Fehler NULL</returns>
-        public static KontoDaten KontoDatenLaden(int kundenID)
+        public static KontoDaten KontoDatenLaden(int idKunde)
         {
             Debug.Indent();
             Debug.WriteLine("KonsumKreditVerwaltung - KontaktDatenLaden");
@@ -1256,7 +1257,7 @@ namespace deutscheBank.logic
             {
                 using (var context = new dbKreditEntities())
                 {
-                    aktKontoDaten = context.AlleKontoDaten.Where(x => x.ID == kundenID).FirstOrDefault();
+                    aktKontoDaten = context.AlleKontoDaten.Where(x => x.ID == idKunde).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -1272,14 +1273,186 @@ namespace deutscheBank.logic
             return aktKontoDaten;
         }
 
+
+        public static bool KreditKontoInformationenSpeichern(string inhaber, string kartenNummer, string gueltigBis, string cvcNummer, int idKunde)
+        {
+            Debug.Indent();
+            Debug.WriteLine("KonsumKreditVerwaltung - KreditkartenformationenSpeichern");
+            Debug.Indent();
+
+            bool erfolgreich = false;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    //Speichere zum Kunden die Angaben
+                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
+
+                    if (aktKunde != null)
+                    {
+                        if (aktKunde.KundenKreditkarte == null)
+                            aktKunde.KundenKreditkarte = new KundenKreditkarte();
+                    }
+                    /// Weise Daten den aktuellen Kunden zu (Somit kann man vorhandene Daten auch ändern)
+                    aktKunde.KundenKreditkarte.ID = idKunde;
+                    aktKunde.KundenKreditkarte.Inhaber = inhaber;
+                    aktKunde.KundenKreditkarte.KartenNummer = kartenNummer;
+                    aktKunde.KundenKreditkarte.Gueltigkeit = gueltigBis;
+                    aktKunde.KundenKreditkarte.CVC_Nummer = cvcNummer;
+
+
+
+                    /// Speichere KontoDaten (Änderungen) in die Datenbank
+                    int anzahlZeilenBetroffen = context.SaveChanges();
+                    erfolgreich = anzahlZeilenBetroffen >= 0;
+                    Debug.WriteLine($"{anzahlZeilenBetroffen} Kreditkarteninformationen gespeichert!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KreditkartenInformationenSpeichern");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+
+            return erfolgreich;
+        }
+
+
+
+
+
         #endregion
 
-        #region Zusammenfassung
+        #region AntragBezahltPruefen
+        /// <summary>
+        /// Liefert den aktuellen Stand ob 
+        /// die geforderte Gebuehr bezahlt wurde
+        /// </summary>
+        /// <param name="ID">ID des vorhandenen Kunden</param>
+        /// <returns>Kontodaten bei Fehler NULL</returns>
+        public static AntragBezahlt AntragsKonditionLaden(int idKunde)
+        {
+            Debug.Indent();
+            Debug.WriteLine("KonsumKreditVerwaltung - AntragsDatenLaden");
+            Debug.Indent();
 
-        #endregion
+            AntragBezahlt aktAntragBezahlt = null;
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    aktAntragBezahlt = context.AlleAntragBezahltKonditionen.Where(x => x.ID == idKunde).FirstOrDefault();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KonsumKreditVerwaltung AntragKonditionLaden");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+                Debug.Unindent();
+            }
 
-        // keine Eintraege in die Datenbank benötigt 
-        public class KontoAbfrageMoeglichkeit
+            return aktAntragBezahlt;
+        }
+
+
+        public static bool AntragsKonditionSpeichern(bool bezahlt, int idKunde)
+        {
+            Debug.Indent();
+            Debug.WriteLine("KonsumKreditVerwaltung - AntragKonditionSpeichern");
+            Debug.Indent();
+
+            bool erfolgreich = false;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    //Speichere zum Kunden die Angaben
+                    Kunde aktKunde = context.AlleKunden.Where(x => x.ID == idKunde).FirstOrDefault();
+
+                    if (aktKunde != null)
+                    {
+                        if (aktKunde.AntragBezahlt == null)
+                            aktKunde.AntragBezahlt = new AntragBezahlt();
+                    }
+                    /// Weise Daten den aktuellen Kunden zu (Somit kann man vorhandene Daten auch ändern)
+                    aktKunde.AntragBezahlt.ID = idKunde;
+                    aktKunde.AntragBezahlt.Bezahlt = bezahlt;
+
+
+                    /// Speichere KontoDaten (Änderungen) in die Datenbank
+                    int anzahlZeilenBetroffen = context.SaveChanges();
+                    erfolgreich = anzahlZeilenBetroffen >= 0;
+                    Debug.WriteLine($"{anzahlZeilenBetroffen} AntragsKondition gespeichert!");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in AntragskonditionSpeichern");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+            Debug.Unindent();
+
+            return erfolgreich;
+        }
+
+        public static bool KontoInformationenZurAbbuchungSpeichern(string bic, string iban, string bank, int idKunde)
+        {
+             
+            Debug.Indent();
+            Debug.WriteLine("KonsumKreditVerwaltung - KontoInformationenZurAbbuchungSpeichern");
+            Debug.Indent();
+
+            bool erfolgreich = false;
+            List<KontoDatenZurAbbuchung> alleKontoDateneZurAbbuchungBL = null;
+
+            try
+            {
+                using (var context = new dbKreditEntities())
+                {
+                    alleKontoDateneZurAbbuchungBL = context.AlleKontoDatenZurAbbuchung.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Fehler in KontoInformationenZurAbbuchungSpeichern");
+                Debug.Indent();
+                Debug.WriteLine(ex.Message);
+                Debug.Unindent();
+                Debugger.Break();
+            }
+
+                Debug.Unindent();
+                return erfolgreich;
+        }
+                
+
+             
+    }
+
+
+    #endregion
+
+
+    #region Zusammenfassung
+
+    #endregion
+
+    // keine Eintraege in die Datenbank benötigt 
+    public class KontoIdentifizierungsMoeglichkeit
         {
             public int ID { get; set; }
 
@@ -1291,8 +1464,8 @@ namespace deutscheBank.logic
 
 
 
+    
 
-}
 
 
 

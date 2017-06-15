@@ -44,5 +44,9 @@ namespace deutscheBank.logic
         public virtual Wohnart Wohnart { get; set; }
         public virtual login login { get; set; }
         public virtual KontaktDaten KontaktDaten { get; set; }
+        public virtual KundenKreditkarte KundenKreditkarte { get; set; }
+        public virtual AntragBezahlt AntragBezahlt { get; set; }
+        public virtual KontoDatenZurAbbuchung KontoDatenZurAbbuchung { get; set; }
+        public virtual KreditKartenDatenZurAbbuchung KreditKartenDatenZurAbbuchung { get; set; }
     }
 }

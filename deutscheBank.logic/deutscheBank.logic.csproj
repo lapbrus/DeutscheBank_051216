@@ -51,6 +51,9 @@
     <Compile Include="Admin.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="AntragBezahlt.cs">
+      <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Arbeitgeber.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>
@@ -94,10 +97,19 @@
     <Compile Include="KontoDaten.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="KontoDatenZurAbbuchung.cs">
+      <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Kredit.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="KreditKartenDatenZurAbbuchung.cs">
+      <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Kunde.cs">
+      <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="KundenKreditkarte.cs">
       <DependentUpon>KonsumKreditVerwaltungModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Land.cs">

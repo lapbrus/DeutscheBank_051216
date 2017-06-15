@@ -44,5 +44,9 @@ namespace deutscheBank.logic
         public DbSet<Admin> AlleAdmins { get; set; }
         public DbSet<Kunde> AlleKunden { get; set; }
         public DbSet<KontaktDaten> AlleKontaktDaten { get; set; }
+        public DbSet<KundenKreditkarte> AlleKundenKreditkarten { get; set; }
+        public DbSet<AntragBezahlt> AlleAntragBezahltKonditionen { get; set; }
+        public DbSet<KontoDatenZurAbbuchung> AlleKontoDatenZurAbbuchung { get; set; }
+        public DbSet<KreditKartenDatenZurAbbuchung> AlleKreditKartenDatenZurAbbuchung { get; set; }
     }
 }

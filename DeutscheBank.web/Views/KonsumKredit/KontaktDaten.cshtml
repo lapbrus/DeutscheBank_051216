@@ -45,10 +45,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.EMail, htmlAttributes: new { @class = "control-label col-md-2" })
+            <label class="control-label col-md-2" for="EMail">Email</label>
             <div class="col-md-10">
-                @Html.EditorFor(model => model.EMail, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.EMail, "", new { @class = "text-danger" })
+                <input class="form-control text-box single-line valid" data-val="true" data-val-required="Pflichtfeld" id="EMail" name="EMail" type="text" value="" aria-required="true" aria-describedby="EMail-error" aria-invalid="false">
+                <span class="text-danger field-validation-valid" data-valmsg-for="EMail" data-valmsg-replace="true"></span>
             </div>
         </div>
 

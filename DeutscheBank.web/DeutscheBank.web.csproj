@@ -132,6 +132,7 @@
     <Compile Include="Models\AdminLogoutModel.cs" />
     <Compile Include="Models\AlleLaenderModel.cs" />
     <Compile Include="Models\AlleOrteModel.cs" />
+    <Compile Include="Models\AntragBezahltModel.cs" />
     <Compile Include="Models\ArbeitgeberModel.cs" />
     <Compile Include="Models\BeschaeftigungsArtModel.cs" />
     <Compile Include="Models\BildungsModel.cs" />
@@ -143,7 +144,10 @@
     <Compile Include="Models\KontaktDatenModel.cs" />
     <Compile Include="Models\KontoAbfrageModel.cs" />
     <Compile Include="Models\KontoAbfrageMoeglichkeitenModel.cs" />
+    <Compile Include="Models\KontoDatenZurAbbuchungModel.cs" />
     <Compile Include="Models\KontoInformationenModel.cs" />
+    <Compile Include="Models\KreditKartenDatenZurAbbuchungModel.cs" />
+    <Compile Include="Models\KreditKartenModel.cs" />
     <Compile Include="Models\KreditRahmenModel.cs" />
     <Compile Include="Models\LandsModel.cs" />
     <Compile Include="Models\NachschlagefeldModel.cs" />
@@ -340,6 +344,10 @@
     <Content Include="Views\KonsumKredit\HatDeutscheBankKontoInformation.cshtml" />
     <Content Include="Views\KonsumKredit\NeuesDeutscheBankKontoInformation.cshtml" />
     <Content Include="Views\KonsumKredit\AndereKontoInformation.cshtml" />
+    <Content Include="Views\KonsumKredit\KreditkarteVerfuegbar.cshtml" />
+    <Content Include="Views\KonsumKredit\HinweisAufBearbeitungsKosten.cshtml" />
+    <Content Include="Views\KonsumKredit\KontoInformationenFuerAbbuchung.cshtml" />
+    <Content Include="Views\KonsumKredit\KreditCardInformationenFuerAbbuchung.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
